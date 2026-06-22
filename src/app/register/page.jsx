@@ -3,6 +3,7 @@
 import { useState, useCallback } from "react";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
 import {
@@ -19,6 +20,7 @@ import {
   Wrench,
   FileText,
   DollarSign,
+  ImageIcon,
 } from "lucide-react";
 
 import { authClient } from "@/lib/auth-client";
@@ -34,6 +36,7 @@ const RegisterPage = () => {
     name: "",
     email: "",
     password: "",
+    photoUrl: "",
     role: "freelancer",
     skills: "",
     hirePrice: "",
@@ -86,6 +89,9 @@ const RegisterPage = () => {
       newErrors.email = "Invalid email format";
     }
 
+    if (!formData.photoUrl.trim()) newErrors.photoUrl = "Photo URL is required";
+
+
     if (!formData.password) {
       newErrors.password = "Password is required";
     } else if (formData.password.length < 8) {
@@ -131,6 +137,7 @@ const RegisterPage = () => {
       email: formData.email,
       password: formData.password,
       role: formData.role,
+      image: formData.photoUrl,
       callbackURL: "/dashboard",
     };
 
@@ -322,6 +329,33 @@ const RegisterPage = () => {
                 <Input type="email" placeholder="john@example.com" aria-label="Email Address" />
                 <FieldError />
               </TextField>
+
+              {/* Photo URL */}
+              <TextField name="photoUrl" isRequired value={formData.photoUrl} onChange={(v) => handleChange("photoUrl", v)} isInvalid={!!errors.photoUrl} errorMessage={errors.photoUrl}>
+                <Label className="flex items-center gap-2">
+                  <ImageIcon className="w-4 h-4 text-[#2a9d8f]" />
+                  Photo URL
+                </Label>
+                <Input placeholder="https://example.com/photo.jpg" aria-label="Photo URL" />
+                <FieldError />
+              </TextField>
+
+              {/* Photo Preview */}
+              {formData.photoUrl && (
+                <div className="flex justify-center">
+                  <div className="relative w-16 h-16">
+                    <Image
+                      src={formData.photoUrl}
+                      alt="Profile preview"
+                      fill
+                      className="rounded-full object-cover border-2 border-[#2a9d8f]/20"
+                      onError={(e) => {
+                        e.currentTarget.style.display = "none";
+                      }}
+                    />
+                  </div>
+                </div>
+              )}
 
               {/* Password */}
               <TextField name="password" isRequired value={formData.password} onChange={(v) => handleChange("password", v)} isInvalid={!!errors.password} errorMessage={errors.password}>
