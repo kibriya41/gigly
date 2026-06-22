@@ -2,9 +2,9 @@
 
 import React, { useState } from 'react';
 import { usePathname } from 'next/navigation';
-import { Link, Button, Avatar } from "@heroui/react";
-import { 
-  BsHouse, 
+import { Button, Avatar } from "@heroui/react";
+import {
+  BsHouse,
   BsPersonLinesFill,
   BsList,
   BsX
@@ -12,6 +12,10 @@ import {
 import { BiBriefcase } from 'react-icons/bi';
 import { LuLayoutDashboard } from 'react-icons/lu';
 import { HiArrowRightStartOnRectangle } from 'react-icons/hi2';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { authClient } from '@/lib/auth-client';
+
 
 const NAV_ITEMS = [
   { id: 'home', label: 'Home', icon: BsHouse, href: '/' },
@@ -21,9 +25,22 @@ const NAV_ITEMS = [
 
 const Navbar = () => {
   const pathname = usePathname();
+  const router = useRouter();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [user] = useState({ name: 'Alex' });
+  const { data: session } = authClient.useSession();
+  const isLoggedIn = !!session;
+  const user = session?.user || {};
+
+  const handleLogout = async () => {
+    await authClient.signOut({
+      fetchOptions: {
+        onSuccess: () => {
+          router.push('/login');
+          router.refresh();
+        },
+      },
+    });
+  };
 
   // Helper functions to evaluate active route conditions
   const isRouteActive = (href) => pathname === href;
@@ -40,7 +57,7 @@ const Navbar = () => {
     <nav className="sticky top-0 z-50 w-full border-b border-gray-100 bg-white/80 backdrop-blur-md">
       <div className="mx-auto max-w-screen-2xl px-4 sm:px-6">
         <div className="flex h-16 items-center justify-between">
-          
+
           {/* Brand */}
           <div className="flex items-center gap-3">
             <div className="w-9 h-9 bg-gradient-to-tr from-teal-600 to-teal-400 rounded-xl flex items-center justify-center shadow-sm shadow-teal-100">
@@ -57,7 +74,7 @@ const Navbar = () => {
               const Icon = item.icon;
               const isActive = isRouteActive(item.href);
               return (
-                <Link 
+                <Link
                   key={item.id}
                   href={item.href}
                   onClick={() => setIsMobileMenuOpen(false)}
@@ -74,7 +91,7 @@ const Navbar = () => {
           <div className="flex items-center gap-3">
             {isLoggedIn ? (
               <>
-                <Link 
+                <Link
                   href="/dashboard"
                   onClick={() => setIsMobileMenuOpen(false)}
                   className={navClass(isRouteActive('/dashboard'))}
@@ -83,15 +100,15 @@ const Navbar = () => {
                   Dashboard
                 </Link>
 
-                <Avatar 
+                <Avatar
                   name={user.name}
                   className="w-9 h-9 text-sm font-semibold bg-amber-100 text-amber-900 cursor-pointer hover:ring-2 hover:ring-teal-500/30 transition-all"
                 />
 
-                <Button 
-                  isIconOnly 
-                  variant="light" 
-                  onClick={() => setIsLoggedIn(false)}
+                <Button
+                  isIconOnly
+                  variant="light"
+                  onClick={handleLogout}
                   className="text-slate-400 hover:text-red-500 hover:bg-red-50 min-w-9 w-9 h-9 rounded-full border border-gray-200 transition-all"
                 >
                   <HiArrowRightStartOnRectangle size={20} />
@@ -99,19 +116,16 @@ const Navbar = () => {
               </>
             ) : (
               <>
-                <Button
-                  variant="light"
-                  className="text-slate-600 hover:text-slate-900 font-medium text-sm"
-                  onClick={() => setIsLoggedIn(true)}
-                >
+
+                <Link href={"/login"} variant="light"
+                  className="text-slate-600 hover:text-slate-900 font-medium text-sm">
                   Sign In
-                </Button>
-                <Button
-                  className="bg-teal-600 text-white hover:bg-teal-700 font-medium text-sm px-5 rounded-full shadow-sm shadow-teal-200 transition-all"
-                  onClick={() => setIsLoggedIn(true)}
-                >
+                </Link>
+                <Link
+                  href={'/register'} className="bg-teal-600 text-white p-2 hover:bg-teal-700 font-medium text-sm px-5 rounded-full shadow-sm shadow-teal-200 transition-all">
                   Sign Up
-                </Button>
+
+                </Link>
               </>
             )}
 
@@ -146,7 +160,7 @@ const Navbar = () => {
               </Link>
             );
           })}
-          
+
           {isLoggedIn && (
             <Link
               href="/dashboard"
