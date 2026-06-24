@@ -186,23 +186,8 @@ function FloatingParticles() {
 }
 
 export default function HeroSection() {
-    const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
     const heroRef = useRef(null);
 
-    useEffect(() => {
-        const handleMouseMove = (e) => {
-            if (heroRef.current) {
-                const rect = heroRef.current.getBoundingClientRect();
-                setMousePosition({
-                    x: (e.clientX - rect.left - rect.width / 2) / 30,
-                    y: (e.clientY - rect.top - rect.height / 2) / 30,
-                });
-            }
-        };
-
-        window.addEventListener('mousemove', handleMouseMove);
-        return () => window.removeEventListener('mousemove', handleMouseMove);
-    }, []);
 
     const activityData = [
         { day: 'Mon', height: 45 },
@@ -357,8 +342,6 @@ export default function HeroSection() {
                             className="relative rounded-3xl p-6 lg:p-8 bg-white"
                             style={{
                                 boxShadow: '0 20px 60px rgba(44,124,116,0.08), 0 8px 20px rgba(0,0,0,0.04)',
-                                transform: `perspective(1000px) rotateY(${mousePosition.x * 0.3}deg) rotateX(${-mousePosition.y * 0.3}deg)`,
-                                transition: 'transform 0.1s ease-out'
                             }}
                         >
                             {/* Header */}
@@ -438,25 +421,6 @@ export default function HeroSection() {
                             />
                         </div>
 
-                        {/* Floating notification card */}
-                        <div
-                            className="absolute -bottom-4 -left-8 lg:-left-12 rounded-2xl p-4 bg-white shadow-lg animate-bounce"
-                            style={{
-                                animation: 'slideUp 1s ease-out 1.2s forwards, float 6s ease-in-out 3s infinite',
-                                opacity: 0,
-                                boxShadow: '0 10px 40px rgba(0,0,0,0.08)'
-                            }}
-                        >
-                            <div className="flex items-center gap-3">
-                                <div className="w-10 h-10 rounded-full flex items-center justify-center" style={{ backgroundColor: THEME.primaryLight }}>
-                                    <Star className="w-5 h-5 fill-current" style={{ color: THEME.primary }} />
-                                </div>
-                                <div>
-                                    <p className="text-sm font-semibold" style={{ color: THEME.textPrimary }}>New Proposal</p>
-                                    <p className="text-xs" style={{ color: THEME.textMuted }}>Sarah M. applied to your task</p>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
