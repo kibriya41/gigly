@@ -170,30 +170,30 @@ const RegisterPage = () => {
     }
   };
 
-  const handleGoogleLogin = async () => {
-    try {
-      await authClient.signIn.social(
-        { provider: "google", callbackURL: "/dashboard" },
-        {
-          onRequest: () => setLoading(true),
-          onSuccess: () => {
-            setLoading(false);
-            toast.success("Google login successful!");
-            router.push("/dashboard");
-            router.refresh();
-          },
-          onError: (ctx) => {
-            setLoading(false);
-            toast.error(ctx.error?.message || "Google login failed");
-            setErrors((prev) => ({ ...prev, server: ctx.error?.message }));
-          },
-        }
-      );
-    } catch (error) {
-      setLoading(false);
-      toast.error("An unexpected error occurred");
-    }
-  };
+  // const handleGoogleLogin = async () => {
+  //   try {
+  //     await authClient.signIn.social(
+  //       { provider: "google", callbackURL: "/dashboard" },
+  //       {
+  //         onRequest: () => setLoading(true),
+  //         onSuccess: () => {
+  //           setLoading(false);
+  //           toast.success("Google login successful!");
+  //           router.push("/dashboard");
+  //           router.refresh();
+  //         },
+  //         onError: (ctx) => {
+  //           setLoading(false);
+  //           toast.error(ctx.error?.message || "Google login failed");
+  //           setErrors((prev) => ({ ...prev, server: ctx.error?.message }));
+  //         },
+  //       }
+  //     );
+  //   } catch (error) {
+  //     setLoading(false);
+  //     toast.error("An unexpected error occurred");
+  //   }
+  // };
 
   const getStrengthColor = () => {
     if (passwordStrength === 0) return "default";
@@ -257,7 +257,7 @@ const RegisterPage = () => {
             <Button
               type="button"
               variant="bordered"
-              onPress={handleGoogleLogin}
+              // onPress={handleGoogleLogin}
               isLoading={loading}
               className="w-full rounded-xl py-3 border-2 border-[#d4ebe6] text-[#1a3c34] font-medium hover:bg-[#f0f9f6]"
             >

@@ -100,10 +100,7 @@ const Navbar = () => {
                   Dashboard
                 </Link>
 
-                <Avatar
-                  name={user.name}
-                  className="w-9 h-9 text-sm font-semibold bg-amber-100 text-amber-900 cursor-pointer hover:ring-2 hover:ring-teal-500/30 transition-all"
-                />
+                <img src={user.image} alt={user.name} className='rounded-full h-10 w-10 cursor-pointer hover:ring-2 hover:ring-teal-500/30 transition-all object-cover' />
 
                 <Button
                   isIconOnly
