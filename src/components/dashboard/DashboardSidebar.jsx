@@ -21,7 +21,7 @@ export default function Sidebar() {
   const navItems = [
     { name: "Dashboard", href: "/dashboard/client", icon: LayoutDashboard },
     { name: "Post a Task", href: "/dashboard/client/post-task", icon: PlusCircle },
-    { name: "My Tasks", href: "/dashboard/client/tasks", icon: ListTodo },
+    { name: "My Tasks", href: "/dashboard/client/my-tasks", icon: ListTodo },
     { name: "Manage Proposals", href: "/dashboard/client/proposals", icon: FileText },
     { name: "Earnings", href: "/dashboard/client/earnings", icon: Wallet },
     { name: "Settings", href: "/dashboard/client/settings", icon: Settings },

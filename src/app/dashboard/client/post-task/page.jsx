@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { createTask } from '@/lib/actions/tasks';
+import { useSession } from '@/lib/auth-client';
 import {
   Loader2,
   Plus,
@@ -54,6 +55,7 @@ const THEME = {
 
 export default function PostTaskForm() {
   const router = useRouter();
+  const { data: session } = useSession();
   const autoSaveTimerRef = useRef(null);
   const titleInputRef = useRef(null);
   const skillInputRef = useRef(null);
@@ -248,13 +250,22 @@ export default function PostTaskForm() {
       }, 200);
 
       
-      const result = await createTask(formData);
+      const taskData = {
+        ...formData,
+        buyerEmail: session?.user?.email || 'test@example.com',
+        buyerName: session?.user?.name || 'Anonymous Client',
+        buyerImage: session?.user?.image || '',
+        status: 'Open',
+        createdAt: new Date().toISOString(),
+      };
+      
+      const result = await createTask(taskData);
       clearInterval(progressInterval);
       setSubmitProgress(100);
 
       if (result.success) {
         localStorage.removeItem('task_draft');
-        router.push('/dashboard/client/my-tasks');
+        router.push('/dashboard/client');
       } else {
         alert(result.message || 'Failed to post task');
         setIsSubmitting(false);
