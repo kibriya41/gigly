@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { useRouter } from 'next/navigation';
+import { createTask } from '@/lib/actions/tasks';
 import {
   Loader2,
   Plus,
@@ -246,6 +247,7 @@ export default function PostTaskForm() {
         setSubmitProgress(prev => Math.min(prev + 20, 80));
       }, 200);
 
+      
       const result = await createTask(formData);
       clearInterval(progressInterval);
       setSubmitProgress(100);

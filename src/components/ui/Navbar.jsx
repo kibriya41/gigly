@@ -92,7 +92,7 @@ const Navbar = () => {
             {isLoggedIn ? (
               <>
                 <Link
-                  href="/dashboard"
+                  href="/dashboard/client"
                   onClick={() => setIsMobileMenuOpen(false)}
                   className={navClass(isRouteActive('/dashboard'))}
                 >
