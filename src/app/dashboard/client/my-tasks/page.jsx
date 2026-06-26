@@ -272,6 +272,27 @@ export default function MyTasksPage() {
     }
   };
 
+  const handleCompleteTask = async (task) => {
+    if (!confirm(`Are you sure you want to mark "${task.title}" as Completed and release the committed budget/payment?`)) {
+      return;
+    }
+    
+    try {
+      const response = await updateTask(task._id, {
+        ...task,
+        status: "Completed"
+      });
+      if (response?.success) {
+        showToast("Task completed and payment released successfully!");
+        fetchTasks();
+      } else {
+        showToast(response?.message || "Failed to complete task", "error");
+      }
+    } catch (err) {
+      showToast("Error completing task", "error");
+    }
+  };
+
   if (sessionStatus === "loading") {
     return (
       <div className="flex items-center justify-center min-h-[60vh]">
@@ -580,6 +601,15 @@ export default function MyTasksPage() {
 
                   {/* Actions */}
                   <div className="flex items-center gap-3">
+                    {taskStatus.toLowerCase() === "in progress" && (
+                      <button
+                        onClick={() => handleCompleteTask(task)}
+                        className="p-2 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-600 hover:text-white hover:bg-emerald-600 hover:border-emerald-600 transition-all cursor-pointer tooltip"
+                        title="Release Payment / Complete Task"
+                      >
+                        <CheckCircle2 className="w-4 h-4" />
+                      </button>
+                    )}
                     <button
                       onClick={() => handleEditClick(task)}
                       className="p-2 rounded-xl bg-gray-50 border border-gray-200 text-[#5a7a72] hover:text-[#2a9d8f] hover:bg-[#eaf5f2] hover:border-[#2a9d8f]/30 transition-all cursor-pointer tooltip"

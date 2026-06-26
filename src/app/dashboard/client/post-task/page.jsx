@@ -265,7 +265,7 @@ export default function PostTaskForm() {
 
       if (result.success) {
         localStorage.removeItem('task_draft');
-        router.push('/dashboard/client');
+        router.push('/dashboard/client/my-tasks');
       } else {
         alert(result.message || 'Failed to post task');
         setIsSubmitting(false);

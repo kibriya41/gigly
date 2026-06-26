@@ -78,3 +78,23 @@ export const deleteTask = async (id) => {
         return { success: false, message: error.message || 'Something went wrong. Please try again.' };
     }
 }
+
+export const getTaskById = async (id) => {
+    try {
+        const res = await fetch(`${baseUrl}/tasks/${id}`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            cache: 'no-store',
+        });
+        const data = await res.json();
+        if (res.ok) {
+            return { success: true, data, status: res.status };
+        }
+        return { success: false, message: data.message || 'Failed to fetch task details', status: res.status };
+    } catch (error) {
+        console.log(error);
+        return { success: false, message: error.message || 'Failed to fetch task details' };
+    }
+}
