@@ -4,6 +4,7 @@ import React, { useState, useEffect, useMemo } from "react";
 import Link from "next/link";
 import { useSession } from "@/lib/auth-client";
 import { getTasks } from "@/lib/actions/tasks";
+import { getProposals } from "@/lib/actions/proposals";
 import {
   Loader2,
   Search,
@@ -22,127 +23,117 @@ import {
 
 export default function FreelancerDashboardPage() {
   const { data: session, status: sessionStatus } = useSession();
-  const [allTasks, setAllTasks] = useState([]);
+  const [tasks, setTasks] = useState([]);
+  const [proposals, setProposals] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (sessionStatus === "loading") return;
-    const fetchTasks = async () => {
+    if (!session?.user?.email) {
+      setLoading(false);
+      return;
+    }
+
+    const fetchFreelancerData = async () => {
       try {
-        const res = await getTasks(); // fetch all open tasks (no email filter)
-        if (res.success) {
-          setAllTasks(res.data || []);
+        const tasksRes = await getTasks();
+        const proposalsRes = await getProposals({ freelancerEmail: session.user.email });
+
+        if (tasksRes.success) {
+          setTasks(tasksRes.data || []);
+        }
+        if (proposalsRes.success) {
+          setProposals(proposalsRes.data || []);
         }
       } catch (err) {
-        console.error("Failed to fetch tasks", err);
+        console.error("Failed to fetch freelancer dashboard data:", err);
       } finally {
         setLoading(false);
       }
     };
-    fetchTasks();
-  }, [sessionStatus]);
+
+    fetchFreelancerData();
+  }, [session, sessionStatus]);
 
   const user = session?.user;
 
-  // All tasks this freelancer has bid on (from localStorage)
+  // Map proposals to tasks
   const myProposals = useMemo(() => {
-    if (typeof window === "undefined") return [];
-    const proposals = [];
-    allTasks.forEach((task) => {
-      const bidsStr = localStorage.getItem(`bids_${task._id}`);
-      if (!bidsStr) return;
-      try {
-        const bids = JSON.parse(bidsStr);
-        const myBid = bids.find(
-          (b) =>
-            b.freelancerName === user?.name ||
-            b.freelancerEmail === user?.email
-        );
-        if (myBid) {
-          proposals.push({ ...myBid, task });
-        }
-      } catch (e) {}
-    });
-    return proposals;
-  }, [allTasks, user]);
+    const taskMap = {};
+    tasks.forEach(t => { taskMap[t._id] = t; });
 
-  // Tasks where this freelancer was accepted
+    return proposals.map(prop => ({
+      ...prop,
+      task: taskMap[prop.taskId] || { title: prop.taskTitle || "Task Details", budget: prop.taskBudget || 0 }
+    }));
+  }, [proposals, tasks]);
+
+  // Active Projects where proposal status is accepted and task status is In Progress
   const activeProjects = useMemo(() => {
-    if (typeof window === "undefined") return [];
-    return allTasks.filter((task) => {
-      if (task.status !== "In Progress") return false;
-      const acceptedBidStr = localStorage.getItem(`accepted_bid_${task._id}`);
-      if (!acceptedBidStr) return false;
-      try {
-        const accepted = JSON.parse(acceptedBidStr);
-        return (
-          accepted.freelancerName === user?.name ||
-          accepted.freelancerEmail === user?.email
-        );
-      } catch (e) {
-        return false;
-      }
-    });
-  }, [allTasks, user]);
+    const taskMap = {};
+    tasks.forEach(t => { taskMap[t._id] = t; });
 
-  const openTasks = allTasks.filter((t) => (t.status || "Open") === "Open");
+    return proposals
+      .filter(p => p.status === "accepted")
+      .map(p => ({
+        ...p,
+        task: taskMap[p.taskId]
+      }))
+      .filter(p => p.task && p.task.status === "In Progress");
+  }, [proposals, tasks]);
+
+  // Calculations for stats
+  const totalProposalsCount = proposals.length;
+  const pendingProposalsCount = proposals.filter(p => p.status === "pending").length;
+  const acceptedProposalsCount = proposals.filter(p => p.status === "accepted").length;
+  const openTasks = tasks.filter(t => (t.status || "Open").toLowerCase() === "open");
 
   const totalEarned = useMemo(() => {
-    if (typeof window === "undefined") return 0;
-    return allTasks
-      .filter((task) => task.status === "Completed")
-      .reduce((sum, task) => {
-        const acceptedBidStr = localStorage.getItem(`accepted_bid_${task._id}`);
-        if (!acceptedBidStr) return sum;
-        try {
-          const accepted = JSON.parse(acceptedBidStr);
-          if (
-            accepted.freelancerName === user?.name ||
-            accepted.freelancerEmail === user?.email
-          ) {
-            return (
-              sum +
-              Number(
-                accepted.amount?.toString().replace(/[^0-9.-]+/g, "") || 0
-              )
-            );
-          }
-        } catch (e) {}
+    const taskMap = {};
+    tasks.forEach(t => { taskMap[t._id] = t; });
+
+    return proposals
+      .filter(p => p.status === "accepted")
+      .reduce((sum, p) => {
+        const t = taskMap[p.taskId];
+        if (t && t.status === "Completed") {
+          return sum + (Number(p.amount) || 0);
+        }
         return sum;
       }, 0);
-  }, [allTasks, user]);
+  }, [proposals, tasks]);
 
   const stats = [
     {
-      title: "Active Projects",
-      value: loading ? null : activeProjects.length,
-      icon: Briefcase,
+      title: "Total Proposals",
+      value: loading ? null : totalProposalsCount,
+      icon: FileText,
       iconBg: "bg-[#eaf5f2]",
       iconColor: "text-[#2a9d8f]",
       cardBg: "bg-white",
     },
     {
-      title: "Proposals Sent",
-      value: loading ? null : myProposals.length,
-      icon: FileText,
+      title: "Pending Proposals",
+      value: loading ? null : pendingProposalsCount,
+      icon: Clock,
       iconBg: "bg-[#fffbeb]",
       iconColor: "text-[#d97706]",
       cardBg: "bg-white",
     },
     {
-      title: "Total Earned",
-      value: loading
-        ? null
-        : `$${totalEarned.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`,
-      icon: DollarSign,
+      title: "Accepted Proposals",
+      value: loading ? null : acceptedProposalsCount,
+      icon: CheckCircle2,
       iconBg: "bg-emerald-50",
       iconColor: "text-emerald-600",
       cardBg: "bg-white",
     },
     {
-      title: "Open Gigs",
-      value: loading ? null : openTasks.length,
-      icon: Zap,
+      title: "Total Earnings (USD)",
+      value: loading
+        ? null
+        : `$${totalEarned.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 2 })}`,
+      icon: DollarSign,
       iconBg: "bg-[#e2f1ed]",
       iconColor: "text-[#1a3c34]",
       cardBg: "bg-[#f0f7f4]",

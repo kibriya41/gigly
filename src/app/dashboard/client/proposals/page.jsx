@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useSession } from "@/lib/auth-client";
 import { getTasks, updateTask } from "@/lib/actions/tasks";
 import { getProposals, updateProposalStatus, deleteProposal } from "@/lib/actions/proposals";
@@ -28,6 +29,7 @@ import {
 } from "lucide-react";
 
 export default function ClientProposalsPage() {
+  const router = useRouter();
   const { data: session, status: sessionStatus } = useSession();
   const [tasks, setTasks] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -118,44 +120,18 @@ export default function ClientProposalsPage() {
     }
     if (!confirm(`Accept ${proposal.name}'s proposal of $${proposal.amount} for "${proposal.taskTitle}"?`)) return;
 
-    try {
-      // Update task status to In Progress
-      const targetTask = tasks.find(t => t._id === proposal.taskId);
-      if (!targetTask) return;
-
-      const taskRes = await updateTask(proposal.taskId, { ...targetTask, status: "In Progress" });
-      if (!taskRes.success) {
-        showToast(taskRes.message || "Failed to update task", "error");
-        return;
-      }
-
-      // Update proposal status in DB
-      const propRes = await updateProposalStatus(proposal._id, "accepted");
-      if (propRes.success) {
-        setTasks(prev => prev.map(t => t._id === proposal.taskId ? { ...t, status: "In Progress" } : t));
-        setProposals(prev => prev.map(p => {
-          if (p.taskId === proposal.taskId) {
-            return { ...p, taskStatus: "In Progress", status: p._id === proposal._id ? "accepted" : p.status };
-          }
-          return p;
-        }));
-        showToast(`Proposal accepted! "${proposal.taskTitle}" is now In Progress.`);
-      } else {
-        showToast(propRes.message || "Failed to accept proposal", "error");
-      }
-    } catch {
-      showToast("Error accepting proposal", "error");
-    }
+    // Redirect to dummy stripe checkout page
+    router.push(`/payment/checkout?proposalId=${proposal._id}&taskId=${proposal.taskId}`);
   };
 
   // ─── Decline Proposal ────────────────────────────────────────────────────
   const handleDeclineProposal = async (proposal) => {
     if (!confirm("Are you sure you want to decline this proposal?")) return;
     try {
-      const res = await deleteProposal(proposal._id);
+      const res = await updateProposalStatus(proposal._id, "rejected");
       if (res.success) {
-        setProposals(prev => prev.filter(p => p._id !== proposal._id));
-        showToast("Proposal declined and removed.");
+        setProposals(prev => prev.map(p => p._id === proposal._id ? { ...p, status: "rejected" } : p));
+        showToast("Proposal declined successfully.");
       } else {
         showToast(res.message || "Failed to decline proposal", "error");
       }
@@ -418,15 +394,16 @@ export default function ClientProposalsPage() {
           {filteredProposals.map((proposal, i) => {
             const taskStatus = proposal.taskStatus || "Open";
             const isAccepted = proposal.status === "accepted";
+            const isRejected = proposal.status === "rejected";
             const hasAcceptedForTask = proposals.some(p => p.taskId === proposal.taskId && p.status === "accepted");
-            const canAccept = !isAccepted && !hasAcceptedForTask;
-            const canDecline = !isAccepted;
+            const canAccept = !isAccepted && !isRejected && !hasAcceptedForTask;
+            const canDecline = !isAccepted && !isRejected;
 
             return (
               <div
                 key={proposal._id || i}
                 className={`bg-white rounded-3xl border p-6 md:p-8 hover:shadow-md transition-all relative overflow-hidden
-                  ${isAccepted ? "border-emerald-200 bg-emerald-50/30" : "border-[#d4ebe6]/40 hover:border-[#2a9d8f]/30"}`}
+                  ${isAccepted ? "border-emerald-200 bg-emerald-50/30" : isRejected ? "border-red-200 bg-red-50/30" : "border-[#d4ebe6]/40 hover:border-[#2a9d8f]/30"}`}
               >
                 {/* Accepted badge */}
                 {isAccepted && (
@@ -434,6 +411,16 @@ export default function ClientProposalsPage() {
                     <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border text-[11px] font-bold text-emerald-700 bg-emerald-100 border-emerald-300">
                       <CheckCircle2 className="w-3 h-3" />
                       Accepted
+                    </span>
+                  </div>
+                )}
+
+                {/* Rejected badge */}
+                {isRejected && (
+                  <div className="absolute top-4 right-4">
+                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border text-[11px] font-bold text-red-700 bg-red-100 border-red-300">
+                      <XCircle className="w-3 h-3" />
+                      Declined
                     </span>
                   </div>
                 )}

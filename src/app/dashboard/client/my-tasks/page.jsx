@@ -610,20 +610,24 @@ export default function MyTasksPage() {
                         <CheckCircle2 className="w-4 h-4" />
                       </button>
                     )}
-                    <button
-                      onClick={() => handleEditClick(task)}
-                      className="p-2 rounded-xl bg-gray-50 border border-gray-200 text-[#5a7a72] hover:text-[#2a9d8f] hover:bg-[#eaf5f2] hover:border-[#2a9d8f]/30 transition-all cursor-pointer tooltip"
-                      title="Edit task"
-                    >
-                      <Edit3 className="w-4 h-4" />
-                    </button>
-                    <button
-                      onClick={() => handleDeleteClick(task._id)}
-                      className="p-2 rounded-xl bg-gray-50 border border-gray-200 text-[#5a7a72] hover:text-red-600 hover:bg-red-50 hover:border-red-200 transition-all cursor-pointer"
-                      title="Delete task"
-                    >
-                      <Trash2 className="w-4 h-4" />
-                    </button>
+                    {taskStatus.toLowerCase() === "open" && (
+                      <>
+                        <button
+                          onClick={() => handleEditClick(task)}
+                          className="p-2 rounded-xl bg-gray-50 border border-gray-200 text-[#5a7a72] hover:text-[#2a9d8f] hover:bg-[#eaf5f2] hover:border-[#2a9d8f]/30 transition-all cursor-pointer tooltip"
+                          title="Edit task"
+                        >
+                          <Edit3 className="w-4 h-4" />
+                        </button>
+                        <button
+                          onClick={() => handleDeleteClick(task._id)}
+                          className="p-2 rounded-xl bg-gray-50 border border-gray-200 text-[#5a7a72] hover:text-red-600 hover:bg-red-50 hover:border-red-200 transition-all cursor-pointer"
+                          title="Delete task"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </button>
+                      </>
+                    )}
                   </div>
                 </div>
               </div>

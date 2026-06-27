@@ -16,6 +16,8 @@ import {
   LogOut,
   User,
 } from "lucide-react";
+import { FaRegUser } from "react-icons/fa6";
+
 
 const CLIENT_NAV = [
   { name: "Dashboard", href: "/dashboard/client", icon: LayoutDashboard },
@@ -32,7 +34,7 @@ const FREELANCER_NAV = [
   { name: "My Proposals", href: "/dashboard/freelancer/my-proposals", icon: FileText },
   { name: "Active Projects", href: "/dashboard/freelancer/projects", icon: Briefcase },
   { name: "Earnings", href: "/dashboard/freelancer/earnings", icon: Wallet },
-  { name: "My Profile", href: "/dashboard/freelancer/profile", icon: Star },
+  { name: "My Profile", href: "/dashboard/freelancer/profile", icon: FaRegUser },
   { name: "Settings", href: "/dashboard/freelancer/settings", icon: Settings },
 ];
 

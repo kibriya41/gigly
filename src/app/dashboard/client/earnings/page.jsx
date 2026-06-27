@@ -4,6 +4,7 @@ import React, { useState, useEffect, useMemo } from "react";
 import Link from "next/link";
 import { useSession } from "@/lib/auth-client";
 import { getTasks } from "@/lib/actions/tasks";
+import { getProposals } from "@/lib/actions/proposals";
 import {
   Loader2,
   Search,
@@ -12,19 +13,15 @@ import {
   DollarSign,
   Calendar,
   Tag,
-  TrendingUp,
-  TrendingDown,
+  BarChart3,
+  Plus,
+  Receipt,
   Wallet,
   CheckCircle2,
   Clock,
   CircleDot,
-  Download,
-  Filter,
-  X,
   CreditCard,
-  Receipt,
-  BarChart3,
-  Plus,
+  X
 } from "lucide-react";
 
 // Deterministic pseudo-random status per task ID so it doesn't flicker
@@ -73,6 +70,7 @@ const STATUS_ICON = {
 export default function ClientEarningsPage() {
   const { data: session, status: sessionStatus } = useSession();
   const [tasks, setTasks] = useState([]);
+  const [proposals, setProposals] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -86,10 +84,16 @@ export default function ClientEarningsPage() {
     setLoading(true);
     try {
       const res = await getTasks(session.user.email);
+      const proposalsRes = await getProposals({ clientEmail: session.user.email });
+
       if (res.success) {
         setTasks(res.data || []);
       } else {
         setError(res.message || "Failed to fetch payment history");
+      }
+
+      if (proposalsRes.success) {
+        setProposals(proposalsRes.data || []);
       }
     } catch (err) {
       setError(err.message || "An unexpected error occurred");
@@ -107,18 +111,8 @@ export default function ClientEarningsPage() {
   // Build payment records from tasks that have any financial commitment
   const allPayments = useMemo(() => {
     return tasks.map((task) => {
-      // Check if there is an accepted bid for this task in localStorage
-      let acceptedBid = null;
-      if (typeof window !== "undefined") {
-        const acceptedBidStr = localStorage.getItem(`accepted_bid_${task._id}`);
-        if (acceptedBidStr) {
-          try {
-            acceptedBid = JSON.parse(acceptedBidStr);
-          } catch (e) {
-            console.error("Failed to parse accepted bid", e);
-          }
-        }
-      }
+      // Check if there is an accepted bid for this task in proposals
+      const acceptedBid = proposals.find(p => p.taskId === task._id && p.status === "accepted");
 
       const { paymentStatus, paymentMethod } = getPaymentMeta(task._id, task.status || "Open");
       
@@ -126,11 +120,7 @@ export default function ClientEarningsPage() {
       let amount = Number(task.budget || 0);
       let freelancerName = null;
       if (acceptedBid) {
-        // Safe cleaning of formatted bid amount string
-        const parsedAmount = Number(acceptedBid.amount?.toString().replace(/[^0-9.-]+/g, "") || 0);
-        if (parsedAmount > 0) {
-          amount = parsedAmount;
-        }
+        amount = Number(acceptedBid.amount || 0);
         freelancerName = acceptedBid.name || acceptedBid.freelancerName;
       }
 
@@ -142,7 +132,7 @@ export default function ClientEarningsPage() {
         freelancerName,
       };
     });
-  }, [tasks]);
+  }, [tasks, proposals]);
 
   // Summary stats
   const totalSpent = allPayments

@@ -3,7 +3,8 @@
 import React, { useState, useEffect, useMemo } from "react";
 import Link from "next/link";
 import { useSession } from "@/lib/auth-client";
-import { getTasks } from "@/lib/actions/tasks";
+import { getTasks, updateTask } from "@/lib/actions/tasks";
+import { getProposals } from "@/lib/actions/proposals";
 import {
   Loader2,
   Briefcase,
@@ -16,64 +17,106 @@ import {
   CheckCircle2,
   ArrowRight,
   User,
+  ExternalLink,
+  Send,
+  X
 } from "lucide-react";
 
 export default function FreelancerProjectsPage() {
   const { data: session, status: sessionStatus } = useSession();
-  const [allTasks, setAllTasks] = useState([]);
+  const [tasks, setTasks] = useState([]);
+  const [proposals, setProposals] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  useEffect(() => {
-    if (sessionStatus === "loading") return;
-    const fetchTasks = async () => {
-      try {
-        const res = await getTasks();
-        if (res.success) setAllTasks(res.data || []);
-        else setError(res.message || "Failed to load projects");
-      } catch (err) {
-        setError(err.message || "An error occurred");
-      } finally {
-        setLoading(false);
+  // Deliverable Submission Modal State
+  const [submittingProject, setSubmittingProject] = useState(null);
+  const [deliverableUrl, setDeliverableUrl] = useState("");
+  const [submittingDeliverable, setSubmittingDeliverable] = useState(false);
+
+  const fetchProjectsData = async () => {
+    if (!session?.user?.email) return;
+    setLoading(true);
+    try {
+      const tasksRes = await getTasks();
+      const proposalsRes = await getProposals({ freelancerEmail: session.user.email });
+
+      if (tasksRes.success && proposalsRes.success) {
+        setTasks(tasksRes.data || []);
+        setProposals(proposalsRes.data || []);
+      } else {
+        setError(tasksRes.message || proposalsRes.message || "Failed to load data");
       }
-    };
-    fetchTasks();
-  }, [sessionStatus]);
+    } catch (err) {
+      setError(err.message || "An unexpected error occurred");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (sessionStatus !== "loading") {
+      fetchProjectsData();
+    }
+  }, [session, sessionStatus]);
 
   const user = session?.user;
 
+  // Freelancer's hired projects (where their proposal is accepted)
   const myProjects = useMemo(() => {
-    if (typeof window === "undefined" || !user) return [];
-    return allTasks.filter((task) => {
-      if (!["In Progress", "Completed"].includes(task.status)) return false;
-      const acceptedBidStr = localStorage.getItem(`accepted_bid_${task._id}`);
-      if (!acceptedBidStr) return false;
-      try {
-        const accepted = JSON.parse(acceptedBidStr);
-        return (
-          accepted.freelancerName === user.name ||
-          accepted.freelancerEmail === user.email
-        );
-      } catch (e) {
-        return false;
-      }
-    });
-  }, [allTasks, user]);
+    const taskMap = {};
+    tasks.forEach((t) => { taskMap[t._id] = t; });
 
-  const activeCount = myProjects.filter((t) => t.status === "In Progress").length;
-  const completedCount = myProjects.filter((t) => t.status === "Completed").length;
+    // Filter proposals that are accepted, then map to their tasks
+    return proposals
+      .filter((p) => p.status === "accepted")
+      .map((p) => {
+        const task = taskMap[p.taskId];
+        return {
+          ...p,
+          task: task || null,
+          taskStatus: task?.status || p.taskStatus || "In Progress",
+          deliverableUrl: task?.deliverable_url || ""
+        };
+      })
+      .filter((p) => p.task !== null);
+  }, [proposals, tasks]);
+
+  // Statistics
+  const activeCount = myProjects.filter((p) => p.taskStatus === "In Progress").length;
+  const completedCount = myProjects.filter((p) => p.taskStatus === "Completed").length;
   const totalEarned = myProjects
-    .filter((t) => t.status === "Completed")
-    .reduce((sum, task) => {
-      const acceptedBidStr = localStorage.getItem(`accepted_bid_${task._id}`);
-      if (!acceptedBidStr) return sum;
-      try {
-        const accepted = JSON.parse(acceptedBidStr);
-        return sum + Number(accepted.amount?.toString().replace(/[^0-9.-]+/g, "") || 0);
-      } catch (e) {
-        return sum;
+    .filter((p) => p.taskStatus === "Completed")
+    .reduce((sum, p) => sum + (Number(p.amount) || 0), 0);
+
+  // Submit Deliverable Logic
+  const handleSubmitDeliverable = async (e) => {
+    e.preventDefault();
+    if (!submittingProject || !deliverableUrl.trim()) return;
+
+    setSubmittingDeliverable(true);
+    try {
+      const taskToUpdate = submittingProject.task;
+      const response = await updateTask(taskToUpdate._id, {
+        ...taskToUpdate,
+        status: "Completed",
+        deliverable_url: deliverableUrl.trim()
+      });
+
+      if (response?.success) {
+        alert("Deliverable submitted and project marked as Completed!");
+        setSubmittingProject(null);
+        setDeliverableUrl("");
+        fetchProjectsData(); // Refresh list
+      } else {
+        alert(response?.message || "Failed to submit deliverable");
       }
-    }, 0);
+    } catch (err) {
+      alert("Error submitting deliverable");
+    } finally {
+      setSubmittingDeliverable(false);
+    }
+  };
 
   if (sessionStatus === "loading") {
     return (
@@ -103,13 +146,12 @@ export default function FreelancerProjectsPage() {
           <h1 className="text-4xl font-serif font-semibold text-[#1a3c34] tracking-tight">Active Projects</h1>
           <p className="text-[#5a7a72] mt-1.5 text-[15px]">Tasks where your proposal was accepted.</p>
         </div>
-        <Link
-          href="/tasks"
-          className="flex items-center justify-center gap-2 bg-[#1a3c34] hover:bg-[#255248] text-white px-5 py-3 rounded-full font-medium transition-all shadow-sm hover:shadow-md w-fit self-start md:self-auto hover:scale-[1.02]"
+        <button
+          onClick={fetchProjectsData}
+          className="flex items-center justify-center gap-2 bg-[#f4f8f6] hover:bg-[#eaf5f2] border border-[#d4ebe6] text-[#1a3c34] px-5 py-2.5 rounded-full font-semibold text-xs transition-all shadow-sm w-fit"
         >
-          <Search size={18} />
-          <span>Find More Work</span>
-        </Link>
+          Refresh Data
+        </button>
       </div>
 
       {/* Stats */}
@@ -164,33 +206,23 @@ export default function FreelancerProjectsPage() {
         </div>
       ) : (
         <div className="space-y-6">
-          {myProjects.map((task) => {
-            const isInProgress = task.status === "In Progress";
+          {myProjects.map((project) => {
+            const task = project.task;
+            const isInProgress = project.taskStatus === "In Progress";
             const statusStyle = isInProgress
               ? "text-[#2a9d8f] bg-[#eaf5f2] border-[#d4ebe6]"
               : "text-emerald-700 bg-emerald-50 border-emerald-100";
 
-            let acceptedBid = null;
-            if (typeof window !== "undefined") {
-              const str = localStorage.getItem(`accepted_bid_${task._id}`);
-              if (str) {
-                try { acceptedBid = JSON.parse(str); } catch (e) {}
-              }
-            }
-            const agreedAmount = acceptedBid
-              ? Number(acceptedBid.amount?.toString().replace(/[^0-9.-]+/g, "") || task.budget || 0)
-              : Number(task.budget || 0);
-
             return (
               <div
-                key={task._id}
-                className="bg-white rounded-3xl border border-[#d4ebe6]/40 p-6 md:p-8 hover:shadow-md hover:border-[#2a9d8f]/30 transition-all"
+                key={project._id}
+                className="bg-white rounded-3xl border border-[#d4ebe6]/40 p-6 md:p-8 hover:shadow-md hover:border-[#2a9d8f]/30 transition-all space-y-4"
               >
                 <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
                   <div className="space-y-2 flex-1">
                     <div className="flex flex-wrap items-center gap-2">
                       <span className={`text-[11px] font-bold px-2.5 py-1 rounded-full border ${statusStyle}`}>
-                        {task.status}
+                        {project.taskStatus}
                       </span>
                       {task.category && (
                         <span className="inline-flex items-center gap-1.5 text-xs font-semibold bg-[#eaf5f2] text-[#2a9d8f] px-2.5 py-1 rounded-lg">
@@ -205,17 +237,33 @@ export default function FreelancerProjectsPage() {
                   </div>
                   <div className="flex flex-col items-end gap-1 shrink-0">
                     <span className="text-2xl font-extrabold text-[#2a9d8f]">
-                      ${agreedAmount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })} USD
+                      ${Number(project.amount || task.budget || 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })} USD
                     </span>
                     <span className="text-xs text-[#8aa89e] font-medium">Agreed amount</span>
                   </div>
                 </div>
 
+                {/* Show deliverable link if completed */}
+                {!isInProgress && project.deliverableUrl && (
+                  <div className="bg-[#f4f8f6] border border-[#d4ebe6] p-4 rounded-2xl flex items-center justify-between text-xs">
+                    <div className="flex items-center gap-2">
+                      <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+                      <span className="text-[#5a7a72]">Deliverable URL:</span>
+                      <a href={project.deliverableUrl} target="_blank" rel="noopener noreferrer" className="text-[#2a9d8f] font-bold hover:underline break-all">
+                        {project.deliverableUrl}
+                      </a>
+                    </div>
+                    <a href={project.deliverableUrl} target="_blank" rel="noopener noreferrer" className="text-[#2a9d8f] hover:text-[#1a3c34] p-1">
+                      <ExternalLink className="w-4 h-4" />
+                    </a>
+                  </div>
+                )}
+
                 <div className="mt-6 pt-4 border-t border-gray-100 flex items-center justify-between gap-4 flex-wrap">
                   <div className="flex flex-wrap items-center gap-4 text-xs text-[#8aa89e] font-medium">
                     <span className="flex items-center gap-1.5">
                       <User className="w-4 h-4 text-[#2a9d8f]" />
-                      Client: <span className="text-[#1a3c34] font-bold ml-1">{task.buyerName || "Anonymous"}</span>
+                      Client: <span className="text-[#1a3c34] font-bold ml-1">{task.buyerEmail}</span>
                     </span>
                     <span className="flex items-center gap-1.5">
                       <Calendar className="w-4 h-4 text-[#2a9d8f]" />
@@ -224,16 +272,89 @@ export default function FreelancerProjectsPage() {
                       </span>
                     </span>
                   </div>
-                  <Link
-                    href={`/tasks/${task._id}`}
-                    className="flex items-center gap-2 bg-[#f4f8f6] hover:bg-[#eaf5f2] border border-[#d4ebe6] text-[#1a3c34] px-4 py-2 rounded-xl text-xs font-bold transition-all"
-                  >
-                    View Task <ArrowRight className="w-3.5 h-3.5" />
-                  </Link>
+
+                  <div className="flex items-center gap-3">
+                    {isInProgress && (
+                      <button
+                        onClick={() => setSubmittingProject(project)}
+                        className="px-5 py-2.5 bg-[#2a9d8f] hover:bg-[#238478] text-white font-bold text-xs rounded-xl shadow-sm transition-all cursor-pointer"
+                      >
+                        Submit Deliverable
+                      </button>
+                    )}
+                    <Link
+                      href={`/tasks/${task._id}`}
+                      className="flex items-center gap-2 bg-[#f4f8f6] hover:bg-[#eaf5f2] border border-[#d4ebe6] text-[#1a3c34] px-4 py-2 rounded-xl text-xs font-bold transition-all"
+                    >
+                      View Details <ArrowRight className="w-3.5 h-3.5" />
+                    </Link>
+                  </div>
                 </div>
               </div>
             );
           })}
+        </div>
+      )}
+
+      {/* Deliverable Submission Modal */}
+      {submittingProject && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/45 backdrop-blur-sm animate-in fade-in duration-200">
+          <div className="bg-white w-full max-w-md rounded-3xl shadow-2xl border border-[#d4ebe6]/50 overflow-hidden flex flex-col animate-in zoom-in-95 duration-200">
+            <div className="px-6 py-5 border-b border-[#d4ebe6]/30 flex items-center justify-between bg-[#f4f8f6]">
+              <div className="flex items-center gap-2.5">
+                <div className="w-9 h-9 rounded-xl bg-[#eaf5f2] flex items-center justify-center text-[#2a9d8f]">
+                  <Send className="w-4 h-4" />
+                </div>
+                <div>
+                  <h3 className="font-bold text-[#1a3c34]">Submit Deliverable</h3>
+                  <p className="text-[10px] text-[#8aa89e] mt-0.5">Complete and deliver task work</p>
+                </div>
+              </div>
+              <button onClick={() => setSubmittingProject(null)} className="p-1.5 hover:bg-gray-200 rounded-full transition-colors text-gray-500">
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+            <form onSubmit={handleSubmitDeliverable} className="p-6 space-y-4">
+              <div className="space-y-2">
+                <label className="block text-xs font-bold text-[#5a7a72] uppercase tracking-wider">
+                  Deliverable Link (Docs, GitHub, Figma, etc.)
+                </label>
+                <input
+                  type="url"
+                  required
+                  placeholder="https://github.com/username/project"
+                  value={deliverableUrl}
+                  onChange={(e) => setDeliverableUrl(e.target.value)}
+                  className="w-full px-4 py-3 border border-gray-200 focus:border-[#2a9d8f] focus:ring-2 focus:ring-[#2a9d8f]/10 rounded-xl text-sm outline-none transition-all"
+                />
+              </div>
+
+              <div className="bg-[#f0f9f6] border border-[#d4ebe6] p-3 rounded-xl text-[11px] text-[#5a7a72] leading-relaxed">
+                Submitting this deliverable will mark the task as **Completed** and notify the client to verify the work.
+              </div>
+
+              <div className="pt-2 flex items-center justify-end gap-3">
+                <button
+                  type="button"
+                  onClick={() => setSubmittingProject(null)}
+                  className="px-5 py-2.5 rounded-xl border border-gray-200 text-sm font-semibold text-[#5a7a72] hover:bg-gray-50 transition-colors"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  disabled={submittingDeliverable}
+                  className="px-6 py-2.5 rounded-xl bg-[#1a3c34] hover:bg-[#255248] text-white text-sm font-semibold transition-all shadow-sm flex items-center gap-2 disabled:opacity-60 cursor-pointer"
+                >
+                  {submittingDeliverable ? (
+                    <><Loader2 className="w-4 h-4 animate-spin" />Submitting...</>
+                  ) : (
+                    <>Submit Work</>
+                  )}
+                </button>
+              </div>
+            </form>
+          </div>
         </div>
       )}
     </div>

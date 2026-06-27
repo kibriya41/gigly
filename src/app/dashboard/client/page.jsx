@@ -2,140 +2,108 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { ClipboardCheck, CircleDot, Clock, Wallet, Plus, Loader2 } from "lucide-react";
 import { useSession } from "@/lib/auth-client";
-import { getTasks, updateTask } from "@/lib/actions/tasks";
+import { getTasks } from "@/lib/actions/tasks";
+import { getProposals, deleteProposal } from "@/lib/actions/proposals";
 
 export default function ClientDashboardHomePage() {
+  const router = useRouter();
   const { data: session, status: sessionStatus } = useSession();
   const [tasks, setTasks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [proposals, setProposals] = useState([]);
 
-  // Fetch tasks
-  useEffect(() => {
-    if (sessionStatus === "loading") return;
+  // Fetch tasks and proposals
+  const fetchClientData = async () => {
     if (!session?.user?.email) {
       setLoading(false);
       return;
     }
 
-    const fetchClientData = async () => {
-      try {
-        const res = await getTasks(session.user.email);
-        if (res.success) {
-          const clientTasks = res.data || [];
-          setTasks(clientTasks);
+    try {
+      // 1. Fetch client tasks
+      const tasksRes = await getTasks(session.user.email);
+      if (tasksRes.success) {
+        const clientTasks = tasksRes.data || [];
+        setTasks(clientTasks);
 
-          // Collect proposals for all user tasks from localStorage
-          const allProposals = [];
-          clientTasks.forEach(task => {
-            const loadedBids = localStorage.getItem(`bids_${task._id}`);
-            if (loadedBids) {
-              try {
-                const bids = JSON.parse(loadedBids);
-                bids.forEach(bid => {
-                  allProposals.push({
-                    ...bid,
-                    taskId: task._id,
-                    taskTitle: task.title,
-                    // For UI compatibility
-                    initials: bid.freelancerName ? bid.freelancerName.split(" ").map(n => n[0]).join("").slice(0, 2).toUpperCase() : "FL",
-                    name: bid.freelancerName || "Anonymous",
-                    description: `Bid for ${task.title}`,
-                    amount: `$${Number(bid.amount || 0).toLocaleString()}`,
-                    avatarBg: "bg-[#f5ebe6]",
-                    avatarColor: "text-[#7c5e4d]"
-                  });
-                });
-              } catch (e) {
-                console.error("Failed to parse bids", e);
-              }
-            }
-          });
-          // Sort proposals by newest first
-          allProposals.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+        // 2. Fetch all proposals for this client's tasks
+        const proposalsRes = await getProposals({ clientEmail: session.user.email });
+        if (proposalsRes.success) {
+          const taskMap = {};
+          clientTasks.forEach(t => { taskMap[t._id] = t; });
+
+          const allProposals = (proposalsRes.data || []).map(bid => ({
+            ...bid,
+            taskTitle: bid.taskTitle || taskMap[bid.taskId]?.title || "Unknown Task",
+            initials: bid.freelancerName ? bid.freelancerName.split(" ").map(n => n[0]).join("").slice(0, 2).toUpperCase() : "FL",
+            name: bid.freelancerName || "Anonymous",
+            description: `Bid for ${bid.taskTitle || taskMap[bid.taskId]?.title || "Task"}`,
+            amount: `$${Number(bid.amount || 0).toLocaleString()}`,
+            avatarBg: "bg-[#f5ebe6]",
+            avatarColor: "text-[#7c5e4d]"
+          }));
           setProposals(allProposals);
         }
-      } catch (err) {
-        console.error("Error fetching tasks:", err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchClientData();
-  }, [session, sessionStatus]);
-
-  // Handle Accept Proposal
-  const handleAcceptProposal = async (proposal) => {
-    if (!confirm(`Are you sure you want to accept Sofia Kim's proposal for "$980"?`.replace("Sofia Kim's proposal for \"$980\"", `${proposal.name}'s proposal for "${proposal.amount}"`))) {
-      return;
-    }
-
-    try {
-      // Find the task
-      const targetTask = tasks.find(t => t._id === proposal.taskId);
-      if (!targetTask) return;
-
-      // Update task status to "In Progress"
-      const updated = {
-        ...targetTask,
-        status: "In Progress"
-      };
-
-      const res = await updateTask(proposal.taskId, updated);
-      if (res.success) {
-        // Save the accepted bid details in localStorage
-        localStorage.setItem(`accepted_bid_${proposal.taskId}`, JSON.stringify(proposal));
-        
-        // Update local tasks state
-        setTasks(prev => prev.map(t => t._id === proposal.taskId ? { ...t, status: "In Progress" } : t));
-        alert("Proposal accepted! Task status has been updated to In Progress.");
-      } else {
-        alert("Failed to update task status: " + res.message);
       }
     } catch (err) {
-      console.error(err);
-      alert("Error accepting proposal.");
+      console.error("Error fetching client data:", err);
+    } finally {
+      setLoading(false);
     }
   };
 
-  // Handle Decline Proposal
-  const handleDeclineProposal = (proposalToDelete) => {
+  useEffect(() => {
+    if (sessionStatus !== "loading") {
+      fetchClientData();
+    }
+  }, [session, sessionStatus]);
+
+  // Handle Accept Proposal (redirects to payment)
+  const handleAcceptProposal = (proposal) => {
+    const alreadyAccepted = proposals.some(
+      p => p.taskId === proposal.taskId && p.status === "accepted"
+    );
+    if (alreadyAccepted) {
+      alert("A proposal for this task is already accepted.");
+      return;
+    }
+    if (!confirm(`Accept ${proposal.name}'s proposal of ${proposal.amount} for "${proposal.taskTitle}"?`)) {
+      return;
+    }
+    router.push(`/payment/checkout?proposalId=${proposal._id}&taskId=${proposal.taskId}`);
+  };
+
+  // Handle Decline Proposal (deletes from DB)
+  const handleDeclineProposal = async (proposalToDelete) => {
     if (!confirm(`Are you sure you want to decline this proposal?`)) {
       return;
     }
 
     try {
-      const loadedBids = localStorage.getItem(`bids_${proposalToDelete.taskId}`);
-      if (loadedBids) {
-        const bids = JSON.parse(loadedBids);
-        // Filter out this bid
-        const filteredBids = bids.filter(bid => 
-          !(bid.freelancerName === proposalToDelete.freelancerName && 
-            Number(bid.amount) === Number(proposalToDelete.amount.replace(/[^0-9.-]+/g, "")) && 
-            bid.createdAt === proposalToDelete.createdAt)
-        );
-        localStorage.setItem(`bids_${proposalToDelete.taskId}`, JSON.stringify(filteredBids));
-        
-        // Update state
-        setProposals(prev => prev.filter(p => p !== proposalToDelete));
+      const res = await deleteProposal(proposalToDelete._id);
+      if (res.success) {
+        setProposals(prev => prev.filter(p => p._id !== proposalToDelete._id));
         alert("Proposal declined.");
+      } else {
+        alert("Failed to decline proposal: " + res.message);
       }
     } catch (e) {
       console.error("Failed to decline proposal", e);
+      alert("Error declining proposal.");
     }
   };
 
   // Stats calculation
   const totalTasksCount = tasks.length;
-  const openTasksCount = tasks.filter(t => t.status === "Open").length;
-  const inProgressTasksCount = tasks.filter(t => t.status === "In Progress").length;
+  const openTasksCount = tasks.filter(t => (t.status || "Open").toLowerCase() === "open").length;
+  const inProgressTasksCount = tasks.filter(t => (t.status || "").toLowerCase() === "in progress").length;
   
   // Total Spent is sum of budget of In Progress or Completed tasks
   const totalSpentVal = tasks
-    .filter(t => t.status === "In Progress" || t.status === "Completed")
+    .filter(t => (t.status || "").toLowerCase() === "in progress" || (t.status || "").toLowerCase() === "completed")
     .reduce((sum, t) => sum + (Number(t.budget) || 0), 0);
 
   const stats = [
@@ -151,8 +119,8 @@ export default function ClientDashboardHomePage() {
       title: "Open Tasks",
       value: openTasksCount.toString(),
       icon: CircleDot,
-      iconBg: "bg-[#eaf5f2]",
-      iconColor: "text-[#2a9d8f]",
+      iconBg: "bg-[#fffbeb]",
+      iconColor: "text-[#d97706]",
       cardBg: "bg-white",
     },
     {
@@ -164,8 +132,8 @@ export default function ClientDashboardHomePage() {
       cardBg: "bg-white",
     },
     {
-      title: "Total Committed/Spent",
-      value: totalSpentVal > 0 ? `$${(totalSpentVal / 1000).toFixed(1)}k` : "$0.0k",
+      title: "Total Spent (USD)",
+      value: totalSpentVal > 0 ? `$${totalSpentVal.toLocaleString(undefined, { maximumFractionDigits: 0 })}` : "$0",
       icon: Wallet,
       iconBg: "bg-[#e2f1ed]",
       iconColor: "text-[#1a3c34]",
@@ -272,11 +240,7 @@ export default function ClientDashboardHomePage() {
               </div>
             ) : (
               activeTasks.map((task) => {
-                const bidsForTask = localStorage.getItem(`bids_${task._id}`);
-                let proposalCount = 0;
-                try {
-                  proposalCount = bidsForTask ? JSON.parse(bidsForTask).length : 0;
-                } catch (e) {}
+                const proposalCount = proposals.filter(p => p.taskId === task._id).length;
 
                 return (
                   <div

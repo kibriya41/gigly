@@ -4,6 +4,7 @@ import React, { useState, useEffect, useMemo } from "react";
 import Link from "next/link";
 import { useSession } from "@/lib/auth-client";
 import { getTasks } from "@/lib/actions/tasks";
+import { getProposals } from "@/lib/actions/proposals";
 import {
   Loader2,
   DollarSign,
@@ -21,53 +22,65 @@ const MONTH_LABELS = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct
 
 export default function FreelancerEarningsPage() {
   const { data: session, status: sessionStatus } = useSession();
-  const [allTasks, setAllTasks] = useState([]);
+  const [tasks, setTasks] = useState([]);
+  const [proposals, setProposals] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     if (sessionStatus === "loading") return;
-    const fetchTasks = async () => {
+    if (!session?.user?.email) {
+      setLoading(false);
+      return;
+    }
+
+    const fetchEarningsData = async () => {
       try {
-        const res = await getTasks();
-        if (res.success) setAllTasks(res.data || []);
-        else setError(res.message || "Failed to load data");
+        const tasksRes = await getTasks();
+        const proposalsRes = await getProposals({ freelancerEmail: session.user.email });
+
+        if (tasksRes.success && proposalsRes.success) {
+          setTasks(tasksRes.data || []);
+          setProposals(proposalsRes.data || []);
+        } else {
+          setError(tasksRes.message || proposalsRes.message || "Failed to load earnings data");
+        }
       } catch (err) {
-        setError(err.message || "An error occurred");
+        setError(err.message || "An unexpected error occurred");
       } finally {
         setLoading(false);
       }
     };
-    fetchTasks();
-  }, [sessionStatus]);
+
+    fetchEarningsData();
+  }, [session, sessionStatus]);
 
   const user = session?.user;
 
+  // Filter accepted proposals and join with task details
   const earningData = useMemo(() => {
-    if (typeof window === "undefined" || !user) return { records: [], totalEarned: 0, pending: 0 };
-    const records = [];
-    allTasks.forEach((task) => {
-      const acceptedStr = localStorage.getItem(`accepted_bid_${task._id}`);
-      if (!acceptedStr) return;
-      try {
-        const accepted = JSON.parse(acceptedStr);
-        if (
-          accepted.freelancerName !== user.name &&
-          accepted.freelancerEmail !== user.email
-        ) return;
-        const amount = Number(accepted.amount?.toString().replace(/[^0-9.-]+/g, "") || task.budget || 0);
-        records.push({
-          task,
-          accepted,
-          amount,
-          isPaid: task.status === "Completed",
-        });
-      } catch (e) {}
-    });
+    if (!user) return { records: [], totalEarned: 0, pending: 0 };
+
+    const taskMap = {};
+    tasks.forEach((t) => { taskMap[t._id] = t; });
+
+    const records = proposals
+      .filter((p) => p.status === "accepted")
+      .map((p) => {
+        const task = taskMap[p.taskId];
+        return {
+          proposal: p,
+          task: task || { title: p.taskTitle || "Task Details", category: p.taskCategory || "", buyerEmail: p.clientEmail || "" },
+          amount: Number(p.amount || 0),
+          isPaid: task ? task.status === "Completed" : false,
+        };
+      });
+
     const totalEarned = records.filter((r) => r.isPaid).reduce((s, r) => s + r.amount, 0);
     const pending = records.filter((r) => !r.isPaid).reduce((s, r) => s + r.amount, 0);
+
     return { records, totalEarned, pending };
-  }, [allTasks, user]);
+  }, [proposals, tasks, user]);
 
   // Monthly earning chart data
   const monthlyData = useMemo(() => {
@@ -75,7 +88,7 @@ export default function FreelancerEarningsPage() {
     earningData.records
       .filter((r) => r.isPaid)
       .forEach((r) => {
-        let dateStr = r.task.updatedAt || r.task.createdAt;
+        let dateStr = r.task.updatedAt || r.task.createdAt || r.proposal.createdAt;
         if (!dateStr && r.task._id && /^[0-9a-fA-F]{24}$/.test(r.task._id)) {
           const ts = parseInt(r.task._id.substring(0, 8), 16) * 1000;
           dateStr = new Date(ts).toISOString();
@@ -122,7 +135,7 @@ export default function FreelancerEarningsPage() {
       icon: DollarSign,
       iconBg: "bg-emerald-50",
       iconColor: "text-emerald-600",
-      sub: "All time",
+      sub: "All time completed",
     },
     {
       title: "Pending Payout",
@@ -153,9 +166,31 @@ export default function FreelancerEarningsPage() {
   return (
     <div className="space-y-10 max-w-7xl mx-auto pb-16">
       {/* Header */}
-      <div>
-        <h1 className="text-4xl font-serif font-semibold text-[#1a3c34] tracking-tight">Earnings</h1>
-        <p className="text-[#5a7a72] mt-1.5 text-[15px]">Track your income from completed and active projects.</p>
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
+        <div>
+          <h1 className="text-4xl font-serif font-semibold text-[#1a3c34] tracking-tight">Earnings</h1>
+          <p className="text-[#5a7a72] mt-1.5 text-[15px]">Track your income from completed and active projects.</p>
+        </div>
+        <button
+          onClick={() => {
+            setLoading(true);
+            setError(null);
+            getTasks().then(tasksRes => {
+              getProposals({ freelancerEmail: session.user.email }).then(proposalsRes => {
+                if (tasksRes.success && proposalsRes.success) {
+                  setTasks(tasksRes.data || []);
+                  setProposals(proposalsRes.data || []);
+                } else {
+                  setError("Failed to reload data");
+                }
+                setLoading(false);
+              });
+            });
+          }}
+          className="flex items-center justify-center gap-2 bg-[#f4f8f6] hover:bg-[#eaf5f2] border border-[#d4ebe6] text-[#1a3c34] px-5 py-2.5 rounded-full font-semibold text-xs transition-all shadow-sm w-fit"
+        >
+          Refresh Data
+        </button>
       </div>
 
       {/* Stats */}
@@ -271,7 +306,7 @@ export default function FreelancerEarningsPage() {
               </thead>
               <tbody className="divide-y divide-[#d4ebe6]/40">
                 {earningData.records.map((record, i) => {
-                  let dateStr = record.task.updatedAt || record.task.createdAt;
+                  let dateStr = record.task.updatedAt || record.task.createdAt || record.proposal.createdAt;
                   if (!dateStr && record.task._id && /^[0-9a-fA-F]{24}$/.test(record.task._id)) {
                     const ts = parseInt(record.task._id.substring(0, 8), 16) * 1000;
                     dateStr = new Date(ts).toISOString();
@@ -285,7 +320,7 @@ export default function FreelancerEarningsPage() {
                         <Link href={`/tasks/${record.task._id}`} className="font-semibold text-[#1a3c34] hover:text-[#2a9d8f] hover:underline">
                           {record.task.title}
                         </Link>
-                        <div className="text-xs text-[#8aa89e] mt-0.5">Client: {record.task.buyerName || "—"}</div>
+                        <div className="text-xs text-[#8aa89e] mt-0.5">Client: {record.task.buyerEmail || "—"}</div>
                       </td>
                       <td className="py-4 px-4">
                         <span className="inline-flex items-center gap-1 text-xs font-semibold bg-[#eaf5f2] text-[#2a9d8f] px-2 py-1 rounded-lg">
