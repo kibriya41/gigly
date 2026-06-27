@@ -4,6 +4,8 @@ import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { useSession } from "@/lib/auth-client";
 import { getTasks, updateTask, deleteTask } from "@/lib/actions/tasks";
+import { getProposals } from "@/lib/actions/proposals";
+import { submitRating } from "@/lib/actions/ratings";
 import {
   ClipboardCheck,
   CircleDot,
@@ -24,7 +26,8 @@ import {
   Filter,
   ArrowUpDown,
   ChevronDown,
-  ChevronUp
+  ChevronUp,
+  Star
 } from "lucide-react";
 
 const CATEGORIES = ["Design", "Writing", "Development", "Marketing", "Other"];
@@ -37,8 +40,16 @@ const SUGGESTED_SKILLS = [
 export default function MyTasksPage() {
   const { data: session, status: sessionStatus } = useSession();
   const [tasks, setTasks] = useState([]);
+  const [acceptedProposals, setAcceptedProposals] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  // Rating Modal state
+  const [ratingModal, setRatingModal] = useState({ isOpen: false, task: null, freelancer: null });
+  const [ratingScore, setRatingScore] = useState(0);
+  const [hoverScore, setHoverScore] = useState(0);
+  const [reviewText, setReviewText] = useState("");
+  const [isSubmittingRating, setIsSubmittingRating] = useState(false);
 
   // Search & Filter state
   const [searchTerm, setSearchTerm] = useState("");
@@ -77,10 +88,17 @@ export default function MyTasksPage() {
     setLoading(true);
     try {
       const response = await getTasks(session.user.email);
+      const proposalsRes = await getProposals({ clientEmail: session.user.email });
+
       if (response?.success) {
         setTasks(response.data || []);
       } else {
         setError(response?.message || "Failed to fetch tasks");
+      }
+
+      if (proposalsRes?.success) {
+        // Only keep accepted proposals so we know who is hired for which task
+        setAcceptedProposals((proposalsRes.data || []).filter(p => p.status === "accepted"));
       }
     } catch (err) {
       setError(err.message || "An unexpected error occurred");
@@ -290,6 +308,41 @@ export default function MyTasksPage() {
       }
     } catch (err) {
       showToast("Error completing task", "error");
+    }
+  };
+
+  // Submit Rating
+  const handleRatingSubmit = async (e) => {
+    e.preventDefault();
+    if (ratingScore === 0) {
+      showToast("Please select a star rating", "error");
+      return;
+    }
+
+    setIsSubmittingRating(true);
+    try {
+      const res = await submitRating({
+        taskId: ratingModal.task._id,
+        clientEmail: session.user.email,
+        freelancerEmail: ratingModal.freelancer.freelancerEmail,
+        rating: ratingScore,
+        review: reviewText
+      });
+
+      if (res.success) {
+        // Optimistically record that we rated it in localStorage so button updates
+        localStorage.setItem(`rated_${ratingModal.task._id}`, "true");
+        showToast("Rating submitted successfully!");
+        setRatingModal({ isOpen: false, task: null, freelancer: null });
+        setRatingScore(0);
+        setReviewText("");
+      } else {
+        showToast(res.message || "Failed to submit rating", "error");
+      }
+    } catch (err) {
+      showToast("Error submitting rating", "error");
+    } finally {
+      setIsSubmittingRating(false);
     }
   };
 
@@ -628,6 +681,27 @@ export default function MyTasksPage() {
                         </button>
                       </>
                     )}
+                    {taskStatus.toLowerCase() === "completed" && (
+                      (() => {
+                        const hiredProposal = acceptedProposals.find(p => p.taskId === task._id);
+                        if (!hiredProposal) return null; // No one was hired (shouldn't happen for completed task ideally)
+
+                        const hasRated = localStorage.getItem(`rated_${task._id}`) === "true";
+                        
+                        return hasRated ? (
+                          <span className="px-3 py-1.5 rounded-xl border border-gray-200 text-xs font-bold text-gray-400 bg-gray-50 flex items-center gap-1.5">
+                            <Star className="w-3.5 h-3.5 fill-gray-300 text-gray-300" /> Rated
+                          </span>
+                        ) : (
+                          <button
+                            onClick={() => setRatingModal({ isOpen: true, task, freelancer: hiredProposal })}
+                            className="px-4 py-2 rounded-xl bg-gradient-to-r from-amber-400 to-orange-400 hover:from-amber-500 hover:to-orange-500 text-white text-xs font-bold transition-all shadow-sm flex items-center gap-1.5 cursor-pointer"
+                          >
+                            <Star className="w-3.5 h-3.5 fill-current" /> Rate Freelancer
+                          </button>
+                        );
+                      })()
+                    )}
                   </div>
                 </div>
               </div>
@@ -865,6 +939,84 @@ export default function MyTasksPage() {
                 Yes, Delete Task
               </button>
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* Rating Modal */}
+      {ratingModal.isOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/45 backdrop-blur-sm animate-in fade-in duration-200">
+          <div className="bg-white w-full max-w-md rounded-3xl shadow-2xl border border-[#d4ebe6]/50 overflow-hidden flex flex-col animate-in zoom-in-95 duration-200">
+            <div className="px-6 py-5 border-b border-[#d4ebe6]/30 flex items-center justify-between bg-[#f4f8f6]">
+              <div className="flex items-center gap-2.5">
+                <div className="w-9 h-9 rounded-xl bg-amber-100 flex items-center justify-center text-amber-600">
+                  <Star className="w-4 h-4 fill-current" />
+                </div>
+                <div>
+                  <h3 className="font-bold text-[#1a3c34]">Rate Freelancer</h3>
+                  <p className="text-[10px] text-[#8aa89e] mt-0.5">Share your experience working with {ratingModal.freelancer?.freelancerName || 'this freelancer'}</p>
+                </div>
+              </div>
+              <button onClick={() => setRatingModal({ isOpen: false, task: null, freelancer: null })} className="p-1.5 hover:bg-gray-200 rounded-full transition-colors text-gray-500">
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+            
+            <form onSubmit={handleRatingSubmit} className="p-6 space-y-5">
+              <div className="flex flex-col items-center justify-center py-2">
+                <p className="text-sm font-bold text-[#5a7a72] mb-3">How would you rate the quality of work?</p>
+                <div className="flex items-center gap-2" onMouseLeave={() => setHoverScore(0)}>
+                  {[1, 2, 3, 4, 5].map((star) => (
+                    <button
+                      key={star}
+                      type="button"
+                      onClick={() => setRatingScore(star)}
+                      onMouseEnter={() => setHoverScore(star)}
+                      className="p-1 cursor-pointer transition-transform hover:scale-110 focus:outline-none"
+                    >
+                      <Star 
+                        className={`w-10 h-10 transition-colors ${
+                          (hoverScore || ratingScore) >= star 
+                            ? "fill-amber-400 text-amber-400" 
+                            : "fill-gray-100 text-gray-200"
+                        }`} 
+                      />
+                    </button>
+                  ))}
+                </div>
+                {ratingScore > 0 && (
+                  <span className="text-xs font-bold text-amber-600 mt-2 bg-amber-50 px-3 py-1 rounded-full">
+                    {["Needs Work", "Fair", "Good", "Great", "Excellent!"][ratingScore - 1]}
+                  </span>
+                )}
+              </div>
+
+              <div>
+                <label className="block text-xs font-semibold text-[#8aa89e] uppercase tracking-wider mb-2">
+                  Written Review (Optional)
+                </label>
+                <textarea
+                  rows={4}
+                  value={reviewText}
+                  onChange={e => setReviewText(e.target.value)}
+                  className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-amber-400 focus:ring-2 focus:ring-amber-400/10 text-sm outline-none resize-none leading-relaxed text-[#5a7a72] transition-all"
+                  placeholder="Leave a comment about the freelancer's communication, quality of work, speed..."
+                />
+              </div>
+
+              <div className="pt-2 flex items-center justify-end gap-3">
+                <button type="button" onClick={() => setRatingModal({ isOpen: false, task: null, freelancer: null })} className="px-5 py-2.5 rounded-xl border border-gray-200 text-sm font-semibold text-[#5a7a72] hover:bg-gray-50 transition-colors cursor-pointer">
+                  Cancel
+                </button>
+                <button type="submit" disabled={isSubmittingRating || ratingScore === 0} className="px-6 py-2.5 rounded-xl bg-[#1a3c34] hover:bg-[#255248] text-white text-sm font-semibold transition-all shadow-sm flex items-center gap-2 disabled:opacity-60 cursor-pointer">
+                  {isSubmittingRating ? (
+                    <><Loader2 className="w-4 h-4 animate-spin" />Submitting...</>
+                  ) : (
+                    <>Submit Rating</>
+                  )}
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       )}
