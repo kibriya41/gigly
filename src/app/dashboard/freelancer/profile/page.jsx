@@ -43,14 +43,16 @@ export default function FreelancerProfilePage() {
 
   useEffect(() => {
     if (sessionStatus === "loading") return;
-    if (!session?.user?.email) {
-      setLoading(false);
-      return;
-    }
+    let isMounted = true;
 
     const fetchProfile = async () => {
+      if (!session?.user?.email) {
+        if (isMounted) setLoading(false);
+        return;
+      }
       try {
         const res = await getUserByEmail(session.user.email);
+        if (!isMounted) return;
         if (res.success && res.data) {
           const u = res.data;
           setProfile(u);
@@ -60,18 +62,18 @@ export default function FreelancerProfilePage() {
           setHirePrice(u.hirePrice ? u.hirePrice.toString() : "");
           setSkills(u.skills || []);
         } else {
-          // Fallback to session details
           setName(session.user.name || "");
           setImageUrl(session.user.image || "");
         }
       } catch (err) {
-        setError("Failed to load profile details.");
+        if (isMounted) console.error("Failed to load profile", err);
       } finally {
-        setLoading(false);
+        if (isMounted) setLoading(false);
       }
     };
 
     fetchProfile();
+    return () => { isMounted = false; };
   }, [session, sessionStatus]);
 
   const handleAddSkill = (skill) => {

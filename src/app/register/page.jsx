@@ -57,15 +57,13 @@ const RegisterPage = () => {
 
   const analyzePassword = useCallback((value) => {
     const checks = {
-      length: value.length >= 8,
+      length: value.length >= 6,
       uppercase: /[A-Z]/.test(value),
       lowercase: /[a-z]/.test(value),
-      number: /[0-9]/.test(value),
-      special: /[!@#$%^&*(),.?":{}|<>]/.test(value),
     };
     setPasswordChecks(checks);
     const strength = Object.values(checks).filter(Boolean).length;
-    setPasswordStrength(strength * 20);
+    setPasswordStrength(strength * 33);
   }, []);
 
   const handleChange = useCallback((name, value) => {
@@ -94,16 +92,12 @@ const RegisterPage = () => {
 
     if (!formData.password) {
       newErrors.password = "Password is required";
-    } else if (formData.password.length < 8) {
-      newErrors.password = "Password must be at least 8 characters";
+    } else if (formData.password.length < 6) {
+      newErrors.password = "Password must be at least 6 characters";
     } else if (!/[A-Z]/.test(formData.password)) {
       newErrors.password = "Must contain an uppercase letter";
     } else if (!/[a-z]/.test(formData.password)) {
       newErrors.password = "Must contain a lowercase letter";
-    } else if (!/[0-9]/.test(formData.password)) {
-      newErrors.password = "Must contain a number";
-    } else if (!/[!@#$%^&*(),.?":{}|<>]/.test(formData.password)) {
-      newErrors.password = "Must contain a special character";
     }
 
     if (isFreelancer) {
@@ -214,11 +208,9 @@ const RegisterPage = () => {
   };
 
   const passwordRequirements = [
-    { label: "At least 8 characters", valid: passwordChecks.length },
+    { label: "At least 6 characters", valid: passwordChecks.length },
     { label: "One uppercase letter (A-Z)", valid: passwordChecks.uppercase },
     { label: "One lowercase letter (a-z)", valid: passwordChecks.lowercase },
-    { label: "One number (0-9)", valid: passwordChecks.number },
-    { label: "One special character (!@#$...)", valid: passwordChecks.special },
   ];
 
   const roleOptions = [

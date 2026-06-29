@@ -19,12 +19,14 @@ import {
   CheckCircle2,
   CircleDot,
   Plus,
+  MessageSquare,
 } from "lucide-react";
 
 const PROPOSAL_STATUS = {
   accepted: { label: "Accepted", style: "text-[#2a9d8f] bg-[#eaf5f2] border-[#d4ebe6]" },
   pending: { label: "Pending Review", style: "text-[#d97706] bg-[#fffbeb] border-[#fef3c7]" },
   declined: { label: "Declined", style: "text-red-600 bg-red-50 border-red-200" },
+  rejected: { label: "Declined", style: "text-red-600 bg-red-50 border-red-200" },
 };
 
 export default function FreelancerProposalsPage() {
@@ -40,27 +42,30 @@ export default function FreelancerProposalsPage() {
 
   useEffect(() => {
     if (sessionStatus === "loading") return;
-    if (!user?.email) {
-      setLoading(false);
-      return;
-    }
+    let isMounted = true;
 
     const fetchMyProposals = async () => {
+      if (!user?.email) {
+        if (isMounted) setLoading(false);
+        return;
+      }
       try {
         const res = await getProposals({ freelancerEmail: user.email });
+        if (!isMounted) return;
         if (res.success) {
           setProposals(res.data || []);
         } else {
           setError(res.message || "Failed to fetch proposals");
         }
       } catch (err) {
-        setError(err.message || "An unexpected error occurred");
+        if (isMounted) setError(err.message || "An unexpected error occurred");
       } finally {
-        setLoading(false);
+        if (isMounted) setLoading(false);
       }
     };
 
     fetchMyProposals();
+    return () => { isMounted = false; };
   }, [user, sessionStatus]);
 
   const filteredProposals = proposals
@@ -265,6 +270,17 @@ export default function FreelancerProposalsPage() {
                   <div className="mt-5 bg-gray-50 border border-gray-100 p-4 rounded-2xl">
                     <span className="text-[10px] uppercase font-bold text-[#8aa89e] tracking-wider block mb-1">Your Pitch</span>
                     <p className="text-sm text-[#5a7a72] leading-relaxed italic">&ldquo;{proposal.pitch}&rdquo;</p>
+                  </div>
+                )}
+
+                {/* Client comment visible to freelancer when declined */}
+                {(proposal.status === "rejected" || proposal.status === "declined") && proposal.clientComment && (
+                  <div className="mt-3 bg-red-50 border border-red-100 p-4 rounded-2xl flex gap-3">
+                    <MessageSquare className="w-4 h-4 text-red-400 shrink-0 mt-0.5" />
+                    <div>
+                      <span className="text-[10px] uppercase font-bold text-red-400 tracking-wider block mb-1">Client&rsquo;s Note</span>
+                      <p className="text-sm text-red-700 leading-relaxed italic">&ldquo;{proposal.clientComment}&rdquo;</p>
+                    </div>
                   </div>
                 )}
 

@@ -1,5 +1,6 @@
 import Link from 'next/link';
-import { BsTwitter, BsGithub, BsLinkedin } from 'react-icons/bs';
+import { BsGithub, BsLinkedin } from 'react-icons/bs';
+import { FaXTwitter } from 'react-icons/fa6';
 
 export default function Footer() {
     const currentYear = new Date().getFullYear();
@@ -28,13 +29,13 @@ export default function Footer() {
                         </p>
                         
                         <div className="flex items-center gap-3 mt-6">
-                            <Link href="#" className="w-10 h-10 rounded-full bg-white flex items-center justify-center text-[#5a7a72] hover:text-[#2a9d8f] hover:shadow-md hover:shadow-[#2a9d8f]/15 transition-all border border-[#d4ebe6]">
-                                <BsTwitter size={18} />
+                            <Link href="https://x.com" target="_blank" rel="noopener noreferrer" aria-label="X (formerly Twitter)" className="w-10 h-10 rounded-full bg-white flex items-center justify-center text-[#1a3c34] hover:text-white hover:bg-[#1a3c34] hover:shadow-md hover:shadow-[#2a9d8f]/15 transition-all border border-[#d4ebe6]">
+                                <FaXTwitter size={18} />
                             </Link>
-                            <Link href="#" className="w-10 h-10 rounded-full bg-white flex items-center justify-center text-[#5a7a72] hover:text-[#2a9d8f] hover:shadow-md hover:shadow-[#2a9d8f]/15 transition-all border border-[#d4ebe6]">
+                            <Link href="https://github.com" target="_blank" rel="noopener noreferrer" aria-label="GitHub" className="w-10 h-10 rounded-full bg-white flex items-center justify-center text-[#5a7a72] hover:text-[#2a9d8f] hover:shadow-md hover:shadow-[#2a9d8f]/15 transition-all border border-[#d4ebe6]">
                                 <BsGithub size={18} />
                             </Link>
-                            <Link href="#" className="w-10 h-10 rounded-full bg-white flex items-center justify-center text-[#5a7a72] hover:text-[#2a9d8f] hover:shadow-md hover:shadow-[#2a9d8f]/15 transition-all border border-[#d4ebe6]">
+                            <Link href="https://linkedin.com" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="w-10 h-10 rounded-full bg-white flex items-center justify-center text-[#5a7a72] hover:text-[#2a9d8f] hover:shadow-md hover:shadow-[#2a9d8f]/15 transition-all border border-[#d4ebe6]">
                                 <BsLinkedin size={18} />
                             </Link>
                         </div>
@@ -46,12 +47,12 @@ export default function Footer() {
                         <div className="grid grid-cols-2 gap-x-6 gap-y-3 text-sm">
                             <div className="space-y-3">
                                 <Link href="/" className="block text-[#5a7a72] hover:text-[#2a9d8f] font-medium transition-colors">Home</Link>
-                                <Link href="/browse-tasks" className="block text-[#5a7a72] hover:text-[#2a9d8f] font-medium transition-colors">Browse Tasks</Link>
+                                <Link href="/tasks" className="block text-[#5a7a72] hover:text-[#2a9d8f] font-medium transition-colors">Browse Tasks</Link>
                                 <Link href="/freelancers" className="block text-[#5a7a72] hover:text-[#2a9d8f] font-medium transition-colors">Find Talent</Link>
                             </div>
                             <div className="space-y-3">
                                 <Link href="/login" className="block text-[#5a7a72] hover:text-[#2a9d8f] font-medium transition-colors">Login</Link>
-                                <Link href="#how-it-works" className="block text-[#5a7a72] hover:text-[#2a9d8f] font-medium transition-colors">How it Works</Link>
+                                <Link href="/#how-it-works" className="block text-[#5a7a72] hover:text-[#2a9d8f] font-medium transition-colors">How it Works</Link>
                                 <Link href="/dashboard" className="block text-[#5a7a72] hover:text-[#2a9d8f] font-medium transition-colors">Dashboard</Link>
                             </div>
                         </div>
@@ -89,17 +90,17 @@ export default function Footer() {
                         <Link href="/" className="text-[#6b8a82] hover:text-[#2a9d8f] font-medium transition-colors">
                             Home
                         </Link>
-                        <Link href="/about" className="text-[#6b8a82] hover:text-[#2a9d8f] font-medium transition-colors">
-                            About
+                        <Link href="/register" className="text-[#6b8a82] hover:text-[#2a9d8f] font-medium transition-colors">
+                            Get Started
                         </Link>
-                        <Link href="/browse-tasks" className="text-[#6b8a82] hover:text-[#2a9d8f] font-medium transition-colors">
+                        <Link href="/tasks" className="text-[#6b8a82] hover:text-[#2a9d8f] font-medium transition-colors">
                             Tasks
                         </Link>
                         <Link href="/freelancers" className="text-[#6b8a82] hover:text-[#2a9d8f] font-medium transition-colors">
                             Freelancers
                         </Link>
-                        <Link href="#" className="text-[#6b8a82] hover:text-[#2a9d8f] font-medium transition-colors">
-                            Privacy Policy
+                        <Link href="mailto:hello@skillswap.com" className="text-[#6b8a82] hover:text-[#2a9d8f] font-medium transition-colors">
+                            Contact
                         </Link>
                     </div>
 

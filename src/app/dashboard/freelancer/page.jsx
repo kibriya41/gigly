@@ -29,15 +29,18 @@ export default function FreelancerDashboardPage() {
 
   useEffect(() => {
     if (sessionStatus === "loading") return;
-    if (!session?.user?.email) {
-      setLoading(false);
-      return;
-    }
+    let isMounted = true;
 
     const fetchFreelancerData = async () => {
+      if (!session?.user?.email) {
+        if (isMounted) setLoading(false);
+        return;
+      }
       try {
         const tasksRes = await getTasks();
         const proposalsRes = await getProposals({ freelancerEmail: session.user.email });
+
+        if (!isMounted) return;
 
         if (tasksRes.success) {
           setTasks(tasksRes.data || []);
@@ -48,11 +51,12 @@ export default function FreelancerDashboardPage() {
       } catch (err) {
         console.error("Failed to fetch freelancer dashboard data:", err);
       } finally {
-        setLoading(false);
+        if (isMounted) setLoading(false);
       }
     };
 
     fetchFreelancerData();
+    return () => { isMounted = false; };
   }, [session, sessionStatus]);
 
   const user = session?.user;
@@ -172,7 +176,7 @@ export default function FreelancerDashboardPage() {
             Welcome back, {user?.name?.split(" ")[0]}! 👋
           </h1>
           <p className="text-[#5a7a72] mt-1.5 text-[15px]">
-            Here's an overview of your freelance activity and open opportunities.
+            Here&apos;s an overview of your freelance activity and open opportunities.
           </p>
         </div>
         <Link
@@ -220,7 +224,7 @@ export default function FreelancerDashboardPage() {
           <div className="flex items-center justify-between">
             <div>
               <h2 className="text-2xl font-serif font-semibold text-[#1a3c34]">Active Projects</h2>
-              <p className="text-[#8aa89e] text-sm mt-1">Tasks you've been hired for.</p>
+              <p className="text-[#8aa89e] text-sm mt-1">Tasks you&apos;ve been hired for.</p>
             </div>
             <Link href="/dashboard/freelancer/projects" className="text-xs text-[#2a9d8f] font-bold hover:underline flex items-center gap-1">
               View All <ArrowRight className="w-3 h-3" />

@@ -32,14 +32,11 @@ const THEME = {
 // Animated counter hook
 function useCountUp(end, duration = 2000, startOnView = true) {
     const [count, setCount] = useState(0);
-    const [hasStarted, setHasStarted] = useState(false);
+    const [hasStarted, setHasStarted] = useState(!startOnView);
     const ref = useRef(null);
 
     useEffect(() => {
-        if (!startOnView) {
-            setHasStarted(true);
-            return;
-        }
+        if (!startOnView) return;
 
         const observer = new IntersectionObserver(
             ([entry]) => {
@@ -153,20 +150,20 @@ function ActivityBar({ height, delay, day }) {
     );
 }
 
+const STATIC_PARTICLES = [
+    { id: 0, size: 220, x: 10, y: 15, duration: 18, delay: 0 },
+    { id: 1, size: 160, x: 80, y: 20, duration: 22, delay: 2 },
+    { id: 2, size: 280, x: 45, y: 60, duration: 25, delay: 1 },
+    { id: 3, size: 140, x: 75, y: 75, duration: 19, delay: 3 },
+    { id: 4, size: 190, x: 20, y: 80, duration: 21, delay: 4 },
+    { id: 5, size: 240, x: 85, y: 40, duration: 24, delay: 1.5 },
+];
+
 // Floating particles background
 function FloatingParticles() {
-    const particles = Array.from({ length: 6 }, (_, i) => ({
-        id: i,
-        size: Math.random() * 200 + 100,
-        x: Math.random() * 100,
-        y: Math.random() * 100,
-        duration: Math.random() * 20 + 15,
-        delay: Math.random() * 5,
-    }));
-
     return (
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-            {particles.map((p) => (
+            {STATIC_PARTICLES.map((p) => (
                 <div
                     key={p.id}
                     className="absolute rounded-full opacity-30 animate-pulse"

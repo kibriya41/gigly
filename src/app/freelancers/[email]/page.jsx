@@ -364,7 +364,7 @@ export default function FreelancerProfilePage() {
                     </div>
                     <h3 className="text-lg font-bold text-[#1a3c34]">No Reviews Yet</h3>
                     <p className="text-[#8aa89e] text-sm max-w-xs mx-auto">
-                      This freelancer hasn't received any reviews yet. Be the first to hire and rate them!
+                      This freelancer hasn&apos;t received any reviews yet. Be the first to hire and rate them!
                     </p>
                   </div>
                 ) : (

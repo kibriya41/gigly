@@ -57,26 +57,28 @@ export default function BrowseFreelancersPage() {
   const [maxRate, setMaxRate] = useState("");
   const [sortBy, setSortBy] = useState("rating-desc");
 
-  const fetchFreelancers = async () => {
-    setLoading(true);
-    setError(null);
-    try {
-      const response = await getAllUsers();
-      if (response?.success) {
-        const all = response.data || [];
-        setFreelancers(all.filter((u) => u.role === "freelancer" && !u.isBlocked));
-      } else {
-        setError(response?.message || "Failed to fetch freelancers");
-      }
-    } catch (err) {
-      setError(err.message || "An error occurred while loading freelancers");
-    } finally {
-      setLoading(false);
-    }
-  };
-
   useEffect(() => {
-    fetchFreelancers();
+    let isMounted = true;
+    const loadFreelancers = async () => {
+      setLoading(true);
+      setError(null);
+      try {
+        const response = await getAllUsers();
+        if (!isMounted) return;
+        if (response?.success) {
+          const all = response.data || [];
+          setFreelancers(all.filter((u) => u.role === "freelancer" && !u.isBlocked));
+        } else {
+          setError(response?.message || "Failed to fetch freelancers");
+        }
+      } catch (err) {
+        if (isMounted) setError(err.message || "An error occurred while loading freelancers");
+      } finally {
+        if (isMounted) setLoading(false);
+      }
+    };
+    loadFreelancers();
+    return () => { isMounted = false; };
   }, []);
 
   const handleAddSkill = (skill) => {
@@ -345,7 +347,7 @@ export default function BrowseFreelancersPage() {
                 <AlertTriangle className="w-10 h-10 text-red-500 mx-auto" />
                 <h3 className="text-lg font-bold text-red-800">Connection Error</h3>
                 <p className="text-red-600 text-sm">{error}</p>
-                <button onClick={fetchFreelancers}
+                <button onClick={() => window.location.reload()}
                   className="px-6 py-2.5 bg-red-600 text-white text-xs font-semibold rounded-xl hover:bg-red-700 transition-colors">
                   Try Reconnecting
                 </button>

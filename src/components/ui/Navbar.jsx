@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 import { Button, Avatar } from "@heroui/react";
 import {
@@ -30,6 +30,18 @@ const Navbar = () => {
   const { data: session } = authClient.useSession();
   const isLoggedIn = !!session;
   const user = session?.user || {};
+
+  // Keep a lightweight, non-sensitive role cookie in sync with the session so
+  // the Edge middleware can route dashboard traffic by role without a DB call.
+  // The BetterAuth session cookie remains the source of truth; this only
+  // decides which dashboard a user lands on.
+  useEffect(() => {
+    if (isLoggedIn && user.role) {
+      document.cookie = `ss.role=${user.role}; path=/; max-age=${60 * 60 * 24 * 7}; samesite=lax`;
+    } else if (!isLoggedIn) {
+      document.cookie = 'ss.role=; path=/; max-age=0';
+    }
+  }, [isLoggedIn, user.role]);
 
   const handleLogout = async () => {
     await authClient.signOut({
@@ -92,7 +104,7 @@ const Navbar = () => {
             {isLoggedIn ? (
               <>
                 <Link
-                  href="/dashboard/client"
+                  href={user.role === 'admin' ? '/dashboard/admin' : user.role === 'freelancer' ? '/dashboard/freelancer' : '/dashboard/client'}
                   onClick={() => setIsMobileMenuOpen(false)}
                   className={navClass(isRouteActive('/dashboard'))}
                 >
@@ -100,6 +112,7 @@ const Navbar = () => {
                   Dashboard
                 </Link>
 
+                {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src={user.image} alt={user.name} className='rounded-full h-10 w-10 cursor-pointer hover:ring-2 hover:ring-teal-500/30 transition-all object-cover' />
 
                 <Button

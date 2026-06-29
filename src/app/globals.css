@@ -1,2 +1,20 @@
 @import "tailwindcss";
-@import "@heroui/styles"; 
+@import "@heroui/styles";
+
+:root {
+  --color-primary: #2a9d8f;
+  --color-primary-dark: #1e7a6e;
+  --color-dark: #1a3c34;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+.font-sans {
+  font-family: var(--font-inter), system-ui, -apple-system, sans-serif;
+}
+
+.font-serif {
+  font-family: var(--font-playfair), Georgia, serif;
+}

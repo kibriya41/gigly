@@ -1,8 +1,10 @@
-import HeroSection from "@/components/ui/Hero";
+import HomePage from "@/components/ui/HomePage";
+
+export const metadata = {
+  title: "SkillSwap — Freelance Micro-Task Marketplace",
+  description: "Connect with skilled freelancers for quick, one-time tasks. Post a task, receive proposals, and get results fast with secure Stripe payments.",
+};
+
 export default function Home() {
-  return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <HeroSection />
-    </div>
-  );
+  return <HomePage />;
 }

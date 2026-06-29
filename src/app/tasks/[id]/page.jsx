@@ -74,13 +74,14 @@ export default function TaskDetailPage({ params }) {
   // Load task detail
   useEffect(() => {
     if (!taskId) return;
+    let isMounted = true;
     const fetchTask = async () => {
       setLoading(true);
       try {
         const res = await getTaskById(taskId);
+        if (!isMounted) return;
         if (res.success) {
           setTask(res.data);
-          // Set default bid amount to task budget
           if (res.data?.budget) {
             setBidAmount(res.data.budget.toString());
           }
@@ -88,12 +89,13 @@ export default function TaskDetailPage({ params }) {
           setError(res.message || "Failed to load task details");
         }
       } catch (err) {
-        setError(err.message || "An error occurred");
+        if (isMounted) setError(err.message || "An error occurred");
       } finally {
-        setLoading(false);
+        if (isMounted) setLoading(false);
       }
     };
     fetchTask();
+    return () => { isMounted = false; };
   }, [taskId]);
 
   // Load existing proposals from MongoDB
@@ -105,7 +107,6 @@ export default function TaskDetailPage({ params }) {
       if (res.success) {
         const bids = res.data || [];
         setExistingBids(bids);
-        // Check if current user already submitted a proposal
         if (session?.user?.email) {
           const mine = bids.find(b => b.freelancerEmail === session.user.email);
           setAlreadyBid(!!mine);
@@ -120,8 +121,28 @@ export default function TaskDetailPage({ params }) {
 
   useEffect(() => {
     if (!taskId) return;
-    fetchProposals();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    let isMounted = true;
+    const loadBids = async () => {
+      setBidsLoading(true);
+      try {
+        const res = await getProposals({ taskId });
+        if (!isMounted) return;
+        if (res.success) {
+          const bids = res.data || [];
+          setExistingBids(bids);
+          if (session?.user?.email) {
+            const mine = bids.find(b => b.freelancerEmail === session.user.email);
+            setAlreadyBid(!!mine);
+          }
+        }
+      } catch (e) {
+        console.error("Failed to load proposals", e);
+      } finally {
+        if (isMounted) setBidsLoading(false);
+      }
+    };
+    loadBids();
+    return () => { isMounted = false; };
   }, [taskId, session]);
 
   // Validate Bid

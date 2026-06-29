@@ -34,9 +34,14 @@ export default function FreelancerProjectsPage() {
   const [deliverableUrl, setDeliverableUrl] = useState("");
   const [submittingDeliverable, setSubmittingDeliverable] = useState(false);
 
+  // Load tasks + this freelancer's proposals from the server.
+  // Defined in component scope so it can be reused by the Refresh button and
+  // the deliverable submit handler (previously it was trapped inside useEffect
+  // under a different name, which caused a ReferenceError).
   const fetchProjectsData = async () => {
     if (!session?.user?.email) return;
     setLoading(true);
+    setError(null);
     try {
       const tasksRes = await getTasks();
       const proposalsRes = await getProposals({ freelancerEmail: session.user.email });
@@ -55,9 +60,9 @@ export default function FreelancerProjectsPage() {
   };
 
   useEffect(() => {
-    if (sessionStatus !== "loading") {
-      fetchProjectsData();
-    }
+    if (sessionStatus === "loading" || !session?.user?.email) return;
+    fetchProjectsData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [session, sessionStatus]);
 
   const user = session?.user;
@@ -207,7 +212,7 @@ export default function FreelancerProjectsPage() {
       ) : (
         <div className="space-y-6">
           {myProjects.map((project) => {
-            const task = project.task;
+            const task = project.task || {};
             const isInProgress = project.taskStatus === "In Progress";
             const statusStyle = isInProgress
               ? "text-[#2a9d8f] bg-[#eaf5f2] border-[#d4ebe6]"
@@ -230,10 +235,10 @@ export default function FreelancerProjectsPage() {
                         </span>
                       )}
                     </div>
-                    <Link href={`/tasks/${task._id}`} className="font-bold text-xl text-[#1a3c34] hover:text-[#2a9d8f] hover:underline transition-colors block">
-                      {task.title}
+                    <Link href={`/tasks/${task._id || ""}`} className="font-bold text-xl text-[#1a3c34] hover:text-[#2a9d8f] hover:underline transition-colors block">
+                      {task.title || project.taskTitle || "Untitled Task"}
                     </Link>
-                    <p className="text-sm text-[#5a7a72] leading-relaxed line-clamp-2">{task.description}</p>
+                    <p className="text-sm text-[#5a7a72] leading-relaxed line-clamp-2">{task.description || "No description available."}</p>
                   </div>
                   <div className="flex flex-col items-end gap-1 shrink-0">
                     <span className="text-2xl font-extrabold text-[#2a9d8f]">
@@ -246,14 +251,14 @@ export default function FreelancerProjectsPage() {
                 {/* Show deliverable link if completed */}
                 {!isInProgress && project.deliverableUrl && (
                   <div className="bg-[#f4f8f6] border border-[#d4ebe6] p-4 rounded-2xl flex items-center justify-between text-xs">
-                    <div className="flex items-center gap-2">
-                      <CheckCircle2 className="w-4 h-4 text-emerald-600" />
-                      <span className="text-[#5a7a72]">Deliverable URL:</span>
-                      <a href={project.deliverableUrl} target="_blank" rel="noopener noreferrer" className="text-[#2a9d8f] font-bold hover:underline break-all">
+                    <div className="flex items-center gap-2 min-w-0">
+                      <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                      <span className="text-[#5a7a72] shrink-0">Deliverable URL:</span>
+                      <a href={project.deliverableUrl} target="_blank" rel="noopener noreferrer" className="text-[#2a9d8f] font-bold hover:underline break-all min-w-0">
                         {project.deliverableUrl}
                       </a>
                     </div>
-                    <a href={project.deliverableUrl} target="_blank" rel="noopener noreferrer" className="text-[#2a9d8f] hover:text-[#1a3c34] p-1">
+                    <a href={project.deliverableUrl} target="_blank" rel="noopener noreferrer" className="text-[#2a9d8f] hover:text-[#1a3c34] p-1 shrink-0">
                       <ExternalLink className="w-4 h-4" />
                     </a>
                   </div>
@@ -263,7 +268,7 @@ export default function FreelancerProjectsPage() {
                   <div className="flex flex-wrap items-center gap-4 text-xs text-[#8aa89e] font-medium">
                     <span className="flex items-center gap-1.5">
                       <User className="w-4 h-4 text-[#2a9d8f]" />
-                      Client: <span className="text-[#1a3c34] font-bold ml-1">{task.buyerEmail}</span>
+                      Client: <span className="text-[#1a3c34] font-bold ml-1">{task.buyerEmail || "—"}</span>
                     </span>
                     <span className="flex items-center gap-1.5">
                       <Calendar className="w-4 h-4 text-[#2a9d8f]" />
@@ -282,12 +287,14 @@ export default function FreelancerProjectsPage() {
                         Submit Deliverable
                       </button>
                     )}
-                    <Link
-                      href={`/tasks/${task._id}`}
-                      className="flex items-center gap-2 bg-[#f4f8f6] hover:bg-[#eaf5f2] border border-[#d4ebe6] text-[#1a3c34] px-4 py-2 rounded-xl text-xs font-bold transition-all"
-                    >
-                      View Details <ArrowRight className="w-3.5 h-3.5" />
-                    </Link>
+                    {task._id && (
+                      <Link
+                        href={`/tasks/${task._id}`}
+                        className="flex items-center gap-2 bg-[#f4f8f6] hover:bg-[#eaf5f2] border border-[#d4ebe6] text-[#1a3c34] px-4 py-2 rounded-xl text-xs font-bold transition-all"
+                      >
+                        View Details <ArrowRight className="w-3.5 h-3.5" />
+                      </Link>
+                    )}
                   </div>
                 </div>
               </div>

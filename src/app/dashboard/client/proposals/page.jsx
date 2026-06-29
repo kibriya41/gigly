@@ -49,6 +49,11 @@ export default function ClientProposalsPage() {
   const [contactMessage, setContactMessage] = useState("");
   const [isSendingMessage, setIsSendingMessage] = useState(false);
 
+  // Decline modal
+  const [declineTarget, setDeclineTarget] = useState(null); // proposal to decline
+  const [declineComment, setDeclineComment] = useState("");
+  const [isDeclining, setIsDeclining] = useState(false);
+
   // Toast
   const [toast, setToast] = useState(null);
 
@@ -125,18 +130,34 @@ export default function ClientProposalsPage() {
   };
 
   // ─── Decline Proposal ────────────────────────────────────────────────────
-  const handleDeclineProposal = async (proposal) => {
-    if (!confirm("Are you sure you want to decline this proposal?")) return;
+  const handleDeclineProposal = (proposal) => {
+    setDeclineTarget(proposal);
+    setDeclineComment("");
+  };
+
+  const handleConfirmDecline = async () => {
+    if (!declineTarget) return;
+    setIsDeclining(true);
     try {
-      const res = await updateProposalStatus(proposal._id, "rejected");
+      const comment = declineComment.trim() || undefined;
+      const res = await updateProposalStatus(declineTarget._id, "rejected", comment);
       if (res.success) {
-        setProposals(prev => prev.map(p => p._id === proposal._id ? { ...p, status: "rejected" } : p));
-        showToast("Proposal declined successfully.");
+        setProposals(prev =>
+          prev.map(p =>
+            p._id === declineTarget._id
+              ? { ...p, status: "rejected", clientComment: comment }
+              : p
+          )
+        );
+        showToast("Proposal declined.");
+        setDeclineTarget(null);
       } else {
         showToast(res.message || "Failed to decline proposal", "error");
       }
     } catch {
       showToast("Error declining proposal", "error");
+    } finally {
+      setIsDeclining(false);
     }
   };
 
@@ -475,6 +496,17 @@ export default function ClientProposalsPage() {
                   </p>
                 </div>
 
+                {/* Client comment on decline */}
+                {isRejected && proposal.clientComment && (
+                  <div className="mt-3 bg-red-50 border border-red-100 p-4 rounded-2xl flex gap-3">
+                    <MessageSquare className="w-4 h-4 text-red-400 shrink-0 mt-0.5" />
+                    <div>
+                      <span className="text-[10px] uppercase font-bold text-red-400 tracking-wider block mb-1">Your Decline Reason</span>
+                      <p className="text-sm text-red-700 leading-relaxed italic">&ldquo;{proposal.clientComment}&rdquo;</p>
+                    </div>
+                  </div>
+                )}
+
                 {/* Footer / Actions */}
                 <div className="mt-6 pt-5 border-t border-gray-100 flex items-center justify-between gap-4 flex-wrap">
                   <div className="flex items-center gap-2 text-xs text-[#8aa89e] font-medium">
@@ -582,6 +614,68 @@ export default function ClientProposalsPage() {
                 </button>
               </div>
             </form>
+          </div>
+        </div>
+      )}
+
+      {/* Decline Confirmation Modal */}
+      {declineTarget && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/45 backdrop-blur-sm animate-in fade-in duration-200">
+          <div className="bg-white w-full max-w-md rounded-3xl shadow-2xl border border-red-100 overflow-hidden flex flex-col animate-in zoom-in-95 duration-200">
+            <div className="px-6 py-5 border-b border-red-50 flex items-center justify-between bg-red-50/60">
+              <div className="flex items-center gap-2.5">
+                <div className="w-9 h-9 rounded-xl bg-red-100 flex items-center justify-center text-red-500">
+                  <ThumbsDown className="w-4 h-4" />
+                </div>
+                <div>
+                  <h3 className="font-bold text-[#1a3c34]">Decline Proposal</h3>
+                  <p className="text-[10px] text-[#8aa89e] mt-0.5">From {declineTarget.name} · {declineTarget.taskTitle}</p>
+                </div>
+              </div>
+              <button
+                onClick={() => setDeclineTarget(null)}
+                className="p-1.5 hover:bg-gray-200 rounded-full transition-colors text-gray-500"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+            <div className="p-6 space-y-4">
+              <p className="text-sm text-[#5a7a72]">
+                Are you sure you want to decline this proposal? You can optionally leave a comment for the freelancer explaining your decision.
+              </p>
+              <div>
+                <label className="block text-xs font-semibold text-[#8aa89e] uppercase tracking-wider mb-2">
+                  Decline Reason <span className="normal-case font-normal">(optional)</span>
+                </label>
+                <textarea
+                  rows={4}
+                  value={declineComment}
+                  onChange={e => setDeclineComment(e.target.value)}
+                  className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-red-300 focus:ring-2 focus:ring-red-100 text-sm outline-none resize-none leading-relaxed text-[#5a7a72] transition-all"
+                  placeholder="e.g. Budget doesn't match our current needs, looking for a different skill set..."
+                />
+              </div>
+              <div className="pt-1 flex items-center justify-end gap-3">
+                <button
+                  type="button"
+                  onClick={() => setDeclineTarget(null)}
+                  className="px-5 py-2.5 rounded-xl border border-gray-200 text-sm font-semibold text-[#5a7a72] hover:bg-gray-50 transition-colors cursor-pointer"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={handleConfirmDecline}
+                  disabled={isDeclining}
+                  className="px-6 py-2.5 rounded-xl bg-red-600 hover:bg-red-700 text-white text-sm font-semibold transition-all shadow-sm flex items-center gap-2 disabled:opacity-60 cursor-pointer"
+                >
+                  {isDeclining ? (
+                    <><Loader2 className="w-4 h-4 animate-spin" />Declining...</>
+                  ) : (
+                    <><ThumbsDown className="w-3.5 h-3.5" />Confirm Decline</>
+                  )}
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       )}

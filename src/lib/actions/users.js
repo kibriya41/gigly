@@ -62,6 +62,27 @@ export const updateUserProfile = async (email, profileData) => {
   }
 };
 
+// Check whether a user account is blocked (used to enforce block at login/dashboards)
+// The backend (`/users/:email`) is the single source of truth for `isBlocked`.
+export const isUserBlocked = async (email) => {
+  if (!email) return { success: true, isBlocked: false };
+  try {
+    const res = await fetch(`${baseUrl}/users/${encodeURIComponent(email)}`, {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+      cache: "no-store",
+    });
+    const data = await res.json();
+    if (res.ok) {
+      return { success: true, isBlocked: !!data?.isBlocked };
+    }
+    // On failure, fail open — don't lock users out because the profile API hiccuped.
+    return { success: false, isBlocked: false };
+  } catch (error) {
+    return { success: false, isBlocked: false };
+  }
+};
+
 // Block/Unblock user account (Admin)
 export const toggleBlockUser = async (email, isBlocked) => {
   try {

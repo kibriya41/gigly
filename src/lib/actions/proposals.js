@@ -44,12 +44,15 @@ export const getProposals = async ({ taskId, freelancerEmail, clientEmail } = {}
 };
 
 // Update proposal status: 'accepted' | 'declined' | 'pending'
-export const updateProposalStatus = async (proposalId, status) => {
+export const updateProposalStatus = async (proposalId, status, clientComment) => {
     try {
+        const body = { status };
+        if (clientComment !== undefined) body.clientComment = clientComment;
+
         const res = await fetch(`${baseUrl}/proposals/${proposalId}`, {
             method: "PATCH",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ status }),
+            body: JSON.stringify(body),
         });
         const data = await res.json();
         if (res.ok) {

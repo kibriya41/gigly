@@ -29,15 +29,18 @@ export default function FreelancerEarningsPage() {
 
   useEffect(() => {
     if (sessionStatus === "loading") return;
-    if (!session?.user?.email) {
-      setLoading(false);
-      return;
-    }
+    let isMounted = true;
 
     const fetchEarningsData = async () => {
+      if (!session?.user?.email) {
+        if (isMounted) setLoading(false);
+        return;
+      }
       try {
         const tasksRes = await getTasks();
         const proposalsRes = await getProposals({ freelancerEmail: session.user.email });
+
+        if (!isMounted) return;
 
         if (tasksRes.success && proposalsRes.success) {
           setTasks(tasksRes.data || []);
@@ -46,13 +49,14 @@ export default function FreelancerEarningsPage() {
           setError(tasksRes.message || proposalsRes.message || "Failed to load earnings data");
         }
       } catch (err) {
-        setError(err.message || "An unexpected error occurred");
+        if (isMounted) setError(err.message || "An unexpected error occurred");
       } finally {
-        setLoading(false);
+        if (isMounted) setLoading(false);
       }
     };
 
     fetchEarningsData();
+    return () => { isMounted = false; };
   }, [session, sessionStatus]);
 
   const user = session?.user;

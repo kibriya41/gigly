@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useSession } from "@/lib/auth-client";
 import { getTaskById, updateTask } from "@/lib/actions/tasks";
 import { getProposals, updateProposalStatus } from "@/lib/actions/proposals";
+import { createPayment } from "@/lib/actions/payments";
 import {
   Loader2,
   CreditCard,
@@ -42,16 +43,20 @@ function CheckoutFormContent() {
       return;
     }
 
-    if (!proposalId || !taskId) {
-      setError("Missing query parameters (proposalId/taskId).");
-      setLoading(false);
-      return;
-    }
-
+    let isMounted = true;
     const fetchData = async () => {
+      if (!proposalId || !taskId) {
+        if (isMounted) {
+          setError("Missing query parameters (proposalId/taskId).");
+          setLoading(false);
+        }
+        return;
+      }
       try {
         const taskRes = await getTaskById(taskId);
         const proposalsRes = await getProposals({ taskId });
+
+        if (!isMounted) return;
 
         if (taskRes.success && proposalsRes.success) {
           setTask(taskRes.data);
@@ -65,13 +70,14 @@ function CheckoutFormContent() {
           setError(taskRes.message || proposalsRes.message || "Failed to load details");
         }
       } catch (err) {
-        setError(err.message || "An unexpected error occurred");
+        if (isMounted) setError(err.message || "An unexpected error occurred");
       } finally {
-        setLoading(false);
+        if (isMounted) setLoading(false);
       }
     };
 
     fetchData();
+    return () => { isMounted = false; };
   }, [proposalId, taskId, session, sessionStatus, router]);
 
   const handlePay = async (e) => {
@@ -95,6 +101,20 @@ function CheckoutFormContent() {
       // 2. Update proposal status to accepted
       const propUpdateRes = await updateProposalStatus(proposalId, "accepted");
       if (propUpdateRes.success) {
+        // 3. Record the payment transaction for Admin Transactions history
+        await createPayment({
+          taskId,
+          taskTitle: task.title,
+          proposalId,
+          clientEmail: task.buyerEmail,
+          clientName: session?.user?.name || task.buyerName || "",
+          freelancerEmail: proposal.freelancerEmail,
+          freelancerName: proposal.freelancerName,
+          amount: proposal.amount,
+          transactionId: `ss_${Date.now()}`,
+          paymentStatus: "paid",
+        });
+
         // Redirect to success page
         router.push(
           `/payment/success?taskId=${taskId}&proposalId=${proposalId}&amount=${proposal.amount}&title=${encodeURIComponent(

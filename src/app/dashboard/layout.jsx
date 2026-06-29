@@ -1,14 +1,17 @@
 import Sidebar from '@/components/dashboard/DashboardSidebar';
+import BlockedGuard from '@/components/dashboard/BlockedGuard';
 import React from 'react';
 
 const DashboardLayout = ({ children }) => {
   return (
-    <div className="flex min-h-screen bg-[#f4f8f6]">
-      <Sidebar />
-      <main className="flex-1 p-8">
-        {children}
-      </main>
-    </div>
+    <BlockedGuard>
+      <div className="flex min-h-screen bg-[#f4f8f6]">
+        <Sidebar />
+        <main className="flex-1 p-4 sm:p-6 lg:p-8 min-w-0">
+          {children}
+        </main>
+      </div>
+    </BlockedGuard>
   );
 };
 

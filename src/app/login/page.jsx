@@ -28,6 +28,7 @@ import {
 } from "lucide-react";
 
 import { authClient } from "@/lib/auth-client";
+import { isUserBlocked } from "@/lib/actions/users";
 
 const LoginPage = () => {
   const router = useRouter();
@@ -85,10 +86,43 @@ const LoginPage = () => {
           onRequest: () => {
             setLoading(true);
           },
-          onSuccess: () => {
+          onSuccess: async () => {
+            // Fetch the freshly-created session to read email + role.
+            let role = "client";
+            let email = "";
+            try {
+              const { data: freshSession } = await authClient.getSession();
+              role = freshSession?.user?.role || "client";
+              email = freshSession?.user?.email || "";
+            } catch {
+              // Session lookup failed — safest destination is home
+              router.push("/");
+              router.refresh();
+              return;
+            }
+
+            // Enforce admin block: a blocked user must not keep a session.
+            const blockCheck = await isUserBlocked(email);
+            if (blockCheck.isBlocked) {
+              await authClient.signOut({ fetchOptions: { onSuccess: () => router.refresh() } });
+              setLoading(false);
+              toast.error("Your account has been blocked.");
+              router.push("/blocked");
+              return;
+            }
+
             setLoading(false);
             toast.success("Welcome back to SkillSwap!");
-            router.push("/dashboard");
+
+            // Role-based redirect:
+            // Clients → Home, Freelancers/Admins → their own dashboard.
+            if (role === "freelancer") {
+              router.push("/dashboard/freelancer");
+            } else if (role === "admin") {
+              router.push("/dashboard/admin");
+            } else {
+              router.push("/");
+            }
             router.refresh();
           },
           onError: (ctx) => {
@@ -112,14 +146,15 @@ const LoginPage = () => {
       await authClient.signIn.social(
         {
           provider: "google",
-          callbackURL: "/dashboard",
+          callbackURL: "/",
         },
         {
           onRequest: () => setLoading(true),
           onSuccess: () => {
             setLoading(false);
             toast.success("Google login successful!");
-            router.push("/dashboard");
+            // Per spec: Google users are always Clients → redirect to Home.
+            router.push("/");
             router.refresh();
           },
           onError: (ctx) => {
@@ -317,7 +352,7 @@ const LoginPage = () => {
 
               {/* Register Link */}
               <p className="text-center text-sm text-[#6b8a82]">
-                Don't have an account?{" "}
+                Don&apos;t have an account?{" "}
                 <Link
                   href="/register"
                   className="text-[#2a9d8f] font-semibold hover:text-[#238b7e] transition-colors"
