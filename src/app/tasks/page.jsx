@@ -25,19 +25,19 @@ const CATEGORIES = ["Design", "Writing", "Development", "Marketing", "Other"];
 
 // Theme configuration matching client dashboard
 const THEME = {
-  primary: "#1a3c34",
-  primaryHover: "#255248",
-  accent: "#2a9d8f",
-  accentHover: "#238478",
-  lightAccent: "#eaf5f2",
-  bg: "#f4f8f6",
-  cardBg: "#ffffff",
-  textPrimary: "#1a3c34",
-  textSecondary: "#5a7a72",
-  textMuted: "#8aa89e",
-  border: "#d4ebe6",
+  primary: "var(--text-strong, #1a3c34)",
+  primaryHover: "var(--color-primary-dark, #255248)",
+  accent: "var(--color-primary, #2a9d8f)",
+  accentHover: "var(--color-primary-dark, #238478)",
+  lightAccent: "var(--bg-muted, #eaf5f2)",
+  bg: "var(--bg-page, #f4f8f6)",
+  cardBg: "var(--bg-surface, #ffffff)",
+  textPrimary: "var(--text-strong, #1a3c34)",
+  textSecondary: "var(--text-body, #5a7a72)",
+  textMuted: "var(--text-muted, #8aa89e)",
+  border: "var(--border-soft, #d4ebe6)",
   shadow: "0 1px 3px rgba(0,0,0,0.04), 0 1px 2px rgba(0,0,0,0.06)",
-  shadowHover: "0 4px 12px rgba(44,124,116,0.08)",
+  shadowHover: "0 4px 12px rgba(42, 157, 143, 0.08)",
 };
 
 const PAGE_SIZE = 9; // Challenge 3: max 9 task documents per query
@@ -142,7 +142,7 @@ export default function BrowseTasksPage() {
       <div className="max-w-7xl mx-auto space-y-8">
 
         {/* Banner Section */}
-        <div className="bg-gradient-to-br from-[#1a3c34] to-[#255248] rounded-3xl p-8 md:p-12 text-white relative overflow-hidden shadow-lg border border-[#d4ebe6]/10">
+        <div className="bg-gradient-to-br from-[#1a3c34] to-[#255248] rounded-3xl p-8 md:p-12 text-white relative overflow-hidden shadow-lg border border-[#d4ebe6] dark:border-slate-800/10">
           <div className="absolute top-0 right-0 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl -mr-20 -mt-20"></div>
           <div className="relative z-10 max-w-2xl space-y-4">
             <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-[#2a9d8f]/20 text-[#2a9d8f] border border-[#2a9d8f]/30">
@@ -159,23 +159,23 @@ export default function BrowseTasksPage() {
         </div>
 
         {/* Search & Categories Bar */}
-        <div className="bg-white p-6 rounded-3xl border border-[#d4ebe6]/40 shadow-sm space-y-6">
+        <div className="bg-white dark:bg-[#131c2b] p-6 rounded-3xl border border-[#d4ebe6] dark:border-slate-800/40 shadow-sm space-y-6">
           {/* Main Row: Search + Refresh */}
           <div className="flex flex-col lg:flex-row gap-4 items-center justify-between">
             {/* Search (Challenge 1 Part A — live title/description search) */}
             <div className="relative w-full lg:max-w-xl">
-              <Search className="absolute left-4 top-3.5 w-4 h-4 text-[#8aa89e]" />
+              <Search className="absolute left-4 top-3.5 w-4 h-4 text-[#8aa89e] dark:text-slate-400" />
               <input
                 type="text"
                 placeholder="Search tasks by title or keywords..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-11 pr-10 py-3.5 border border-gray-200 focus:border-[#2a9d8f] focus:ring-2 focus:ring-[#2a9d8f]/10 rounded-2xl text-sm outline-none transition-all"
+                className="w-full pl-11 pr-10 py-3.5 border border-gray-200 dark:border-slate-700 focus:border-[#2a9d8f] focus:ring-2 focus:ring-[#2a9d8f]/10 rounded-2xl text-sm outline-none transition-all"
               />
               {searchTerm && (
                 <button
                   onClick={() => setSearchTerm("")}
-                  className="absolute right-4 top-3.5 p-0.5 hover:bg-gray-100 rounded-full transition-colors"
+                  className="absolute right-4 top-3.5 p-0.5 hover:bg-gray-100 dark:hover:bg-slate-800 rounded-full transition-colors"
                 >
                   <X className="w-4 h-4 text-gray-400" />
                 </button>
@@ -185,7 +185,7 @@ export default function BrowseTasksPage() {
             <button
               onClick={() => fetchTasks({ page })}
               disabled={loading}
-              className="flex items-center justify-center gap-2 bg-[#f4f8f6] hover:bg-[#eaf5f2] border border-[#d4ebe6] text-[#1a3c34] px-4 py-3 rounded-2xl text-sm font-semibold transition-all cursor-pointer w-full sm:w-auto disabled:opacity-50"
+              className="flex items-center justify-center gap-2 bg-transparent hover:bg-[#eaf5f2] dark:bg-teal-950/30 border border-[#d4ebe6] dark:border-slate-800 text-[#1a3c34] dark:text-slate-100 px-4 py-3 rounded-2xl text-sm font-semibold transition-all cursor-pointer w-full sm:w-auto disabled:opacity-50"
             >
               <RefreshCw className={`w-4 h-4 text-[#2a9d8f] ${loading ? "animate-spin" : ""}`} />
               <span className="sm:hidden lg:inline">Refresh</span>
@@ -193,15 +193,15 @@ export default function BrowseTasksPage() {
           </div>
 
           {/* Category Dropdown (Challenge 1 Part B) */}
-          <div className="flex flex-wrap items-center gap-3 pt-2 border-t border-gray-100">
-            <span className="text-xs font-bold uppercase tracking-wider text-[#8aa89e] flex items-center gap-1.5">
+          <div className="flex flex-wrap items-center gap-3 pt-2 border-t border-gray-100 dark:border-slate-800">
+            <span className="text-xs font-bold uppercase tracking-wider text-[#8aa89e] dark:text-slate-400 flex items-center gap-1.5">
               <Tag className="w-3.5 h-3.5 text-[#2a9d8f]" /> Category
             </span>
-            <div className="flex items-center gap-1.5 bg-[#f4f8f6] px-4 py-2 rounded-2xl border border-[#d4ebe6]/60 text-sm text-[#5a7a72] font-semibold">
+            <div className="flex items-center gap-1.5 bg-transparent px-4 py-2 rounded-2xl border border-[#d4ebe6] dark:border-slate-800/60 text-sm text-[#5a7a72] dark:text-slate-300 font-semibold">
               <select
                 value={selectedCategory}
                 onChange={(e) => setSelectedCategory(e.target.value)}
-                className="bg-transparent outline-none cursor-pointer text-[#1a3c34] font-bold"
+                className="bg-transparent outline-none cursor-pointer text-[#1a3c34] dark:text-slate-100 font-bold"
               >
                 <option value="All">All Categories</option>
                 {CATEGORIES.map((cat) => (
@@ -221,7 +221,7 @@ export default function BrowseTasksPage() {
                     className={`px-4 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
                       isActive
                         ? "bg-[#1a3c34] text-white shadow-sm font-semibold hover:bg-[#255248]"
-                        : "bg-[#f4f8f6] text-[#5a7a72] hover:text-[#1a3c34] hover:bg-[#eaf5f2]"
+                        : "bg-transparent text-[#5a7a72] dark:text-slate-300 hover:text-[#1a3c34] dark:text-slate-100 hover:bg-[#eaf5f2] dark:bg-teal-950/30"
                     }`}
                   >
                     {cat}
@@ -243,14 +243,14 @@ export default function BrowseTasksPage() {
 
         {/* Active Filters Summary */}
         {hasActiveFilters && (
-          <div className="bg-[#eaf5f2] border border-[#d4ebe6] p-4 rounded-2xl flex flex-wrap items-center justify-between gap-3 text-xs text-[#1a3c34] font-medium">
+          <div className="bg-[#eaf5f2] dark:bg-teal-950/30 border border-[#d4ebe6] dark:border-slate-800 p-4 rounded-2xl flex flex-wrap items-center justify-between gap-3 text-xs text-[#1a3c34] dark:text-slate-100 font-medium">
             <div className="flex flex-wrap items-center gap-2">
               <span className="font-bold">Active filters:</span>
               {selectedCategory !== "All" && (
-                <span className="bg-white px-2 py-1 rounded-lg border border-[#d4ebe6]">Category: {selectedCategory}</span>
+                <span className="bg-white dark:bg-[#131c2b] px-2 py-1 rounded-lg border border-[#d4ebe6] dark:border-slate-800">Category: {selectedCategory}</span>
               )}
               {debouncedSearch && (
-                <span className="bg-white px-2 py-1 rounded-lg border border-[#d4ebe6]">Search: &quot;{debouncedSearch}&quot;</span>
+                <span className="bg-white dark:bg-[#131c2b] px-2 py-1 rounded-lg border border-[#d4ebe6] dark:border-slate-800">Search: &quot;{debouncedSearch}&quot;</span>
               )}
             </div>
             <button onClick={handleResetFilters} className="font-bold hover:underline text-[#2a9d8f] cursor-pointer">
@@ -261,10 +261,10 @@ export default function BrowseTasksPage() {
 
         {/* Results count */}
         {!loading && !error && (
-          <p className="text-sm text-[#8aa89e] font-medium px-1">
+          <p className="text-sm text-[#8aa89e] dark:text-slate-400 font-medium px-1">
             Showing{" "}
-            <span className="font-bold text-[#1a3c34]">{tasks.length}</span> of{" "}
-            <span className="font-bold text-[#1a3c34]">{total}</span> open task{total !== 1 ? "s" : ""}
+            <span className="font-bold text-[#1a3c34] dark:text-slate-100">{tasks.length}</span> of{" "}
+            <span className="font-bold text-[#1a3c34] dark:text-slate-100">{total}</span> open task{total !== 1 ? "s" : ""}
             {hasActiveFilters ? " matching your filters" : ""}
           </p>
         )}
@@ -274,7 +274,7 @@ export default function BrowseTasksPage() {
           <div className="flex items-center justify-center min-h-[40vh]">
             <div className="flex flex-col items-center gap-3">
               <Loader2 className="w-10 h-10 animate-spin text-[#2a9d8f]" />
-              <p className="text-[#5a7a72] font-semibold text-sm">Searching the marketplace...</p>
+              <p className="text-[#5a7a72] dark:text-slate-300 font-semibold text-sm">Searching the marketplace...</p>
             </div>
           </div>
         ) : error ? (
@@ -290,19 +290,19 @@ export default function BrowseTasksPage() {
             </button>
           </div>
         ) : tasks.length === 0 ? (
-          <div className="bg-white rounded-3xl border border-[#d4ebe6]/40 p-12 text-center max-w-xl mx-auto shadow-sm space-y-6">
-            <div className="w-16 h-16 bg-[#eaf5f2] text-[#2a9d8f] rounded-2xl flex items-center justify-center mx-auto">
+          <div className="bg-white dark:bg-[#131c2b] rounded-3xl border border-[#d4ebe6] dark:border-slate-800/40 p-12 text-center max-w-xl mx-auto shadow-sm space-y-6">
+            <div className="w-16 h-16 bg-[#eaf5f2] dark:bg-teal-950/30 text-[#2a9d8f] rounded-2xl flex items-center justify-center mx-auto">
               <Briefcase className="w-8 h-8" />
             </div>
             <div className="space-y-1.5">
-              <h3 className="text-xl font-bold text-[#1a3c34]">No Open Gigs Found</h3>
-              <p className="text-[#8aa89e] text-sm px-4">
+              <h3 className="text-xl font-bold text-[#1a3c34] dark:text-slate-100">No Open Gigs Found</h3>
+              <p className="text-[#8aa89e] dark:text-slate-400 text-sm px-4">
                 There are no matching open gigs at the moment. Try resetting your search filters or browse other categories.
               </p>
             </div>
             <button
               onClick={handleResetFilters}
-              className="px-6 py-3 bg-[#f4f8f6] hover:bg-[#eaf5f2] border border-[#d4ebe6] text-[#1a3c34] font-bold text-xs rounded-xl transition-all shadow-sm cursor-pointer"
+              className="px-6 py-3 bg-transparent hover:bg-[#eaf5f2] dark:bg-teal-950/30 border border-[#d4ebe6] dark:border-slate-800 text-[#1a3c34] dark:text-slate-100 font-bold text-xs rounded-xl transition-all shadow-sm cursor-pointer"
             >
               Clear Filters
             </button>
@@ -316,19 +316,19 @@ export default function BrowseTasksPage() {
                 const statusStyle =
                   taskStatus.toLowerCase() === "open"
                     ? "text-[#d97706] bg-[#fffbeb] border-[#fef3c7]"
-                    : "text-[#2a9d8f] bg-[#eaf5f2] border-[#d4ebe6]";
+                    : "text-[#2a9d8f] bg-[#eaf5f2] dark:bg-teal-950/30 border-[#d4ebe6] dark:border-slate-800";
 
                 return (
                   <div
                     key={task._id}
-                    className="bg-white rounded-3xl border border-[#d4ebe6]/40 p-6 md:p-7 hover:shadow-md hover:border-[#2a9d8f]/30 transition-all relative overflow-hidden group flex flex-col"
+                    className="bg-white dark:bg-[#131c2b] rounded-3xl border border-[#d4ebe6] dark:border-slate-800/40 p-6 md:p-7 hover:shadow-md hover:border-[#2a9d8f]/30 transition-all relative overflow-hidden group flex flex-col"
                   >
                     {/* Top Row */}
                     <div>
                       <div className="flex items-start justify-between gap-3 flex-wrap">
                         <div className="space-y-2">
                           <div className="flex items-center gap-2 flex-wrap">
-                            <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold bg-[#eaf5f2] text-[#2a9d8f] border border-[#d4ebe6]/50">
+                            <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold bg-[#eaf5f2] dark:bg-teal-950/30 text-[#2a9d8f] border border-[#d4ebe6] dark:border-slate-800/50">
                               <Tag className="w-3 h-3" />
                               {task.category || "General"}
                             </span>
@@ -336,32 +336,32 @@ export default function BrowseTasksPage() {
                               {taskStatus}
                             </span>
                           </div>
-                          <h3 className="text-lg font-bold text-[#1a3c34] tracking-tight group-hover:text-[#2a9d8f] transition-colors line-clamp-2">
+                          <h3 className="text-lg font-bold text-[#1a3c34] dark:text-slate-100 tracking-tight group-hover:text-[#2a9d8f] transition-colors line-clamp-2 break-words [word-break:break-word]">
                             {task.title}
                           </h3>
                         </div>
 
                         {/* Budget */}
-                        <div className="bg-[#f0f7f4] border border-[#d4ebe6]/50 px-3 py-1.5 rounded-xl flex items-center gap-1.5 shrink-0">
+                        <div className="bg-[#f0f7f4] border border-[#d4ebe6] dark:border-slate-800/50 px-3 py-1.5 rounded-xl flex items-center gap-1.5 shrink-0">
                           <DollarSign className="w-4 h-4 text-[#2a9d8f]" />
-                          <span className="font-extrabold text-[#1a3c34] text-base">
+                          <span className="font-extrabold text-[#1a3c34] dark:text-slate-100 text-base">
                             {Number(task.budget || 0).toLocaleString(undefined, {
                               minimumFractionDigits: 0,
                               maximumFractionDigits: 2,
                             })}
                           </span>
-                          <span className="text-[10px] text-[#8aa89e] font-semibold uppercase tracking-wider">USD</span>
+                          <span className="text-[10px] text-[#8aa89e] dark:text-slate-400 font-semibold uppercase tracking-wider">USD</span>
                         </div>
                       </div>
 
                       {/* Description */}
-                      <p className="mt-4 text-[#5a7a72] text-sm leading-relaxed line-clamp-3">
+                      <p className="mt-4 text-[#5a7a72] dark:text-slate-300 text-sm leading-relaxed line-clamp-3 break-words [word-break:break-word]">
                         {task.description}
                       </p>
                     </div>
 
                     {/* Lower Row */}
-                    <div className="mt-auto pt-5 border-t border-gray-100 flex items-center justify-between gap-4 flex-wrap">
+                    <div className="mt-auto pt-5 border-t border-gray-100 dark:border-slate-800 flex items-center justify-between gap-4 flex-wrap">
                       {/* Buyer profile */}
                       <div className="flex items-center gap-2.5">
                         {task.buyerImage ? (
@@ -369,21 +369,21 @@ export default function BrowseTasksPage() {
                           <img
                             src={task.buyerImage}
                             alt={task.buyerName || "Client"}
-                            className="w-9 h-9 rounded-full border border-[#d4ebe6] object-cover"
+                            className="w-9 h-9 rounded-full border border-[#d4ebe6] dark:border-slate-800 object-cover"
                           />
                         ) : (
-                          <div className="w-9 h-9 rounded-full bg-[#eaf5f2] text-[#2a9d8f] flex items-center justify-center border border-[#d4ebe6]">
+                          <div className="w-9 h-9 rounded-full bg-[#eaf5f2] dark:bg-teal-950/30 text-[#2a9d8f] flex items-center justify-center border border-[#d4ebe6] dark:border-slate-800">
                             <User className="w-4 h-4" />
                           </div>
                         )}
                         <div className="flex flex-col text-left">
-                          <span className="text-xs font-bold text-[#1a3c34]">{task.buyerName || "Anonymous Client"}</span>
-                          <span className="text-[10px] text-[#8aa89e]">Client</span>
+                          <span className="text-xs font-bold text-[#1a3c34] dark:text-slate-100">{task.buyerName || "Anonymous Client"}</span>
+                          <span className="text-[10px] text-[#8aa89e] dark:text-slate-400">Client</span>
                         </div>
                       </div>
 
                       {/* Deadline */}
-                      <div className="flex items-center gap-1.5 text-xs text-[#8aa89e] font-medium">
+                      <div className="flex items-center gap-1.5 text-xs text-[#8aa89e] dark:text-slate-400 font-medium">
                         <Calendar className="w-4 h-4 text-[#2a9d8f]" />
                         <span>
                           {task.deadline
@@ -408,10 +408,10 @@ export default function BrowseTasksPage() {
 
             {/* ── Pagination Controls (Challenge 3) ── */}
             {totalPages > 1 && (
-              <div className="flex flex-col sm:flex-row items-center justify-between gap-4 bg-white rounded-2xl border border-[#d4ebe6]/40 p-4 shadow-sm">
-                <p className="text-xs text-[#8aa89e] font-medium">
-                  Page <span className="font-bold text-[#1a3c34]">{page}</span> of{" "}
-                  <span className="font-bold text-[#1a3c34]">{totalPages}</span>
+              <div className="flex flex-col sm:flex-row items-center justify-between gap-4 bg-white dark:bg-[#131c2b] rounded-2xl border border-[#d4ebe6] dark:border-slate-800/40 p-4 shadow-sm">
+                <p className="text-xs text-[#8aa89e] dark:text-slate-400 font-medium">
+                  Page <span className="font-bold text-[#1a3c34] dark:text-slate-100">{page}</span> of{" "}
+                  <span className="font-bold text-[#1a3c34] dark:text-slate-100">{totalPages}</span>
                 </p>
 
                 <div className="flex items-center gap-1.5">
@@ -419,7 +419,7 @@ export default function BrowseTasksPage() {
                   <button
                     onClick={() => goToPage(page - 1)}
                     disabled={!hasPrevPage || loading}
-                    className="inline-flex items-center gap-1 px-3.5 py-2 rounded-xl text-xs font-bold border border-[#d4ebe6] bg-white text-[#1a3c34] hover:bg-[#f0f9f6] transition-all disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer"
+                    className="inline-flex items-center gap-1 px-3.5 py-2 rounded-xl text-xs font-bold border border-[#d4ebe6] dark:border-slate-800 bg-white dark:bg-[#131c2b] text-[#1a3c34] dark:text-slate-100 hover:bg-[#f0f9f6] transition-all disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer"
                   >
                     <ChevronLeft className="w-3.5 h-3.5" />
                     Prev
@@ -433,12 +433,12 @@ export default function BrowseTasksPage() {
                         className={`w-9 h-9 rounded-xl text-xs font-bold transition-all cursor-pointer ${
                           page === 1
                             ? "bg-[#1a3c34] text-white shadow-sm"
-                            : "border border-[#d4ebe6] bg-white text-[#1a3c34] hover:bg-[#f0f9f6]"
+                            : "border border-[#d4ebe6] dark:border-slate-800 bg-white dark:bg-[#131c2b] text-[#1a3c34] dark:text-slate-100 hover:bg-[#f0f9f6]"
                         }`}
                       >
                         1
                       </button>
-                      {start > 2 && <span className="px-1 text-[#8aa89e]">…</span>}
+                      {start > 2 && <span className="px-1 text-[#8aa89e] dark:text-slate-400">…</span>}
                     </>
                   )}
 
@@ -449,7 +449,7 @@ export default function BrowseTasksPage() {
                       className={`w-9 h-9 rounded-xl text-xs font-bold transition-all cursor-pointer ${
                         p === page
                           ? "bg-[#1a3c34] text-white shadow-sm"
-                          : "border border-[#d4ebe6] bg-white text-[#1a3c34] hover:bg-[#f0f9f6]"
+                          : "border border-[#d4ebe6] dark:border-slate-800 bg-white dark:bg-[#131c2b] text-[#1a3c34] dark:text-slate-100 hover:bg-[#f0f9f6]"
                       }`}
                     >
                       {p}
@@ -458,13 +458,13 @@ export default function BrowseTasksPage() {
 
                   {end < totalPages && (
                     <>
-                      {end < totalPages - 1 && <span className="px-1 text-[#8aa89e]">…</span>}
+                      {end < totalPages - 1 && <span className="px-1 text-[#8aa89e] dark:text-slate-400">…</span>}
                       <button
                         onClick={() => goToPage(totalPages)}
                         className={`w-9 h-9 rounded-xl text-xs font-bold transition-all cursor-pointer ${
                           page === totalPages
                             ? "bg-[#1a3c34] text-white shadow-sm"
-                            : "border border-[#d4ebe6] bg-white text-[#1a3c34] hover:bg-[#f0f9f6]"
+                            : "border border-[#d4ebe6] dark:border-slate-800 bg-white dark:bg-[#131c2b] text-[#1a3c34] dark:text-slate-100 hover:bg-[#f0f9f6]"
                         }`}
                       >
                         {totalPages}
@@ -476,7 +476,7 @@ export default function BrowseTasksPage() {
                   <button
                     onClick={() => goToPage(page + 1)}
                     disabled={!hasNextPage || loading}
-                    className="inline-flex items-center gap-1 px-3.5 py-2 rounded-xl text-xs font-bold border border-[#d4ebe6] bg-white text-[#1a3c34] hover:bg-[#f0f9f6] transition-all disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer"
+                    className="inline-flex items-center gap-1 px-3.5 py-2 rounded-xl text-xs font-bold border border-[#d4ebe6] dark:border-slate-800 bg-white dark:bg-[#131c2b] text-[#1a3c34] dark:text-slate-100 hover:bg-[#f0f9f6] transition-all disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer"
                   >
                     Next
                     <ChevronRight className="w-3.5 h-3.5" />

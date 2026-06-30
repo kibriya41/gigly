@@ -211,7 +211,7 @@ const LoginPage = () => {
         </div>
 
         {/* Login Card */}
-        <Card className="border border-[#d4ebe6] shadow-xl shadow-[#2a9d8f]/5 bg-white/80 backdrop-blur-sm">
+        <Card className="border border-[#d4ebe6] shadow-xl shadow-[#2a9d8f]/5 bg-white dark:bg-[#131c2b]/80 backdrop-blur-sm">
           <div className="p-6 md:p-8 space-y-5">
             
             {/* Header */}
@@ -256,7 +256,7 @@ const LoginPage = () => {
                 <div className="w-full border-t border-[#d4ebe6]" />
               </div>
               <div className="relative flex justify-center text-sm">
-                <span className="px-3 bg-white text-[#8aa89e] text-xs font-medium">
+                <span className="px-3 bg-white dark:bg-[#131c2b] text-[#8aa89e] text-xs font-medium">
                   or sign in with email
                 </span>
               </div>

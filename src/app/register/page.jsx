@@ -232,7 +232,7 @@ const RegisterPage = () => {
           <p className="text-[#5a7a72] mt-1 text-sm">Freelance Micro-Task Marketplace</p>
         </div>
 
-        <Card className="border border-[#d4ebe6] shadow-xl shadow-[#2a9d8f]/5 bg-white/80 backdrop-blur-sm">
+        <Card className="border border-[#d4ebe6] shadow-xl shadow-[#2a9d8f]/5 bg-white dark:bg-[#131c2b]/80 backdrop-blur-sm">
           <div className="p-6 md:p-8 space-y-5">
             <div className="text-center">
               <h2 className="text-xl font-bold text-[#1a3c34]">Create Account</h2>
@@ -261,7 +261,7 @@ const RegisterPage = () => {
                 <div className="w-full border-t border-[#d4ebe6]" />
               </div>
               <div className="relative flex justify-center text-sm">
-                <span className="px-3 bg-white text-[#8aa89e] text-xs font-medium">
+                <span className="px-3 bg-white dark:bg-[#131c2b] text-[#8aa89e] text-xs font-medium">
                   or register with email
                 </span>
               </div>
@@ -282,7 +282,7 @@ const RegisterPage = () => {
                           ? option.value === "freelancer"
                             ? "border-[#2a9d8f] bg-[#eaf5f2] shadow-md shadow-[#2a9d8f]/10"
                             : "border-orange-400 bg-orange-50 shadow-md shadow-orange-200"
-                          : "border-[#d4ebe6] bg-white hover:border-[#2a9d8f]/50"
+                          : "border-[#d4ebe6] bg-white dark:bg-[#131c2b] hover:border-[#2a9d8f]/50"
                       }`}
                     >
                       {isSelected && (
@@ -385,7 +385,7 @@ const RegisterPage = () => {
                       ) : (
                         <Circle className="w-4 h-4 text-gray-300" />
                       )}
-                      <span className={req.valid ? "text-green-600" : "text-gray-500"}>{req.label}</span>
+                      <span className={req.valid ? "text-green-600" : "text-gray-500 dark:text-slate-400"}>{req.label}</span>
                     </div>
                   ))}
                 </div>
@@ -424,7 +424,7 @@ const RegisterPage = () => {
                         placeholder="50"
                         aria-label="Hourly Rate in USD"
                       />
-                      <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">$</span>
+                      <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 dark:text-slate-400">$</span>
                     </div>
                     <FieldError />
                   </TextField>
@@ -440,7 +440,7 @@ const RegisterPage = () => {
                 <ArrowRight className="ml-2" />
               </Button>
 
-              <p className="text-center text-sm text-gray-600">
+              <p className="text-center text-sm text-gray-600 dark:text-slate-300">
                 Already have an account?{" "}
                 <Link href="/login" className="text-[#2a9d8f] font-medium">Sign in here</Link>
               </p>

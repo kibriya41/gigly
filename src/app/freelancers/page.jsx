@@ -141,7 +141,7 @@ export default function BrowseFreelancersPage() {
     searchTerm !== "" || selectedSkills.length > 0 || minRate !== "" || maxRate !== "";
 
   return (
-    <div className="min-h-screen py-10 px-4 sm:px-6 lg:px-8 bg-[#f4f8f6]">
+    <div className="min-h-screen py-10 px-4 sm:px-6 lg:px-8 bg-transparent">
       <div className="max-w-7xl mx-auto space-y-8">
 
         {/* Hero Banner */}
@@ -174,31 +174,31 @@ export default function BrowseFreelancersPage() {
         </div>
 
         {/* Search & Sort Bar */}
-        <div className="bg-white p-5 rounded-3xl border border-[#d4ebe6]/40 shadow-sm">
+        <div className="bg-white dark:bg-[#131c2b] p-5 rounded-3xl border border-[#d4ebe6] dark:border-slate-800/40 shadow-sm">
           <div className="flex flex-col lg:flex-row gap-4 items-center justify-between">
             <div className="relative w-full lg:max-w-xl">
-              <Search className="absolute left-4 top-3.5 w-4 h-4 text-[#8aa89e]" />
+              <Search className="absolute left-4 top-3.5 w-4 h-4 text-[#8aa89e] dark:text-slate-400" />
               <input
                 type="text"
                 placeholder="Search by name, skills, bio..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-11 pr-10 py-3.5 border border-gray-200 focus:border-[#2a9d8f] focus:ring-2 focus:ring-[#2a9d8f]/10 rounded-2xl text-sm outline-none transition-all"
+                className="w-full pl-11 pr-10 py-3.5 border border-gray-200 dark:border-slate-700 focus:border-[#2a9d8f] focus:ring-2 focus:ring-[#2a9d8f]/10 rounded-2xl text-sm outline-none transition-all"
               />
               {searchTerm && (
                 <button onClick={() => setSearchTerm("")}
-                  className="absolute right-4 top-3.5 p-0.5 hover:bg-gray-100 rounded-full transition-colors">
+                  className="absolute right-4 top-3.5 p-0.5 hover:bg-gray-100 dark:hover:bg-slate-800 rounded-full transition-colors">
                   <X className="w-4 h-4 text-gray-400" />
                 </button>
               )}
             </div>
 
-            <div className="flex items-center gap-2 bg-[#f4f8f6] px-4 py-3 rounded-2xl border border-[#d4ebe6]/60 text-sm text-[#5a7a72] font-semibold w-full sm:w-auto">
+            <div className="flex items-center gap-2 bg-transparent px-4 py-3 rounded-2xl border border-[#d4ebe6] dark:border-slate-800/60 text-sm text-[#5a7a72] dark:text-slate-300 font-semibold w-full sm:w-auto">
               <ArrowUpDown className="w-4 h-4 text-[#2a9d8f]" />
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value)}
-                className="bg-transparent outline-none cursor-pointer text-[#1a3c34] font-bold w-full sm:w-auto"
+                className="bg-transparent outline-none cursor-pointer text-[#1a3c34] dark:text-slate-100 font-bold w-full sm:w-auto"
               >
                 <option value="rating-desc">⭐ Top Rated First</option>
                 <option value="name-asc">Name: A → Z</option>
@@ -213,9 +213,9 @@ export default function BrowseFreelancersPage() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
 
           {/* Filter Sidebar */}
-          <div className="lg:col-span-3 bg-white p-6 rounded-3xl border border-[#d4ebe6]/40 shadow-sm space-y-6 lg:sticky lg:top-6">
-            <div className="flex items-center justify-between border-b border-gray-100 pb-4">
-              <h2 className="text-base font-bold flex items-center gap-2 text-[#1a3c34]">
+          <div className="lg:col-span-3 bg-white dark:bg-[#131c2b] p-6 rounded-3xl border border-[#d4ebe6] dark:border-slate-800/40 shadow-sm space-y-6 lg:sticky lg:top-6">
+            <div className="flex items-center justify-between border-b border-gray-100 dark:border-slate-800 pb-4">
+              <h2 className="text-base font-bold flex items-center gap-2 text-[#1a3c34] dark:text-slate-100">
                 <Filter className="w-4 h-4 text-[#2a9d8f]" />
                 Filters
               </h2>
@@ -229,38 +229,38 @@ export default function BrowseFreelancersPage() {
 
             {/* Hire Rate Filter */}
             <div className="space-y-3">
-              <h3 className="text-xs font-bold uppercase tracking-wider text-[#8aa89e]">
+              <h3 className="text-xs font-bold uppercase tracking-wider text-[#8aa89e] dark:text-slate-400">
                 Hire Rate (USD/hr)
               </h3>
               <div className="grid grid-cols-2 gap-2">
                 <div className="relative">
-                  <span className="absolute left-3 top-2.5 text-xs text-[#8aa89e] font-semibold">$</span>
+                  <span className="absolute left-3 top-2.5 text-xs text-[#8aa89e] dark:text-slate-400 font-semibold">$</span>
                   <input type="number" placeholder="Min" value={minRate}
                     onChange={(e) => setMinRate(e.target.value)}
-                    className="w-full pl-6 pr-2 py-2 border border-gray-200 focus:border-[#2a9d8f] rounded-xl text-xs outline-none bg-white" />
+                    className="w-full pl-6 pr-2 py-2 border border-gray-200 dark:border-slate-700 focus:border-[#2a9d8f] rounded-xl text-xs outline-none bg-white dark:bg-[#131c2b]" />
                 </div>
                 <div className="relative">
-                  <span className="absolute left-3 top-2.5 text-xs text-[#8aa89e] font-semibold">$</span>
+                  <span className="absolute left-3 top-2.5 text-xs text-[#8aa89e] dark:text-slate-400 font-semibold">$</span>
                   <input type="number" placeholder="Max" value={maxRate}
                     onChange={(e) => setMaxRate(e.target.value)}
-                    className="w-full pl-6 pr-2 py-2 border border-gray-200 focus:border-[#2a9d8f] rounded-xl text-xs outline-none bg-white" />
+                    className="w-full pl-6 pr-2 py-2 border border-gray-200 dark:border-slate-700 focus:border-[#2a9d8f] rounded-xl text-xs outline-none bg-white dark:bg-[#131c2b]" />
                 </div>
               </div>
             </div>
 
             {/* Skills Filter */}
             <div className="space-y-3">
-              <h3 className="text-xs font-bold uppercase tracking-wider text-[#8aa89e]">
+              <h3 className="text-xs font-bold uppercase tracking-wider text-[#8aa89e] dark:text-slate-400">
                 Filter by Skills
               </h3>
-              <div className="border border-gray-200 rounded-xl p-2 bg-white focus-within:border-[#2a9d8f] transition-all">
+              <div className="border border-gray-200 dark:border-slate-700 rounded-xl p-2 bg-white dark:bg-[#131c2b] focus-within:border-[#2a9d8f] transition-all">
                 <div className="flex flex-wrap gap-1.5 items-center">
                   {selectedSkills.map((skill) => (
                     <span key={skill}
-                      className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-[10px] font-bold bg-[#eaf5f2] text-[#2a9d8f]">
+                      className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-[10px] font-bold bg-[#eaf5f2] dark:bg-teal-950/30 text-[#2a9d8f]">
                       {skill}
                       <button type="button" onClick={() => handleRemoveSkill(skill)}
-                        className="hover:bg-white/50 rounded-full p-0.5">
+                        className="hover:bg-white dark:bg-[#131c2b]/50 rounded-full p-0.5">
                         <X className="w-2.5 h-2.5" />
                       </button>
                     </span>
@@ -277,13 +277,13 @@ export default function BrowseFreelancersPage() {
               </div>
               {selectedSkills.length < 5 && (
                 <div className="space-y-1.5">
-                  <span className="text-[10px] font-bold text-[#8aa89e] uppercase block">Popular:</span>
+                  <span className="text-[10px] font-bold text-[#8aa89e] dark:text-slate-400 uppercase block">Popular:</span>
                   <div className="flex flex-wrap gap-1">
                     {SUGGESTED_SKILLS.filter((s) => !selectedSkills.includes(s))
                       .slice(0, 8)
                       .map((skill) => (
                         <button key={skill} onClick={() => handleAddSkill(skill)}
-                          className="text-[10px] bg-[#f4f8f6] hover:bg-[#eaf5f2] text-[#5a7a72] px-2.5 py-1 rounded-lg transition-colors border border-gray-50">
+                          className="text-[10px] bg-transparent hover:bg-[#eaf5f2] dark:bg-teal-950/30 text-[#5a7a72] dark:text-slate-300 px-2.5 py-1 rounded-lg transition-colors border border-gray-50">
                           + {skill}
                         </button>
                       ))}
@@ -298,21 +298,21 @@ export default function BrowseFreelancersPage() {
 
             {/* Active Filters Summary */}
             {hasActiveFilters && (
-              <div className="bg-[#eaf5f2] border border-[#d4ebe6] p-4 rounded-2xl flex flex-wrap items-center justify-between gap-3 text-xs text-[#1a3c34] font-medium">
+              <div className="bg-[#eaf5f2] dark:bg-teal-950/30 border border-[#d4ebe6] dark:border-slate-800 p-4 rounded-2xl flex flex-wrap items-center justify-between gap-3 text-xs text-[#1a3c34] dark:text-slate-100 font-medium">
                 <div className="flex flex-wrap items-center gap-2">
                   <span className="font-bold">Active filters:</span>
                   {searchTerm && (
-                    <span className="bg-white px-2 py-1 rounded-lg border border-[#d4ebe6]">
+                    <span className="bg-white dark:bg-[#131c2b] px-2 py-1 rounded-lg border border-[#d4ebe6] dark:border-slate-800">
                       Search: &ldquo;{searchTerm}&rdquo;
                     </span>
                   )}
                   {(minRate || maxRate) && (
-                    <span className="bg-white px-2 py-1 rounded-lg border border-[#d4ebe6]">
+                    <span className="bg-white dark:bg-[#131c2b] px-2 py-1 rounded-lg border border-[#d4ebe6] dark:border-slate-800">
                       Rate: ${minRate || "0"} – ${maxRate || "∞"}/hr
                     </span>
                   )}
                   {selectedSkills.map((s) => (
-                    <span key={s} className="bg-white px-2 py-1 rounded-lg border border-[#d4ebe6] flex items-center gap-1">
+                    <span key={s} className="bg-white dark:bg-[#131c2b] px-2 py-1 rounded-lg border border-[#d4ebe6] dark:border-slate-800 flex items-center gap-1">
                       Skill: {s}
                       <button onClick={() => handleRemoveSkill(s)} className="text-gray-400 hover:text-red-500">×</button>
                     </span>
@@ -326,9 +326,9 @@ export default function BrowseFreelancersPage() {
 
             {/* Results Count */}
             {!loading && !error && (
-              <p className="text-sm text-[#8aa89e] font-medium px-1">
+              <p className="text-sm text-[#8aa89e] dark:text-slate-400 font-medium px-1">
                 Showing{" "}
-                <span className="font-bold text-[#1a3c34]">{filteredFreelancers.length}</span>{" "}
+                <span className="font-bold text-[#1a3c34] dark:text-slate-100">{filteredFreelancers.length}</span>{" "}
                 freelancer{filteredFreelancers.length !== 1 ? "s" : ""}
                 {hasActiveFilters ? " matching your filters" : ""}
               </p>
@@ -339,7 +339,7 @@ export default function BrowseFreelancersPage() {
               <div className="flex items-center justify-center min-h-[40vh]">
                 <div className="flex flex-col items-center gap-3">
                   <Loader2 className="w-10 h-10 animate-spin text-[#2a9d8f]" />
-                  <p className="text-[#5a7a72] font-semibold text-sm">Loading freelancers...</p>
+                  <p className="text-[#5a7a72] dark:text-slate-300 font-semibold text-sm">Loading freelancers...</p>
                 </div>
               </div>
             ) : error ? (
@@ -353,18 +353,18 @@ export default function BrowseFreelancersPage() {
                 </button>
               </div>
             ) : filteredFreelancers.length === 0 ? (
-              <div className="bg-white rounded-3xl border border-[#d4ebe6]/40 p-12 text-center max-w-xl mx-auto shadow-sm space-y-6">
-                <div className="w-16 h-16 bg-[#eaf5f2] text-[#2a9d8f] rounded-2xl flex items-center justify-center mx-auto">
+              <div className="bg-white dark:bg-[#131c2b] rounded-3xl border border-[#d4ebe6] dark:border-slate-800/40 p-12 text-center max-w-xl mx-auto shadow-sm space-y-6">
+                <div className="w-16 h-16 bg-[#eaf5f2] dark:bg-teal-950/30 text-[#2a9d8f] rounded-2xl flex items-center justify-center mx-auto">
                   <Users className="w-8 h-8" />
                 </div>
                 <div className="space-y-1.5">
-                  <h3 className="text-xl font-bold text-[#1a3c34]">No Freelancers Found</h3>
-                  <p className="text-[#8aa89e] text-sm px-4">
+                  <h3 className="text-xl font-bold text-[#1a3c34] dark:text-slate-100">No Freelancers Found</h3>
+                  <p className="text-[#8aa89e] dark:text-slate-400 text-sm px-4">
                     No freelancers match your current filters. Try adjusting your search or clearing filters.
                   </p>
                 </div>
                 <button onClick={handleResetFilters}
-                  className="px-6 py-3 bg-[#f4f8f6] hover:bg-[#eaf5f2] border border-[#d4ebe6] text-[#1a3c34] font-bold text-xs rounded-xl transition-all">
+                  className="px-6 py-3 bg-transparent hover:bg-[#eaf5f2] dark:bg-teal-950/30 border border-[#d4ebe6] dark:border-slate-800 text-[#1a3c34] dark:text-slate-100 font-bold text-xs rounded-xl transition-all">
                   Clear Filters
                 </button>
               </div>
@@ -379,7 +379,7 @@ export default function BrowseFreelancersPage() {
                   return (
                     <div
                       key={freelancer._id || freelancer.email}
-                      className="bg-white rounded-3xl border border-[#d4ebe6]/40 p-6 hover:shadow-lg hover:border-[#2a9d8f]/30 transition-all group flex flex-col relative overflow-hidden"
+                      className="bg-white dark:bg-[#131c2b] rounded-3xl border border-[#d4ebe6] dark:border-slate-800/40 p-6 hover:shadow-lg hover:border-[#2a9d8f]/30 transition-all group flex flex-col relative overflow-hidden"
                     >
                       <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl from-[#eaf5f2] to-transparent rounded-bl-3xl opacity-60 group-hover:opacity-100 transition-opacity" />
 
@@ -387,20 +387,20 @@ export default function BrowseFreelancersPage() {
                       <div className="flex items-start gap-4 relative z-10">
                         {freelancer.image ? (
                           <img src={freelancer.image} alt={freelancer.name}
-                            className="w-14 h-14 rounded-2xl object-cover border-2 border-[#d4ebe6] group-hover:border-[#2a9d8f]/40 transition-all shrink-0" />
+                            className="w-14 h-14 rounded-2xl object-cover border-2 border-[#d4ebe6] dark:border-slate-800 group-hover:border-[#2a9d8f]/40 transition-all shrink-0" />
                         ) : (
-                          <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#eaf5f2] to-[#d4ebe6] flex items-center justify-center border-2 border-[#d4ebe6] shrink-0 text-[#1a3c34] font-bold text-xl">
+                          <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#eaf5f2] to-[#d4ebe6] flex items-center justify-center border-2 border-[#d4ebe6] dark:border-slate-800 shrink-0 text-[#1a3c34] dark:text-slate-100 font-bold text-xl">
                             {(freelancer.name || "?")[0].toUpperCase()}
                           </div>
                         )}
                         <div className="min-w-0 flex-1">
                           <div className="flex items-center gap-1.5">
-                            <h3 className="text-[15px] font-bold text-[#1a3c34] truncate group-hover:text-[#2a9d8f] transition-colors">
+                            <h3 className="text-[15px] font-bold text-[#1a3c34] dark:text-slate-100 truncate group-hover:text-[#2a9d8f] transition-colors">
                               {freelancer.name || "Anonymous"}
                             </h3>
                             <BadgeCheck className="w-4 h-4 text-[#2a9d8f] shrink-0" />
                           </div>
-                          <span className="text-xs font-semibold text-[#2a9d8f] bg-[#eaf5f2] px-2 py-0.5 rounded-full mt-0.5 inline-block">
+                          <span className="text-xs font-semibold text-[#2a9d8f] bg-[#eaf5f2] dark:bg-teal-950/30 px-2 py-0.5 rounded-full mt-0.5 inline-block">
                             Freelancer
                           </span>
                         </div>
@@ -409,30 +409,30 @@ export default function BrowseFreelancersPage() {
                       {/* Rating — live from DB */}
                       <div className="mt-3 flex items-center gap-2 relative z-10">
                         <StarRow rating={avgRating} />
-                        <span className="text-xs font-bold text-[#1a3c34]">
+                        <span className="text-xs font-bold text-[#1a3c34] dark:text-slate-100">
                           {avgRating > 0 ? avgRating.toFixed(1) : "New"}
                         </span>
-                        <span className="text-[10px] text-[#8aa89e]">
+                        <span className="text-[10px] text-[#8aa89e] dark:text-slate-400">
                           {ratingCount > 0 ? `(${ratingCount} review${ratingCount !== 1 ? "s" : ""})` : "(No reviews yet)"}
                         </span>
                       </div>
 
                       {/* Bio */}
-                      <p className="mt-3 text-xs text-[#5a7a72] leading-relaxed line-clamp-2 flex-1 relative z-10">
+                      <p className="mt-3 text-xs text-[#5a7a72] dark:text-slate-300 leading-relaxed line-clamp-2 flex-1 relative z-10 break-words [word-break:break-word]">
                         {freelancer.bio || "This freelancer hasn't added a bio yet."}
                       </p>
 
                       {/* Skills */}
                       {skills.length > 0 && (
-                        <div className="mt-4 flex flex-wrap gap-1.5 relative z-10">
+                        <div className="mt-4 flex flex-wrap gap-1.5 relative z-10 break-words">
                           {skills.slice(0, 4).map((skill) => (
                             <span key={skill}
-                              className="text-[10px] bg-[#f4f8f6] text-[#5a7a72] px-2.5 py-1 rounded-lg border border-gray-100 font-medium">
+                              className="text-[10px] bg-transparent text-[#5a7a72] dark:text-slate-300 px-2.5 py-1 rounded-lg border border-gray-100 dark:border-slate-800 font-medium break-all">
                               {skill}
                             </span>
                           ))}
                           {skills.length > 4 && (
-                            <span className="text-[10px] bg-[#f4f8f6] text-[#8aa89e] px-2.5 py-1 rounded-lg border border-gray-100 font-medium">
+                            <span className="text-[10px] bg-transparent text-[#8aa89e] dark:text-slate-400 px-2.5 py-1 rounded-lg border border-gray-100 dark:border-slate-800 font-medium shrink-0">
                               +{skills.length - 4} more
                             </span>
                           )}
@@ -440,14 +440,14 @@ export default function BrowseFreelancersPage() {
                       )}
 
                       {/* Rate + CTA */}
-                      <div className="mt-5 pt-4 border-t border-gray-100 flex items-center justify-between gap-3 relative z-10">
+                      <div className="mt-5 pt-4 border-t border-gray-100 dark:border-slate-800 flex items-center justify-between gap-3 relative z-10">
                         <div className="flex items-center gap-1">
                           <DollarSign className="w-4 h-4 text-[#2a9d8f]" />
-                          <span className="font-extrabold text-[#1a3c34] text-base">
+                          <span className="font-extrabold text-[#1a3c34] dark:text-slate-100 text-base">
                             {rate > 0 ? rate.toLocaleString() : "—"}
                           </span>
                           {rate > 0 && (
-                            <span className="text-[10px] text-[#8aa89e] font-semibold">/hr</span>
+                            <span className="text-[10px] text-[#8aa89e] dark:text-slate-400 font-semibold">/hr</span>
                           )}
                         </div>
                         <Link

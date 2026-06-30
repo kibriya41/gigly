@@ -1,14 +1,53 @@
 @import "tailwindcss";
 @import "@heroui/styles";
 
+/* Enable class-based dark mode (Tailwind v4 defaults to prefers-color-scheme).
+   Toggling the `.dark` class on <html> now drives every `dark:` variant. */
+@custom-variant dark (&:where(.dark, .dark *));
+
 :root {
   --color-primary: #2a9d8f;
   --color-primary-dark: #1e7a6e;
   --color-dark: #1a3c34;
+
+  /* Semantic surface tokens (light) */
+  --bg-page: #f4f8f6;
+  --bg-surface: #ffffff;
+  --bg-muted: #eaf5f2;
+  --text-strong: #1a3c34;
+  --text-body: #5a7a72;
+  --text-muted: #8aa89e;
+  --border-soft: #d4ebe6;
+}
+
+.dark {
+  --color-primary: #2a9d8f;
+  --color-primary-dark: #1e7a6e;
+  --color-dark: #e8f4f0;
+
+  /* Semantic surface tokens (dark) — deep navy that complements the teal accent */
+  --bg-page: #0b1220;
+  --bg-surface: #131c2b;
+  --bg-muted: #1a2435;
+  --text-strong: #e8f4f0;
+  --text-body: #9fb3c8;
+  --text-muted: #6b7e94;
+  --border-soft: #1e293b;
 }
 
 html {
   scroll-behavior: smooth;
+  color-scheme: light;
+}
+
+html.dark {
+  color-scheme: dark;
+}
+
+body {
+  background-color: var(--bg-page);
+  color: var(--text-strong);
+  transition: background-color 0.25s ease, color 0.25s ease;
 }
 
 .font-sans {

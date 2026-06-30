@@ -16,20 +16,20 @@ import {
    THEME TOKENS — Sage & Teal palette matching your screenshots
    ============================================================ */
 const T = {
-  primary:        '#2c7c74',
-  primaryHover:   '#236b64',
-  primaryLight:   '#e8f4f2',
-  primaryMuted:   '#7cb4ac',
-  primaryGlow:    'rgba(44,124,116,0.15)',
-  sage:           '#f4f8f6',
-  white:          '#ffffff',
-  dark:           '#1a1f2e',
-  text:           '#5a6578',
-  muted:          '#94a3b8',
-  border:         '#e2e8e0',
-  chartGreen:     '#a8c8c4',
+  primary:        'var(--color-primary, #2a9d8f)',
+  primaryHover:   'var(--color-primary-dark, #1e7a6e)',
+  primaryLight:   'var(--bg-muted, #eaf5f2)',
+  primaryMuted:   'var(--text-muted, #8aa89e)',
+  primaryGlow:    'rgba(42, 157, 143, 0.15)',
+  sage:           'var(--bg-page, #f4f8f6)',
+  white:          'var(--bg-surface, #ffffff)',
+  dark:           'var(--text-strong, #1a3c34)',
+  text:           'var(--text-body, #5a7a72)',
+  muted:          'var(--text-muted, #8aa89e)',
+  border:         'var(--border-soft, #d4ebe6)',
+  chartGreen:     'var(--color-primary, #2a9d8f)',
   cardShadow:     '0 1px 3px rgba(0,0,0,0.04)',
-  elevatedShadow: '0 20px 60px rgba(44,124,116,0.08), 0 8px 20px rgba(0,0,0,0.04)',
+  elevatedShadow: '0 20px 60px rgba(0,0,0,0.08), 0 8px 20px rgba(0,0,0,0.04)',
   darkShadow:     '0 25px 50px rgba(0,0,0,0.15)',
 };
 
@@ -219,7 +219,7 @@ function MarqueeBar() {
   ];
 
   return (
-    <div className="w-full overflow-hidden py-3 border-y" style={{ borderColor: T.border, backgroundColor: T.white }}>
+    <div className="w-full overflow-hidden py-3 border-y border-[#e2e8e0] dark:border-[#1e293b] bg-white dark:bg-[#131c2b]">
       <div className="flex animate-marquee whitespace-nowrap">
         {[...items, ...items, ...items].map((item, i) => (
           <span key={i} className="flex items-center gap-2 mx-8 text-xs font-medium" style={{ color: T.muted }}>
@@ -264,7 +264,7 @@ function LiveActivityTicker({ tasks }) {
   if (activities.length === 0) return null;
 
   return (
-    <div className="flex items-center gap-3 px-4 py-2.5 rounded-xl bg-white/80 backdrop-blur-sm border" style={{ borderColor: T.border, boxShadow: T.cardShadow }}>
+    <div className="flex items-center gap-3 px-4 py-2.5 rounded-xl bg-white dark:bg-[#131c2b]/80 backdrop-blur-sm border" style={{ borderColor: T.border, boxShadow: T.cardShadow }}>
       <div className="relative">
         <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
         <div className="absolute inset-0 w-2 h-2 rounded-full bg-emerald-500 animate-ping opacity-40" />
@@ -309,7 +309,7 @@ function ActivityBar({ height, delay, day }) {
             transitionDelay: `${delay}ms`,
           }}
         >
-          <div className="absolute inset-0 bg-white/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+          <div className="absolute inset-0 bg-white dark:bg-[#131c2b]/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
         </div>
       </div>
       <span className="text-[10px] font-medium" style={{ color: T.muted }}>{day}</span>
@@ -430,8 +430,7 @@ function HeroSection({ stats, tasks }) {
               </Link>
               <Link
                 href="/tasks"
-                className="group inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-2xl font-semibold text-sm transition-all duration-300 hover:shadow-md hover:border-[#2c7c74]"
-                style={{ backgroundColor: T.white, color: T.dark, border: `1.5px solid ${T.border}` }}
+                className="group inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-2xl font-semibold text-sm transition-all duration-300 hover:shadow-md hover:border-[#2c7c74] bg-white dark:bg-[#131c2b] text-[#1a1f2e] dark:text-[#e8f4f0] border-[1.5px] border-[#e2e8e0] dark:border-[#1e293b]"
               >
                 <Search className="w-4 h-4" />
                 Browse Tasks
@@ -444,7 +443,7 @@ function HeroSection({ stats, tasks }) {
               {features.map(({ icon: Icon, label, desc }, i) => (
                 <div
                   key={label}
-                  className="group flex items-center gap-3 px-4 py-3 rounded-xl bg-white transition-all duration-500 hover:shadow-lg hover:scale-[1.02] hover:-translate-y-0.5 cursor-default border border-transparent hover:border-[#2c7c74]20"
+                  className="group flex items-center gap-3 px-4 py-3 rounded-xl bg-white dark:bg-[#131c2b] transition-all duration-500 hover:shadow-lg hover:scale-[1.02] hover:-translate-y-0.5 cursor-default border border-transparent hover:border-[#2c7c74]20"
                   style={{ boxShadow: T.cardShadow, animationDelay: `${400 + i * 100}ms` }}
                 >
                   <div className="w-9 h-9 rounded-lg flex items-center justify-center shrink-0 transition-colors duration-300 group-hover:bg-[#2c7c74]" style={{ backgroundColor: T.primaryLight }}>
@@ -462,7 +461,7 @@ function HeroSection({ stats, tasks }) {
           {/* Right — Dashboard Preview Card with 3D tilt */}
           <div className={`relative lg:pl-8 transition-all duration-1000 delay-200 ${mounted ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-12'}`}>
             <div
-              className="relative rounded-3xl p-6 lg:p-8 bg-white transition-transform duration-300"
+              className="relative rounded-3xl p-6 lg:p-8 bg-white dark:bg-[#131c2b] transition-transform duration-300"
               style={{
                 boxShadow: T.elevatedShadow,
                 transform: `perspective(1000px) rotateY(${mousePos.x * 0.3}deg) rotateX(${mousePos.y * -0.3}deg)`,
@@ -488,7 +487,7 @@ function HeroSection({ stats, tasks }) {
                   return (
                     <div
                       key={i}
-                      className="rounded-2xl p-4 bg-white transition-all duration-300 hover:shadow-lg hover:-translate-y-1 border group cursor-default"
+                      className="rounded-2xl p-4 bg-white dark:bg-[#131c2b] transition-all duration-300 hover:shadow-lg hover:-translate-y-1 border group cursor-default"
                       style={{ boxShadow: T.cardShadow, borderColor: T.border }}
                     >
                       <div className="flex items-center justify-between mb-2">
@@ -598,7 +597,7 @@ function LatestTasksSection({ tasks }) {
                 <Link
                   key={task._id || i}
                   href={`/tasks/${task._id}`}
-                  className="group bg-white rounded-2xl p-5 border flex flex-col hover:shadow-xl hover:-translate-y-2 transition-all duration-500 relative overflow-hidden"
+                  className="group bg-white dark:bg-[#131c2b] rounded-2xl p-5 border flex flex-col hover:shadow-xl hover:-translate-y-2 transition-all duration-500 relative overflow-hidden"
                   style={{ borderColor: T.border }}
                 >
                   {/* Hover gradient overlay */}
@@ -680,7 +679,7 @@ function PopularCategoriesSection() {
   };
 
   return (
-    <Section className="py-24 px-6 bg-white" id="categories">
+    <Section className="py-24 px-6 bg-white dark:bg-[#131c2b]" id="categories">
       <div className="max-w-7xl mx-auto space-y-10">
         <div className="text-center max-w-2xl mx-auto">
           <Badge color="blue"><Layers className="w-3 h-3" /> Explore</Badge>
@@ -770,7 +769,7 @@ function TopFreelancersSection({ freelancers }) {
                 <Link
                   key={fl._id || fl.email || i}
                   href={`/freelancers/${encodeURIComponent(fl.email)}`}
-                  className="group bg-white rounded-2xl p-5 border hover:shadow-xl hover:-translate-y-2 transition-all duration-500 overflow-hidden relative"
+                  className="group bg-white dark:bg-[#131c2b] rounded-2xl p-5 border hover:shadow-xl hover:-translate-y-2 transition-all duration-500 overflow-hidden relative"
                   style={{ borderColor: T.border }}
                 >
                   <div className="absolute inset-0 bg-gradient-to-br from-[#2c7c74]/0 to-[#2c7c74]/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
@@ -841,7 +840,7 @@ function HowItWorksSection() {
   ];
 
   return (
-    <Section id="how-it-works" className="py-24 px-6 bg-white">
+    <Section id="how-it-works" className="py-24 px-6 bg-white dark:bg-[#131c2b]">
       <div className="max-w-7xl mx-auto">
         <div className="text-center max-w-2xl mx-auto mb-16">
           <Badge color="purple"><MousePointer2 className="w-3 h-3" /> Simple</Badge>
@@ -860,7 +859,7 @@ function HowItWorksSection() {
             return (
               <div
                 key={i}
-                className="group bg-white rounded-2xl p-8 border hover:shadow-xl hover:-translate-y-2 transition-all duration-500 relative overflow-hidden"
+                className="group bg-white dark:bg-[#131c2b] rounded-2xl p-8 border hover:shadow-xl hover:-translate-y-2 transition-all duration-500 relative overflow-hidden"
                 style={{ borderColor: T.border }}
               >
                 {/* Step number watermark */}
@@ -967,7 +966,7 @@ function TestimonialsSection() {
           onMouseLeave={() => setIsPaused(false)}
         >
           {/* Main testimonial card */}
-          <div className="bg-white rounded-3xl p-8 md:p-12 border relative overflow-hidden" style={{ borderColor: T.border, boxShadow: T.elevatedShadow }}>
+          <div className="bg-white dark:bg-[#131c2b] rounded-3xl p-8 md:p-12 border relative overflow-hidden" style={{ borderColor: T.border, boxShadow: T.elevatedShadow }}>
             <div className="absolute top-6 right-6 opacity-10">
               <Quote className="w-24 h-24" style={{ color: T.primary }} />
             </div>
@@ -1062,7 +1061,7 @@ function StatsSection({ stats }) {
   ];
 
   return (
-    <Section className="py-20 px-6 bg-white" id="stats">
+    <Section className="py-20 px-6 bg-white dark:bg-[#131c2b]" id="stats">
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-5">
           {items.map((item, i) => {
@@ -1094,64 +1093,64 @@ function StatsSection({ stats }) {
 /* ============================================================
    CTA BANNER — Enhanced with gradient and particles
    ============================================================ */
-function CTASection() {
-  return (
-    <Section className="py-24 px-6" style={{ backgroundColor: T.sage }}>
-      <div className="max-w-4xl mx-auto text-center">
-        <div className="rounded-3xl p-12 md:p-16 relative overflow-hidden" style={{ background: `linear-gradient(135deg, ${T.dark} 0%, #255248 100%)` }}>
-          {/* Animated grid background */}
-          <div className="absolute inset-0 opacity-[0.03]" style={{
-            backgroundImage: 'linear-gradient(#fff 1px,transparent 1px),linear-gradient(90deg,#fff 1px,transparent 1px)',
-            backgroundSize: '40px 40px',
-          }} />
+// function CTASection() {
+//   return (
+//     <Section className="py-24 px-6" style={{ backgroundColor: T.sage }}>
+//       <div className="max-w-4xl mx-auto text-center">
+//         <div className="rounded-3xl p-12 md:p-16 relative overflow-hidden" style={{ background: `linear-gradient(135deg, ${T.dark} 0%, #255248 100%)` }}>
+//           {/* Animated grid background */}
+//           <div className="absolute inset-0 opacity-[0.03]" style={{
+//             backgroundImage: 'linear-gradient(#fff 1px,transparent 1px),linear-gradient(90deg,#fff 1px,transparent 1px)',
+//             backgroundSize: '40px 40px',
+//           }} />
 
-          {/* Floating orbs */}
-          <div className="absolute top-10 left-10 w-32 h-32 rounded-full opacity-10" style={{ backgroundColor: T.primary, filter: 'blur(40px)', animation: 'floatParticle 6s ease-in-out infinite' }} />
-          <div className="absolute bottom-10 right-10 w-24 h-24 rounded-full opacity-10" style={{ backgroundColor: T.chartGreen, filter: 'blur(30px)', animation: 'floatParticle 8s ease-in-out 2s infinite' }} />
+//           {/* Floating orbs */}
+//           <div className="absolute top-10 left-10 w-32 h-32 rounded-full opacity-10" style={{ backgroundColor: T.primary, filter: 'blur(40px)', animation: 'floatParticle 6s ease-in-out infinite' }} />
+//           <div className="absolute bottom-10 right-10 w-24 h-24 rounded-full opacity-10" style={{ backgroundColor: T.chartGreen, filter: 'blur(30px)', animation: 'floatParticle 8s ease-in-out 2s infinite' }} />
 
-          <div className="relative space-y-8">
-            <span className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-widest px-4 py-2 rounded-full border border-white/20 text-white/70 backdrop-blur-sm">
-              <Sparkles className="w-3.5 h-3.5" /> Get Started Today
-            </span>
+//           <div className="relative space-y-8">
+//             <span className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-widest px-4 py-2 rounded-full border border-white/20 text-white/70 backdrop-blur-sm">
+//               <Sparkles className="w-3.5 h-3.5" /> Get Started Today
+//             </span>
 
-            <h2 className="text-4xl md:text-5xl font-bold text-white leading-tight">
-              Ready to Get Your<br />Tasks Done?
-            </h2>
+//             <h2 className="text-4xl md:text-5xl font-bold text-white leading-tight">
+//               Ready to Get Your<br />Tasks Done?
+//             </h2>
 
-            <p className="text-base md:text-lg text-white/60 max-w-xl mx-auto leading-relaxed">
-              Join thousands of clients and freelancers on SkillSwap. Post your first task for free — no subscription required.
-            </p>
+//             <p className="text-base md:text-lg text-white/60 max-w-xl mx-auto leading-relaxed">
+//               Join thousands of clients and freelancers on SkillSwap. Post your first task for free — no subscription required.
+//             </p>
 
-            <div className="flex flex-col sm:flex-row gap-4 justify-center pt-2">
-              <Link
-                href="/register"
-                className="group inline-flex items-center justify-center gap-2 px-8 py-4 rounded-2xl font-semibold text-white transition-all hover:scale-[1.03] shadow-xl hover:shadow-2xl"
-                style={{ background: `linear-gradient(135deg, ${T.primary}, ${T.primaryHover})` }}
-              >
-                <Zap className="w-5 h-5" /> Start for Free
-                <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-              </Link>
-              <Link
-                href="/tasks"
-                className="group inline-flex items-center justify-center gap-2 px-8 py-4 rounded-2xl font-semibold text-white border border-white/30 transition-all hover:bg-white/10 hover:border-white/50"
-              >
-                <Search className="w-5 h-5" /> Browse Tasks
-              </Link>
-            </div>
+//             <div className="flex flex-col sm:flex-row gap-4 justify-center pt-2">
+//               <Link
+//                 href="/register"
+//                 className="group inline-flex items-center justify-center gap-2 px-8 py-4 rounded-2xl font-semibold text-white transition-all hover:scale-[1.03] shadow-xl hover:shadow-2xl"
+//                 style={{ background: `linear-gradient(135deg, ${T.primary}, ${T.primaryHover})` }}
+//               >
+//                 <Zap className="w-5 h-5" /> Start for Free
+//                 <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+//               </Link>
+//               <Link
+//                 href="/tasks"
+//                 className="group inline-flex items-center justify-center gap-2 px-8 py-4 rounded-2xl font-semibold text-white border border-white/30 transition-all hover:bg-white dark:bg-[#131c2b]/10 hover:border-white/50"
+//               >
+//                 <Search className="w-5 h-5" /> Browse Tasks
+//               </Link>
+//             </div>
 
-            <div className="flex flex-wrap justify-center gap-6 pt-4">
-              {['No subscription fee', 'Secure Stripe payments', 'Cancel anytime'].map(t => (
-                <span key={t} className="flex items-center gap-1.5 text-xs text-white/50">
-                  <CheckCircle className="w-3.5 h-3.5" style={{ color: T.primary }} /> {t}
-                </span>
-              ))}
-            </div>
-          </div>
-        </div>
-      </div>
-    </Section>
-  );
-}
+//             <div className="flex flex-wrap justify-center gap-6 pt-4">
+//               {['No subscription fee', 'Secure Stripe payments', 'Cancel anytime'].map(t => (
+//                 <span key={t} className="flex items-center gap-1.5 text-xs text-white/50">
+//                   <CheckCircle className="w-3.5 h-3.5" style={{ color: T.primary }} /> {t}
+//                 </span>
+//               ))}
+//             </div>
+//           </div>
+//         </div>
+//       </div>
+//     </Section>
+//   );
+// }
 
 /* ============================================================
    SKELETON LOADER — Beautiful loading state
@@ -1240,7 +1239,7 @@ export default function HomePage() {
       <HowItWorksSection />
       <TestimonialsSection />
       <StatsSection stats={stats} />
-      <CTASection />
+      {/* <CTASection /> */}
     </div>
   );
 }

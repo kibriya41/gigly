@@ -467,16 +467,16 @@ export default function MyTasksPage() {
         {/* Filter & Sort controls */}
         <div className="flex flex-wrap items-center gap-4">
           {/* Status Pills */}
-          <div className="flex bg-[#f4f8f6] p-1.5 rounded-2xl border border-[#d4ebe6]/60">
+          <div className="flex bg-[#f4f8f6] p-1.5 rounded-2xl border border-[#d4ebe6]/60 overflow-x-auto min-w-0 max-w-full">
             {["All", "Open", "In Progress", "Completed"].map((tab) => {
               const isActive = statusFilter === tab;
               return (
                 <button
                   key={tab}
                   onClick={() => setStatusFilter(tab)}
-                  className={`px-4 py-2 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
-                    isActive 
-                      ? "bg-white text-[#1a3c34] shadow-sm font-bold" 
+                  className={`px-4 py-2 rounded-xl text-xs font-semibold transition-all cursor-pointer whitespace-nowrap shrink-0 ${
+                    isActive
+                      ? "bg-white text-[#1a3c34] shadow-sm font-bold"
                       : "text-[#5a7a72] hover:text-[#1a3c34]"
                   }`}
                 >

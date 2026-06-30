@@ -81,9 +81,9 @@ export default function Sidebar() {
   return (
     <>
       {/* Mobile top bar with hamburger toggle */}
-      <div className="lg:hidden sticky top-0 z-40 flex items-center justify-between bg-white border-b border-[#d4ebe6] px-4 h-14 shrink-0">
+      <div className="lg:hidden sticky top-0 z-40 flex items-center justify-between bg-white dark:bg-[#131c2b] border-b border-[#d4ebe6] dark:border-slate-800 px-4 h-14 shrink-0">
         <div className="flex items-center gap-2">
-          <span className="text-base font-serif font-black text-[#1a3c34]">SkillSwap</span>
+          <span className="text-base font-serif font-black text-[#1a3c34] dark:text-slate-100">SkillSwap</span>
           <span className={`text-[10px] font-semibold capitalize px-2 py-0.5 rounded-full ${roleBadgeStyle}`}>
             {role}
           </span>
@@ -91,7 +91,7 @@ export default function Sidebar() {
         <button
           onClick={() => setMobileOpen(true)}
           aria-label="Open menu"
-          className="p-2 rounded-lg text-[#1a3c34] hover:bg-[#f0f9f6] transition-colors cursor-pointer"
+          className="p-2 rounded-lg text-[#1a3c34] dark:text-slate-200 hover:bg-[#f0f9f6] dark:hover:bg-slate-800/60 transition-colors cursor-pointer"
         >
           <Menu className="w-5 h-5" />
         </button>
@@ -107,7 +107,7 @@ export default function Sidebar() {
 
       <aside
         className={`
-          w-[280px] bg-white text-[#1a3c34] flex flex-col shrink-0 border-r border-[#d4ebe6] shadow-sm
+          w-[280px] bg-white dark:bg-[#131c2b] text-[#1a3c34] dark:text-slate-100 flex flex-col shrink-0 border-r border-[#d4ebe6] dark:border-slate-800 shadow-sm
           fixed lg:static inset-y-0 left-0 z-50 lg:z-auto
           transition-transform duration-300 ease-in-out
           ${mobileOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}
@@ -119,13 +119,13 @@ export default function Sidebar() {
           <button
             onClick={() => setMobileOpen(false)}
             aria-label="Close menu"
-            className="lg:hidden absolute top-4 right-4 p-1.5 rounded-lg text-[#8aa89e] hover:bg-[#f4f8f6] transition-colors cursor-pointer"
+            className="lg:hidden absolute top-4 right-4 p-1.5 rounded-lg text-[#8aa89e] hover:bg-[#f4f8f6] dark:hover:bg-slate-800/60 transition-colors cursor-pointer"
           >
             <X className="w-5 h-5" />
           </button>
 
           {/* User Profile Card */}
-          <div className="bg-[#f0f9f6] p-4 rounded-2xl flex items-center gap-4 mb-8 border border-[#d4ebe6]/60">
+          <div className="bg-[#f0f9f6] dark:bg-[#1a2435] p-4 rounded-2xl flex items-center gap-4 mb-8 border border-[#d4ebe6]/60 dark:border-slate-800/80">
             {user.image ? (
               <img
                 src={user.image}
@@ -133,12 +133,12 @@ export default function Sidebar() {
                 className="rounded-full h-12 w-12 cursor-pointer hover:ring-2 hover:ring-[#2a9d8f]/30 transition-all object-cover shrink-0"
               />
             ) : (
-              <div className="rounded-full h-12 w-12 bg-[#eaf5f2] flex items-center justify-center shrink-0 border border-[#d4ebe6]">
+              <div className="rounded-full h-12 w-12 bg-[#eaf5f2] dark:bg-slate-800/60 flex items-center justify-center shrink-0 border border-[#d4ebe6] dark:border-slate-700">
                 <User className="w-6 h-6 text-[#2a9d8f]" />
               </div>
             )}
             <div className="flex flex-col min-w-0">
-              <span className="text-[#1a3c34] font-bold text-[15px] leading-tight truncate">
+              <span className="text-[#1a3c34] dark:text-slate-200 font-bold text-[15px] leading-tight truncate">
                 {user.name}
               </span>
               <span className={`text-xs font-semibold capitalize mt-1 px-2 py-0.5 rounded-full w-fit ${roleBadgeStyle}`}>
@@ -148,7 +148,7 @@ export default function Sidebar() {
           </div>
 
           {/* Section Label */}
-          <p className="text-[10px] font-bold uppercase tracking-widest text-[#8aa89e] mb-3 px-1">
+          <p className="text-[10px] font-bold uppercase tracking-widest text-[#8aa89e] dark:text-slate-500 mb-3 px-1">
             {role === "admin" ? "Admin Menu" : role === "freelancer" ? "Freelancer Menu" : "Client Menu"}
           </p>
 
@@ -165,8 +165,8 @@ export default function Sidebar() {
                   onClick={() => setMobileOpen(false)}
                   className={`relative flex items-center gap-3.5 px-4 py-3 rounded-xl transition-all duration-200 font-medium text-[14px] group ${
                     isActive
-                      ? "bg-[#eaf5f2] text-[#1a3c34] shadow-sm"
-                      : "text-[#5a7a72] hover:text-[#1a3c34] hover:bg-[#f0f9f6]"
+                      ? "bg-[#eaf5f2] dark:bg-teal-950/20 text-[#1a3c34] dark:text-teal-400 shadow-sm"
+                      : "text-[#5a7a72] dark:text-slate-300 hover:text-[#1a3c34] dark:hover:text-white hover:bg-[#f0f9f6] dark:hover:bg-slate-800/40"
                   }`}
                 >
                   {isActive && (
@@ -183,12 +183,12 @@ export default function Sidebar() {
           </nav>
 
           {/* Divider */}
-          <div className="my-4 border-t border-[#d4ebe6]/60" />
+          <div className="my-4 border-t border-[#d4ebe6]/60 dark:border-slate-800" />
 
           {/* Sign Out */}
           <button
             onClick={handleSignOut}
-            className="flex items-center gap-3.5 px-4 py-3 rounded-xl text-[14px] font-medium text-[#5a7a72] hover:text-red-600 hover:bg-red-50 transition-all duration-200 group w-full cursor-pointer"
+            className="flex items-center gap-3.5 px-4 py-3 rounded-xl text-[14px] font-medium text-[#5a7a72] dark:text-slate-300 hover:text-red-600 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/20 transition-all duration-200 group w-full cursor-pointer"
           >
             <LogOut
               size={18}
