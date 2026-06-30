@@ -39,7 +39,7 @@ export default function DashboardRouterPage() {
     <div className="flex items-center justify-center min-h-[60vh]">
       <div className="flex flex-col items-center gap-4">
         <Loader2 className="w-12 h-12 animate-spin text-[#2a9d8f]" />
-        <p className="text-[#5a7a72] font-semibold text-sm">Loading your workspace…</p>
+        <p className="text-[#5a7a72] dark:text-[#9fb3c8] font-semibold text-sm">Loading your workspace…</p>
       </div>
     </div>
   );

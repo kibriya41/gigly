@@ -614,7 +614,7 @@ function LatestTasksSection({ tasks }) {
                   </div>
 
                   {/* Title */}
-                  <h3 className="text-sm font-bold group-hover:text-[#2c7c74] transition-colors line-clamp-2 mb-2 relative" style={{ color: T.dark }}>
+                  <h3 className="text-sm font-bold group-hover:text-[#2c7c74] dark:text-[#2a9d8f] transition-colors line-clamp-2 mb-2 relative" style={{ color: T.dark }}>
                     {task.title}
                   </h3>
 
@@ -706,7 +706,7 @@ function PopularCategoriesSection() {
                   >
                     <Icon className="w-6 h-6 transition-colors duration-300" style={{ color: colors.text }} />
                   </div>
-                  <h3 className="font-bold text-sm mb-1 group-hover:text-[#2c7c74] transition-colors" style={{ color: T.dark }}>{cat.name}</h3>
+                  <h3 className="font-bold text-sm mb-1 group-hover:text-[#2c7c74] dark:text-[#2a9d8f] transition-colors" style={{ color: T.dark }}>{cat.name}</h3>
                   <p className="text-xs" style={{ color: T.muted }}>{cat.count} open tasks</p>
                 </div>
               </Link>
@@ -784,7 +784,7 @@ function TopFreelancersSection({ freelancers }) {
                       </div>
                     )}
                     <div className="flex-1 min-w-0">
-                      <h3 className="font-bold text-sm group-hover:text-[#2c7c74] transition-colors truncate" style={{ color: T.dark }}>
+                      <h3 className="font-bold text-sm group-hover:text-[#2c7c74] dark:text-[#2a9d8f] transition-colors truncate" style={{ color: T.dark }}>
                         {fl.name || 'Anonymous'}
                       </h3>
                       <div className="flex items-center gap-1">

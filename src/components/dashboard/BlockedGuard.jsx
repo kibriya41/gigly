@@ -60,7 +60,7 @@ export default function BlockedGuard({ children }) {
       <div className="flex items-center justify-center min-h-[60vh]">
         <div className="flex flex-col items-center gap-4">
           <Loader2 className="w-10 h-10 animate-spin text-[#2a9d8f]" />
-          <p className="text-[#5a7a72] font-semibold text-sm">Checking access…</p>
+          <p className="text-[#5a7a72] dark:text-[#9fb3c8] font-semibold text-sm">Checking access…</p>
         </div>
       </div>
     );
@@ -71,7 +71,7 @@ export default function BlockedGuard({ children }) {
       <div className="flex items-center justify-center min-h-[60vh]">
         <div className="flex flex-col items-center gap-4">
           <Loader2 className="w-10 h-10 animate-spin text-[#2a9d8f]" />
-          <p className="text-[#5a7a72] font-semibold text-sm">Checking access…</p>
+          <p className="text-[#5a7a72] dark:text-[#9fb3c8] font-semibold text-sm">Checking access…</p>
         </div>
       </div>
     );

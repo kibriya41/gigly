@@ -44,7 +44,7 @@ export default function RoleGuard({ allowedRoles = [], children }) {
       <div className="flex items-center justify-center min-h-[60vh]">
         <div className="flex flex-col items-center gap-4">
           <Loader2 className="w-10 h-10 animate-spin text-[#2a9d8f]" />
-          <p className="text-[#5a7a72] font-semibold text-sm">Verifying access…</p>
+          <p className="text-[#5a7a72] dark:text-[#9fb3c8] font-semibold text-sm">Verifying access…</p>
         </div>
       </div>
     );
@@ -54,13 +54,13 @@ export default function RoleGuard({ allowedRoles = [], children }) {
   if (!session) {
     return (
       <div className="flex items-center justify-center min-h-[60vh] max-w-md mx-auto text-center px-4">
-        <div className="bg-white p-8 rounded-3xl border border-[#d4ebe6]/50 shadow-md space-y-6">
+        <div className="bg-white dark:bg-[#131c2b] p-8 rounded-3xl border border-[#d4ebe6] dark:border-[#1e293b]/50 shadow-md space-y-6">
           <div className="w-16 h-16 bg-red-50 text-red-500 rounded-2xl flex items-center justify-center mx-auto">
             <AlertTriangle className="w-8 h-8" />
           </div>
           <div className="space-y-2">
-            <h2 className="text-2xl font-serif font-bold text-[#1a3c34]">Access Denied</h2>
-            <p className="text-[#5a7a72] text-[15px]">Please sign in to view this page.</p>
+            <h2 className="text-2xl font-serif font-bold text-[#1a3c34] dark:text-[#e8f4f0]">Access Denied</h2>
+            <p className="text-[#5a7a72] dark:text-[#9fb3c8] text-[15px]">Please sign in to view this page.</p>
           </div>
           <Link href="/login" className="block w-full bg-[#1a3c34] hover:bg-[#255248] text-white py-3 rounded-xl font-medium transition-all shadow-sm">
             Sign In
@@ -74,15 +74,15 @@ export default function RoleGuard({ allowedRoles = [], children }) {
   if (!allowedRoles.includes(session.user.role)) {
     return (
       <div className="flex items-center justify-center min-h-[60vh] max-w-md mx-auto text-center px-4">
-        <div className="bg-white p-8 rounded-3xl border border-red-100 shadow-md space-y-6">
+        <div className="bg-white dark:bg-[#131c2b] p-8 rounded-3xl border border-red-100 shadow-md space-y-6">
           <div className="w-16 h-16 bg-red-50 text-red-500 rounded-2xl flex items-center justify-center mx-auto">
             <ShieldX className="w-8 h-8" />
           </div>
           <div className="space-y-2">
-            <h2 className="text-2xl font-serif font-bold text-[#1a3c34]">403 — Forbidden</h2>
-            <p className="text-[#5a7a72] text-[15px]">
+            <h2 className="text-2xl font-serif font-bold text-[#1a3c34] dark:text-[#e8f4f0]">403 — Forbidden</h2>
+            <p className="text-[#5a7a72] dark:text-[#9fb3c8] text-[15px]">
               You don&apos;t have permission to access this area. This page is restricted to{" "}
-              <span className="font-bold text-[#1a3c34] capitalize">{allowedRoles.join("/")}</span> accounts.
+              <span className="font-bold text-[#1a3c34] dark:text-[#e8f4f0] capitalize">{allowedRoles.join("/")}</span> accounts.
             </p>
           </div>
           <Link href="/" className="block w-full bg-[#1a3c34] hover:bg-[#255248] text-white py-3 rounded-xl font-medium transition-all shadow-sm">

@@ -143,8 +143,8 @@ function CheckoutFormContent() {
     return (
       <div className="max-w-md mx-auto text-center py-16 px-4 space-y-4">
         <AlertTriangle className="w-12 h-12 text-red-500 mx-auto" />
-        <h2 className="text-2xl font-bold text-[#1a3c34]">Checkout Error</h2>
-        <p className="text-sm text-[#5a7a72]">{error}</p>
+        <h2 className="text-2xl font-bold text-[#1a3c34] dark:text-[#e8f4f0]">Checkout Error</h2>
+        <p className="text-sm text-[#5a7a72] dark:text-[#9fb3c8]">{error}</p>
         <button
           onClick={() => router.push("/dashboard/client/proposals")}
           className="bg-[#1a3c34] text-white px-6 py-2 rounded-xl text-xs font-bold"
@@ -159,18 +159,18 @@ function CheckoutFormContent() {
     <div className="max-w-4xl mx-auto py-12 px-4">
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
         {/* Checkout Form */}
-        <div className="lg:col-span-7 bg-white border border-[#d4ebe6]/50 rounded-3xl p-6 md:p-8 shadow-sm space-y-6">
+        <div className="lg:col-span-7 bg-white dark:bg-[#131c2b] border border-[#d4ebe6] dark:border-[#1e293b]/50 rounded-3xl p-6 md:p-8 shadow-sm space-y-6">
           <div className="flex items-center gap-2 pb-4 border-b border-gray-100">
             <Lock className="w-5 h-5 text-[#2a9d8f]" />
             <div>
-              <h2 className="text-xl font-bold text-[#1a3c34]">Secure Payment</h2>
-              <p className="text-xs text-[#8aa89e]">Powered by Stripe (Mock Integration)</p>
+              <h2 className="text-xl font-bold text-[#1a3c34] dark:text-[#e8f4f0]">Secure Payment</h2>
+              <p className="text-xs text-[#8aa89e] dark:text-[#6b7e94]">Powered by Stripe (Mock Integration)</p>
             </div>
           </div>
 
           <form onSubmit={handlePay} className="space-y-4">
             <div className="space-y-1">
-              <label className="block text-xs font-bold text-[#5a7a72] uppercase tracking-wider">
+              <label className="block text-xs font-bold text-[#5a7a72] dark:text-[#9fb3c8] uppercase tracking-wider">
                 Cardholder Name
               </label>
               <input
@@ -184,7 +184,7 @@ function CheckoutFormContent() {
             </div>
 
             <div className="space-y-1">
-              <label className="block text-xs font-bold text-[#5a7a72] uppercase tracking-wider">
+              <label className="block text-xs font-bold text-[#5a7a72] dark:text-[#9fb3c8] uppercase tracking-wider">
                 Card Number
               </label>
               <div className="relative">
@@ -203,7 +203,7 @@ function CheckoutFormContent() {
 
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-1">
-                <label className="block text-xs font-bold text-[#5a7a72] uppercase tracking-wider">
+                <label className="block text-xs font-bold text-[#5a7a72] dark:text-[#9fb3c8] uppercase tracking-wider">
                   Expiration
                 </label>
                 <input
@@ -215,7 +215,7 @@ function CheckoutFormContent() {
                 />
               </div>
               <div className="space-y-1">
-                <label className="block text-xs font-bold text-[#5a7a72] uppercase tracking-wider">
+                <label className="block text-xs font-bold text-[#5a7a72] dark:text-[#9fb3c8] uppercase tracking-wider">
                   CVC / CVV
                 </label>
                 <input
@@ -228,7 +228,7 @@ function CheckoutFormContent() {
               </div>
             </div>
 
-            <div className="bg-[#f0f9f6] border border-[#d4ebe6] p-4 rounded-2xl flex gap-3 text-xs text-[#5a7a72] leading-relaxed">
+            <div className="bg-[#f0f9f6] dark:bg-[#1a2435] border border-[#d4ebe6] dark:border-[#1e293b] p-4 rounded-2xl flex gap-3 text-xs text-[#5a7a72] dark:text-[#9fb3c8] leading-relaxed">
               <ShieldCheck className="w-5 h-5 text-[#2a9d8f] shrink-0 mt-0.5" />
               <p>
                 Funds are held securely by SkillSwap and will only be released to the freelancer once you mark the task as completed.
@@ -256,27 +256,27 @@ function CheckoutFormContent() {
         </div>
 
         {/* Order Summary */}
-        <div className="lg:col-span-5 bg-[#f4f8f6] border border-[#d4ebe6]/50 rounded-3xl p-6 md:p-8 space-y-6">
-          <h3 className="font-bold text-[#1a3c34] text-lg">Order Summary</h3>
+        <div className="lg:col-span-5 bg-[#f4f8f6] dark:bg-[#1a2435] border border-[#d4ebe6] dark:border-[#1e293b]/50 rounded-3xl p-6 md:p-8 space-y-6">
+          <h3 className="font-bold text-[#1a3c34] dark:text-[#e8f4f0] text-lg">Order Summary</h3>
 
           <div className="space-y-4 divide-y divide-[#d4ebe6]/40">
             <div className="space-y-1 pt-1">
-              <span className="text-[10px] uppercase font-bold text-[#8aa89e]">Task Details</span>
-              <h4 className="font-semibold text-sm text-[#1a3c34]">{task?.title}</h4>
-              <span className="inline-block text-xs text-[#2a9d8f] font-semibold bg-[#eaf5f2] px-2 py-0.5 rounded-lg border border-[#d4ebe6]/40 mt-1">
+              <span className="text-[10px] uppercase font-bold text-[#8aa89e] dark:text-[#6b7e94]">Task Details</span>
+              <h4 className="font-semibold text-sm text-[#1a3c34] dark:text-[#e8f4f0]">{task?.title}</h4>
+              <span className="inline-block text-xs text-[#2a9d8f] font-semibold bg-[#eaf5f2] dark:bg-[#1a2435] px-2 py-0.5 rounded-lg border border-[#d4ebe6] dark:border-[#1e293b]/40 mt-1">
                 {task?.category}
               </span>
             </div>
 
             <div className="space-y-1 pt-4">
-              <span className="text-[10px] uppercase font-bold text-[#8aa89e]">Freelancer</span>
-              <p className="font-semibold text-sm text-[#1a3c34]">{proposal?.freelancerName}</p>
-              <p className="text-xs text-[#5a7a72] italic line-clamp-2">
+              <span className="text-[10px] uppercase font-bold text-[#8aa89e] dark:text-[#6b7e94]">Freelancer</span>
+              <p className="font-semibold text-sm text-[#1a3c34] dark:text-[#e8f4f0]">{proposal?.freelancerName}</p>
+              <p className="text-xs text-[#5a7a72] dark:text-[#9fb3c8] italic line-clamp-2">
                 &ldquo;{proposal?.pitch}&rdquo;
               </p>
             </div>
 
-            <div className="pt-4 flex items-center justify-between font-bold text-base text-[#1a3c34]">
+            <div className="pt-4 flex items-center justify-between font-bold text-base text-[#1a3c34] dark:text-[#e8f4f0]">
               <span>Total Budget (USD)</span>
               <span className="text-xl text-[#2a9d8f]">${proposal?.amount}</span>
             </div>

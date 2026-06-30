@@ -14,7 +14,7 @@ function PaymentSuccessContent() {
 
   return (
     <div className="max-w-md mx-auto py-16 px-4">
-      <div className="bg-white border border-[#d4ebe6]/50 rounded-3xl p-8 shadow-sm text-center space-y-6 animate-in fade-in zoom-in-95 duration-300">
+      <div className="bg-white dark:bg-[#131c2b] border border-[#d4ebe6] dark:border-[#1e293b]/50 rounded-3xl p-8 shadow-sm text-center space-y-6 animate-in fade-in zoom-in-95 duration-300">
         {/* Success Icon */}
         <div className="w-16 h-16 bg-emerald-50 text-emerald-600 rounded-full flex items-center justify-center mx-auto border border-emerald-100 shadow-sm animate-bounce">
           <CheckCircle2 className="w-8 h-8" />
@@ -22,34 +22,34 @@ function PaymentSuccessContent() {
 
         {/* Text */}
         <div className="space-y-2">
-          <h2 className="text-2xl font-serif font-bold text-[#1a3c34]">Payment Successful!</h2>
-          <p className="text-xs text-[#5a7a72] max-w-xs mx-auto leading-relaxed">
+          <h2 className="text-2xl font-serif font-bold text-[#1a3c34] dark:text-[#e8f4f0]">Payment Successful!</h2>
+          <p className="text-xs text-[#5a7a72] dark:text-[#9fb3c8] max-w-xs mx-auto leading-relaxed">
             Your payment has been secure escrowed by SkillSwap. The freelancer has been notified and can begin working on the task.
           </p>
         </div>
 
         {/* Card Details */}
-        <div className="bg-[#f4f8f6] border border-[#d4ebe6]/40 p-5 rounded-2xl text-left space-y-3.5">
+        <div className="bg-[#f4f8f6] dark:bg-[#1a2435] border border-[#d4ebe6] dark:border-[#1e293b]/40 p-5 rounded-2xl text-left space-y-3.5">
           <div className="flex items-start gap-3">
             <Briefcase className="w-4 h-4 text-[#2a9d8f] shrink-0 mt-0.5" />
             <div>
-              <span className="text-[9px] uppercase font-bold text-[#8aa89e] block leading-none">Task Hired</span>
-              <span className="text-xs font-semibold text-[#1a3c34]">{title}</span>
+              <span className="text-[9px] uppercase font-bold text-[#8aa89e] dark:text-[#6b7e94] block leading-none">Task Hired</span>
+              <span className="text-xs font-semibold text-[#1a3c34] dark:text-[#e8f4f0]">{title}</span>
             </div>
           </div>
 
           <div className="flex items-start gap-3">
             <User className="w-4 h-4 text-[#2a9d8f] shrink-0 mt-0.5" />
             <div>
-              <span className="text-[9px] uppercase font-bold text-[#8aa89e] block leading-none">Freelancer</span>
-              <span className="text-xs font-semibold text-[#1a3c34]">{freelancerName}</span>
+              <span className="text-[9px] uppercase font-bold text-[#8aa89e] dark:text-[#6b7e94] block leading-none">Freelancer</span>
+              <span className="text-xs font-semibold text-[#1a3c34] dark:text-[#e8f4f0]">{freelancerName}</span>
             </div>
           </div>
 
           <div className="flex items-start gap-3">
             <Wallet className="w-4 h-4 text-[#2a9d8f] shrink-0 mt-0.5" />
             <div>
-              <span className="text-[9px] uppercase font-bold text-[#8aa89e] block leading-none">Amount Hired (USD)</span>
+              <span className="text-[9px] uppercase font-bold text-[#8aa89e] dark:text-[#6b7e94] block leading-none">Amount Hired (USD)</span>
               <span className="text-xs font-bold text-[#2a9d8f]">${amount} USD</span>
             </div>
           </div>

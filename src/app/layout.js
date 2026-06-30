@@ -52,7 +52,7 @@ export default function RootLayout({ children }) {
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
       </head>
-      <body className="min-h-full flex flex-col font-sans bg-white dark:bg-[#0b1220] text-slate-900 dark:text-[#9fb3c8] transition-colors duration-300">
+      <body className="min-h-full flex flex-col font-sans bg-white dark:bg-[#131c2b] dark:bg-[#0b1220] text-slate-900 dark:text-[#9fb3c8] transition-colors duration-300">
         <ThemeProvider>
           <Navbar />
           <main className="flex-1 flex flex-col">

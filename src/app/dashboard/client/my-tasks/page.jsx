@@ -130,9 +130,9 @@ export default function MyTasksPage() {
       title: "Total Tasks",
       value: totalTasks,
       icon: ClipboardCheck,
-      iconBg: "bg-[#eaf5f2]",
+      iconBg: "bg-[#eaf5f2] dark:bg-[#1a2435]",
       iconColor: "text-[#2a9d8f]",
-      cardBg: "bg-white",
+      cardBg: "bg-white dark:bg-[#131c2b]",
     },
     {
       title: "Open Tasks",
@@ -140,23 +140,23 @@ export default function MyTasksPage() {
       icon: CircleDot,
       iconBg: "bg-[#fffbeb]",
       iconColor: "text-[#d97706]",
-      cardBg: "bg-white",
+      cardBg: "bg-white dark:bg-[#131c2b]",
     },
     {
       title: "In Progress",
       value: inProgressTasks,
       icon: Clock,
-      iconBg: "bg-[#eaf5f2]",
+      iconBg: "bg-[#eaf5f2] dark:bg-[#1a2435]",
       iconColor: "text-[#2a9d8f]",
-      cardBg: "bg-white",
+      cardBg: "bg-white dark:bg-[#131c2b]",
     },
     {
       title: "Total Budget",
       value: `$${totalBudget.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 2 })}`,
       icon: Wallet,
-      iconBg: "bg-[#e2f1ed]",
-      iconColor: "text-[#1a3c34]",
-      cardBg: "bg-[#f0f7f4]",
+      iconBg: "bg-[#e2f1ed] dark:bg-[#1a2435]",
+      iconColor: "text-[#1a3c34] dark:text-[#e8f4f0]",
+      cardBg: "bg-[#f0f7f4] dark:bg-[#1a2435]",
     },
   ];
 
@@ -351,7 +351,7 @@ export default function MyTasksPage() {
       <div className="flex items-center justify-center min-h-[60vh]">
         <div className="flex flex-col items-center gap-4">
           <Loader2 className="w-10 h-10 animate-spin text-[#2a9d8f]" />
-          <p className="text-[#5a7a72] font-medium">Loading session...</p>
+          <p className="text-[#5a7a72] dark:text-[#9fb3c8] font-medium">Loading session...</p>
         </div>
       </div>
     );
@@ -360,12 +360,12 @@ export default function MyTasksPage() {
   if (!session) {
     return (
       <div className="flex items-center justify-center min-h-[60vh] max-w-md mx-auto text-center px-4">
-        <div className="bg-white p-8 rounded-3xl border border-[#d4ebe6]/50 shadow-md space-y-6">
+        <div className="bg-white dark:bg-[#131c2b] p-8 rounded-3xl border border-[#d4ebe6] dark:border-[#1e293b]/50 shadow-md space-y-6">
           <div className="w-16 h-16 bg-red-50 text-red-500 rounded-2xl flex items-center justify-center mx-auto">
             <AlertTriangle className="w-8 h-8" />
           </div>
-          <h2 className="text-2xl font-serif font-bold text-[#1a3c34]">Access Denied</h2>
-          <p className="text-[#5a7a72] text-[15px]">
+          <h2 className="text-2xl font-serif font-bold text-[#1a3c34] dark:text-[#e8f4f0]">Access Denied</h2>
+          <p className="text-[#5a7a72] dark:text-[#9fb3c8] text-[15px]">
             Please sign in to view and manage your posted micro-tasks.
           </p>
           <Link
@@ -387,7 +387,7 @@ export default function MyTasksPage() {
           className={`fixed bottom-5 right-5 z-50 flex items-center gap-2 px-5 py-3.5 rounded-2xl shadow-xl border animate-in fade-in slide-in-from-bottom-5 duration-300
             ${toast.type === "error" 
               ? "bg-red-50 text-red-800 border-red-200" 
-              : "bg-[#eaf5f2] text-[#1a3c34] border-[#d4ebe6]"}`}
+              : "bg-[#eaf5f2] dark:bg-[#1a2435] text-[#1a3c34] dark:text-[#e8f4f0] border-[#d4ebe6] dark:border-[#1e293b]"}`}
         >
           <CheckCircle2 className={`w-5 h-5 ${toast.type === "error" ? "text-red-500" : "text-[#2a9d8f]"}`} />
           <span className="font-semibold text-sm">{toast.message}</span>
@@ -397,10 +397,10 @@ export default function MyTasksPage() {
       {/* Header Row */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div>
-          <h1 className="text-4xl font-serif font-semibold text-[#1a3c34] tracking-tight">
+          <h1 className="text-4xl font-serif font-semibold text-[#1a3c34] dark:text-[#e8f4f0] tracking-tight">
             My Tasks
           </h1>
-          <p className="text-[#5a7a72] mt-1.5 text-[15px]">
+          <p className="text-[#5a7a72] dark:text-[#9fb3c8] mt-1.5 text-[15px]">
             Review, edit, and keep track of all tasks you have posted on the platform.
           </p>
         </div>
@@ -420,16 +420,16 @@ export default function MyTasksPage() {
           return (
             <div
               key={i}
-              className={`p-6 rounded-2xl border border-[#d4ebe6]/50 shadow-sm flex flex-col justify-between h-[150px] transition-all hover:shadow-md ${stat.cardBg}`}
+              className={`p-6 rounded-2xl border border-[#d4ebe6] dark:border-[#1e293b]/50 shadow-sm flex flex-col justify-between h-[150px] transition-all hover:shadow-md ${stat.cardBg}`}
             >
               <div className={`p-2.5 rounded-xl w-fit ${stat.iconBg} ${stat.iconColor}`}>
                 <Icon size={20} />
               </div>
               <div className="space-y-1 mt-4">
-                <span className="text-xs font-semibold text-[#8aa89e] uppercase tracking-wider">
+                <span className="text-xs font-semibold text-[#8aa89e] dark:text-[#6b7e94] uppercase tracking-wider">
                   {stat.title}
                 </span>
-                <p className="text-3xl font-semibold text-[#1a3c34]">
+                <p className="text-3xl font-semibold text-[#1a3c34] dark:text-[#e8f4f0]">
                   {loading ? (
                     <span className="inline-block w-12 h-6 bg-gray-100 animate-pulse rounded" />
                   ) : (
@@ -443,10 +443,10 @@ export default function MyTasksPage() {
       </div>
 
       {/* Filter and Search Bar */}
-      <div className="bg-white p-6 rounded-3xl border border-[#d4ebe6]/40 shadow-sm space-y-4 md:space-y-0 md:flex md:items-center md:justify-between md:gap-6">
+      <div className="bg-white dark:bg-[#131c2b] p-6 rounded-3xl border border-[#d4ebe6] dark:border-[#1e293b]/40 shadow-sm space-y-4 md:space-y-0 md:flex md:items-center md:justify-between md:gap-6">
         {/* Search Input */}
         <div className="relative flex-1 max-w-md">
-          <Search className="absolute left-4 top-3.5 w-4 h-4 text-[#8aa89e]" />
+          <Search className="absolute left-4 top-3.5 w-4 h-4 text-[#8aa89e] dark:text-[#6b7e94]" />
           <input
             type="text"
             placeholder="Search tasks by title or content..."
@@ -467,7 +467,7 @@ export default function MyTasksPage() {
         {/* Filter & Sort controls */}
         <div className="flex flex-wrap items-center gap-4">
           {/* Status Pills */}
-          <div className="flex bg-[#f4f8f6] p-1.5 rounded-2xl border border-[#d4ebe6]/60 overflow-x-auto min-w-0 max-w-full">
+          <div className="flex bg-[#f4f8f6] dark:bg-[#1a2435] p-1.5 rounded-2xl border border-[#d4ebe6] dark:border-[#1e293b]/60 overflow-x-auto min-w-0 max-w-full">
             {["All", "Open", "In Progress", "Completed"].map((tab) => {
               const isActive = statusFilter === tab;
               return (
@@ -476,8 +476,8 @@ export default function MyTasksPage() {
                   onClick={() => setStatusFilter(tab)}
                   className={`px-4 py-2 rounded-xl text-xs font-semibold transition-all cursor-pointer whitespace-nowrap shrink-0 ${
                     isActive
-                      ? "bg-white text-[#1a3c34] shadow-sm font-bold"
-                      : "text-[#5a7a72] hover:text-[#1a3c34]"
+                      ? "bg-white dark:bg-[#131c2b] text-[#1a3c34] dark:text-[#e8f4f0] shadow-sm font-bold"
+                      : "text-[#5a7a72] dark:text-[#9fb3c8] hover:text-[#1a3c34] dark:text-[#e8f4f0]"
                   }`}
                 >
                   {tab}
@@ -487,12 +487,12 @@ export default function MyTasksPage() {
           </div>
 
           {/* Sort Selector */}
-          <div className="relative flex items-center gap-1.5 bg-[#f4f8f6] px-3.5 py-2.5 rounded-2xl border border-[#d4ebe6]/60 text-xs text-[#5a7a72] font-semibold">
+          <div className="relative flex items-center gap-1.5 bg-[#f4f8f6] dark:bg-[#1a2435] px-3.5 py-2.5 rounded-2xl border border-[#d4ebe6] dark:border-[#1e293b]/60 text-xs text-[#5a7a72] dark:text-[#9fb3c8] font-semibold">
             <ArrowUpDown className="w-3.5 h-3.5 text-[#2a9d8f]" />
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
-              className="bg-transparent outline-none cursor-pointer text-[#1a3c34] font-bold"
+              className="bg-transparent outline-none cursor-pointer text-[#1a3c34] dark:text-[#e8f4f0] font-bold"
             >
               <option value="newest">Newest First</option>
               <option value="budget-desc">Budget: High to Low</option>
@@ -507,7 +507,7 @@ export default function MyTasksPage() {
         <div className="flex items-center justify-center min-h-[30vh]">
           <div className="flex flex-col items-center gap-3">
             <Loader2 className="w-8 h-8 animate-spin text-[#2a9d8f]" />
-            <p className="text-[#8aa89e] text-sm font-medium">Fetching your tasks...</p>
+            <p className="text-[#8aa89e] dark:text-[#6b7e94] text-sm font-medium">Fetching your tasks...</p>
           </div>
         </div>
       ) : error ? (
@@ -523,13 +523,13 @@ export default function MyTasksPage() {
           </button>
         </div>
       ) : filteredTasks.length === 0 ? (
-        <div className="bg-white rounded-3xl border border-[#d4ebe6]/40 p-12 text-center max-w-xl mx-auto shadow-sm space-y-6">
-          <div className="w-16 h-16 bg-[#eaf5f2] text-[#2a9d8f] rounded-2xl flex items-center justify-center mx-auto">
+        <div className="bg-white dark:bg-[#131c2b] rounded-3xl border border-[#d4ebe6] dark:border-[#1e293b]/40 p-12 text-center max-w-xl mx-auto shadow-sm space-y-6">
+          <div className="w-16 h-16 bg-[#eaf5f2] dark:bg-[#1a2435] text-[#2a9d8f] rounded-2xl flex items-center justify-center mx-auto">
             <Briefcase className="w-8 h-8" />
           </div>
           <div>
-            <h3 className="text-xl font-bold text-[#1a3c34]">No Tasks Found</h3>
-            <p className="text-[#8aa89e] text-sm mt-1.5 px-4">
+            <h3 className="text-xl font-bold text-[#1a3c34] dark:text-[#e8f4f0]">No Tasks Found</h3>
+            <p className="text-[#8aa89e] dark:text-[#6b7e94] text-sm mt-1.5 px-4">
               {searchTerm || statusFilter !== "All"
                 ? "No tasks match your current search queries or filter selections."
                 : "You haven't posted any micro-tasks yet. Get started and hire professional freelancers."}
@@ -538,7 +538,7 @@ export default function MyTasksPage() {
           {(searchTerm || statusFilter !== "All") ? (
             <button
               onClick={() => { setSearchTerm(""); setStatusFilter("All"); }}
-              className="px-5 py-2.5 bg-[#f4f8f6] hover:bg-[#eaf5f2] border border-[#d4ebe6] text-[#1a3c34] font-semibold text-xs rounded-xl transition-all"
+              className="px-5 py-2.5 bg-[#f4f8f6] dark:bg-[#1a2435] hover:bg-[#eaf5f2] dark:bg-[#1a2435] border border-[#d4ebe6] dark:border-[#1e293b] text-[#1a3c34] dark:text-[#e8f4f0] font-semibold text-xs rounded-xl transition-all"
             >
               Reset Filters
             </button>
@@ -564,19 +564,19 @@ export default function MyTasksPage() {
               taskStatus.toLowerCase() === "open" 
                 ? "text-[#d97706] bg-[#fffbeb] border-[#fef3c7]" 
                 : taskStatus.toLowerCase() === "in progress"
-                  ? "text-[#2a9d8f] bg-[#eaf5f2] border-[#d4ebe6]"
+                  ? "text-[#2a9d8f] bg-[#eaf5f2] dark:bg-[#1a2435] border-[#d4ebe6] dark:border-[#1e293b]"
                   : "text-emerald-700 bg-emerald-50 border-emerald-100";
 
             return (
               <div
                 key={task._id}
-                className="bg-white rounded-3xl border border-[#d4ebe6]/40 p-6 md:p-8 hover:shadow-md transition-all relative overflow-hidden group hover:border-[#2a9d8f]/30"
+                className="bg-white dark:bg-[#131c2b] rounded-3xl border border-[#d4ebe6] dark:border-[#1e293b]/40 p-6 md:p-8 hover:shadow-md transition-all relative overflow-hidden group hover:border-[#2a9d8f]/30"
               >
                 {/* Upper row */}
                 <div className="flex items-start justify-between gap-4 flex-wrap">
                   <div className="space-y-2">
                     <div className="flex items-center gap-2.5 flex-wrap">
-                      <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-[#eaf5f2] text-[#2a9d8f] border border-[#d4ebe6]/50">
+                      <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-[#eaf5f2] dark:bg-[#1a2435] text-[#2a9d8f] border border-[#d4ebe6] dark:border-[#1e293b]/50">
                         <Tag className="w-3 h-3" />
                         {task.category || "General"}
                       </span>
@@ -584,30 +584,30 @@ export default function MyTasksPage() {
                         {taskStatus}
                       </span>
                     </div>
-                    <h3 className="text-xl font-bold text-[#1a3c34] tracking-tight group-hover:text-[#2a9d8f] transition-colors">
+                    <h3 className="text-xl font-bold text-[#1a3c34] dark:text-[#e8f4f0] tracking-tight group-hover:text-[#2a9d8f] transition-colors">
                       {task.title}
                     </h3>
                   </div>
 
                   {/* Pricing / Budget */}
-                  <div className="bg-[#f0f7f4] border border-[#d4ebe6]/50 px-4 py-2.5 rounded-2xl flex items-center gap-1.5">
+                  <div className="bg-[#f0f7f4] dark:bg-[#1a2435] border border-[#d4ebe6] dark:border-[#1e293b]/50 px-4 py-2.5 rounded-2xl flex items-center gap-1.5">
                     <DollarSign className="w-4 h-4 text-[#2a9d8f]" />
-                    <span className="font-extrabold text-[#1a3c34] text-lg">
+                    <span className="font-extrabold text-[#1a3c34] dark:text-[#e8f4f0] text-lg">
                       {Number(task.budget || 0).toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 2 })}
                     </span>
-                    <span className="text-[10px] text-[#8aa89e] font-semibold uppercase tracking-wider ml-1">USD</span>
+                    <span className="text-[10px] text-[#8aa89e] dark:text-[#6b7e94] font-semibold uppercase tracking-wider ml-1">USD</span>
                   </div>
                 </div>
 
                 {/* Task Description */}
                 <div className="mt-4 space-y-2">
-                  <p className={`text-[#5a7a72] text-[14px] leading-relaxed transition-all ${!isExpanded ? "line-clamp-2" : ""}`}>
+                  <p className={`text-[#5a7a72] dark:text-[#9fb3c8] text-[14px] leading-relaxed transition-all ${!isExpanded ? "line-clamp-2" : ""}`}>
                     {task.description}
                   </p>
                   {task.description && task.description.length > 180 && (
                     <button
                       onClick={() => toggleDescription(task._id)}
-                      className="text-xs text-[#2a9d8f] hover:text-[#1a3c34] font-bold inline-flex items-center gap-1 cursor-pointer transition-colors"
+                      className="text-xs text-[#2a9d8f] hover:text-[#1a3c34] dark:text-[#e8f4f0] font-bold inline-flex items-center gap-1 cursor-pointer transition-colors"
                     >
                       {isExpanded ? (
                         <>
@@ -625,11 +625,11 @@ export default function MyTasksPage() {
                 {/* Skills tags */}
                 {task.skills && task.skills.length > 0 && (
                   <div className="mt-5 flex flex-wrap gap-1.5 items-center">
-                    <span className="text-xs text-[#8aa89e] mr-1 font-medium">Skills:</span>
+                    <span className="text-xs text-[#8aa89e] dark:text-[#6b7e94] mr-1 font-medium">Skills:</span>
                     {task.skills.map((skill) => (
                       <span
                         key={skill}
-                        className="text-xs bg-[#f4f8f6] hover:bg-[#eaf5f2] transition-colors px-2.5 py-1 rounded-lg text-[#5a7a72] border border-gray-100 font-medium"
+                        className="text-xs bg-[#f4f8f6] dark:bg-[#1a2435] hover:bg-[#eaf5f2] dark:bg-[#1a2435] transition-colors px-2.5 py-1 rounded-lg text-[#5a7a72] dark:text-[#9fb3c8] border border-gray-100 font-medium"
                       >
                         {skill}
                       </span>
@@ -639,10 +639,10 @@ export default function MyTasksPage() {
 
                 {/* Lower row: deadline & actions */}
                 <div className="mt-6 pt-5 border-t border-gray-100 flex items-center justify-between gap-4 flex-wrap">
-                  <div className="flex items-center gap-2 text-xs text-[#8aa89e] font-medium">
+                  <div className="flex items-center gap-2 text-xs text-[#8aa89e] dark:text-[#6b7e94] font-medium">
                     <Calendar className="w-4 h-4 text-[#2a9d8f]" />
                     <span>Deadline:</span>
-                    <span className="text-[#1a3c34] font-bold">
+                    <span className="text-[#1a3c34] dark:text-[#e8f4f0] font-bold">
                       {task.deadline ? new Date(task.deadline).toLocaleDateString(undefined, {
                         weekday: "short",
                         year: "numeric",
@@ -667,14 +667,14 @@ export default function MyTasksPage() {
                       <>
                         <button
                           onClick={() => handleEditClick(task)}
-                          className="p-2 rounded-xl bg-gray-50 border border-gray-200 text-[#5a7a72] hover:text-[#2a9d8f] hover:bg-[#eaf5f2] hover:border-[#2a9d8f]/30 transition-all cursor-pointer tooltip"
+                          className="p-2 rounded-xl bg-gray-50 border border-gray-200 text-[#5a7a72] dark:text-[#9fb3c8] hover:text-[#2a9d8f] hover:bg-[#eaf5f2] dark:bg-[#1a2435] hover:border-[#2a9d8f]/30 transition-all cursor-pointer tooltip"
                           title="Edit task"
                         >
                           <Edit3 className="w-4 h-4" />
                         </button>
                         <button
                           onClick={() => handleDeleteClick(task._id)}
-                          className="p-2 rounded-xl bg-gray-50 border border-gray-200 text-[#5a7a72] hover:text-red-600 hover:bg-red-50 hover:border-red-200 transition-all cursor-pointer"
+                          className="p-2 rounded-xl bg-gray-50 border border-gray-200 text-[#5a7a72] dark:text-[#9fb3c8] hover:text-red-600 hover:bg-red-50 hover:border-red-200 transition-all cursor-pointer"
                           title="Delete task"
                         >
                           <Trash2 className="w-4 h-4" />
@@ -713,16 +713,16 @@ export default function MyTasksPage() {
       {/* Edit Modal (Glassmorphic) */}
       {editingTask && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/45 backdrop-blur-sm animate-in fade-in duration-200">
-          <div className="bg-white w-full max-w-xl rounded-3xl shadow-2xl border border-[#d4ebe6]/50 overflow-hidden flex flex-col max-h-[90vh] animate-in zoom-in-95 duration-200">
+          <div className="bg-white dark:bg-[#131c2b] w-full max-w-xl rounded-3xl shadow-2xl border border-[#d4ebe6] dark:border-[#1e293b]/50 overflow-hidden flex flex-col max-h-[90vh] animate-in zoom-in-95 duration-200">
             {/* Modal Header */}
-            <div className="px-6 py-5 border-b border-[#d4ebe6]/30 flex items-center justify-between bg-[#f4f8f6]">
+            <div className="px-6 py-5 border-b border-[#d4ebe6] dark:border-[#1e293b]/30 flex items-center justify-between bg-[#f4f8f6] dark:bg-[#1a2435]">
               <div className="flex items-center gap-2.5">
-                <div className="w-9 h-9 rounded-xl bg-[#eaf5f2] flex items-center justify-center text-[#2a9d8f]">
+                <div className="w-9 h-9 rounded-xl bg-[#eaf5f2] dark:bg-[#1a2435] flex items-center justify-center text-[#2a9d8f]">
                   <Edit3 className="w-4 h-4" />
                 </div>
                 <div>
-                  <h3 className="font-bold text-[#1a3c34]">Edit Task Details</h3>
-                  <p className="text-[10px] text-[#8aa89e] mt-0.5">Modify task information and update live listings.</p>
+                  <h3 className="font-bold text-[#1a3c34] dark:text-[#e8f4f0]">Edit Task Details</h3>
+                  <p className="text-[10px] text-[#8aa89e] dark:text-[#6b7e94] mt-0.5">Modify task information and update live listings.</p>
                 </div>
               </div>
               <button
@@ -737,7 +737,7 @@ export default function MyTasksPage() {
             <form onSubmit={handleEditSubmit} className="flex-1 overflow-y-auto p-6 space-y-5">
               {/* Task Title */}
               <div>
-                <label className="block text-xs font-semibold text-[#8aa89e] uppercase tracking-wider mb-2">
+                <label className="block text-xs font-semibold text-[#8aa89e] dark:text-[#6b7e94] uppercase tracking-wider mb-2">
                   Task Title <span className="text-red-500">*</span>
                 </label>
                 <input
@@ -755,14 +755,14 @@ export default function MyTasksPage() {
               {/* Category & Budget */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-semibold text-[#8aa89e] uppercase tracking-wider mb-2">
+                  <label className="block text-xs font-semibold text-[#8aa89e] dark:text-[#6b7e94] uppercase tracking-wider mb-2">
                     Category <span className="text-red-500">*</span>
                   </label>
                   <select
                     required
                     value={editFormData.category}
                     onChange={(e) => setEditFormData({ ...editFormData, category: e.target.value })}
-                    className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-[#2c7c74] text-sm outline-none bg-white cursor-pointer"
+                    className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-[#2c7c74] text-sm outline-none bg-white dark:bg-[#131c2b] cursor-pointer"
                   >
                     <option value="">Select Category</option>
                     {CATEGORIES.map((cat) => (
@@ -772,11 +772,11 @@ export default function MyTasksPage() {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-[#8aa89e] uppercase tracking-wider mb-2">
+                  <label className="block text-xs font-semibold text-[#8aa89e] dark:text-[#6b7e94] uppercase tracking-wider mb-2">
                     Budget (USD) <span className="text-red-500">*</span>
                   </label>
                   <div className="relative">
-                    <span className="absolute left-4 top-3 text-sm font-semibold text-[#8aa89e]">$</span>
+                    <span className="absolute left-4 top-3 text-sm font-semibold text-[#8aa89e] dark:text-[#6b7e94]">$</span>
                     <input
                       type="number"
                       required
@@ -794,7 +794,7 @@ export default function MyTasksPage() {
 
               {/* Deadline */}
               <div>
-                <label className="block text-xs font-semibold text-[#8aa89e] uppercase tracking-wider mb-2">
+                <label className="block text-xs font-semibold text-[#8aa89e] dark:text-[#6b7e94] uppercase tracking-wider mb-2">
                   Deadline <span className="text-red-500">*</span>
                 </label>
                 <input
@@ -809,22 +809,22 @@ export default function MyTasksPage() {
 
               {/* Skills Editor */}
               <div>
-                <label className="block text-xs font-semibold text-[#8aa89e] uppercase tracking-wider mb-2 flex justify-between">
+                <label className="block text-xs font-semibold text-[#8aa89e] dark:text-[#6b7e94] uppercase tracking-wider mb-2 flex justify-between">
                   <span>Required Skills (Max 10)</span>
                   <span>{editFormData.skills.length}/10</span>
                 </label>
-                <div className="border border-gray-200 rounded-xl p-2.5 focus-within:border-[#2c7c74] bg-white transition-all">
+                <div className="border border-gray-200 rounded-xl p-2.5 focus-within:border-[#2c7c74] bg-white dark:bg-[#131c2b] transition-all">
                   <div className="flex flex-wrap gap-1.5 items-center">
                     {editFormData.skills.map((skill) => (
                       <span
                         key={skill}
-                        className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-semibold bg-[#eaf5f2] text-[#2a9d8f]"
+                        className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-semibold bg-[#eaf5f2] dark:bg-[#1a2435] text-[#2a9d8f]"
                       >
                         {skill}
                         <button
                           type="button"
                           onClick={() => handleRemoveEditSkill(skill)}
-                          className="hover:bg-white/50 rounded-full p-0.5"
+                          className="hover:bg-white dark:bg-[#131c2b]/50 rounded-full p-0.5"
                         >
                           <X className="w-3 h-3" />
                         </button>
@@ -856,7 +856,7 @@ export default function MyTasksPage() {
                       key={skill}
                       type="button"
                       onClick={() => handleAddEditSkill(skill)}
-                      className="text-[10px] bg-gray-50 hover:bg-[#eaf5f2] text-[#5a7a72] px-2 py-0.5 rounded transition-colors"
+                      className="text-[10px] bg-gray-50 hover:bg-[#eaf5f2] dark:bg-[#1a2435] text-[#5a7a72] dark:text-[#9fb3c8] px-2 py-0.5 rounded transition-colors"
                     >
                       + {skill}
                     </button>
@@ -866,7 +866,7 @@ export default function MyTasksPage() {
 
               {/* Description */}
               <div>
-                <label className="block text-xs font-semibold text-[#8aa89e] uppercase tracking-wider mb-2">
+                <label className="block text-xs font-semibold text-[#8aa89e] dark:text-[#6b7e94] uppercase tracking-wider mb-2">
                   Task Description <span className="text-red-500">*</span>
                 </label>
                 <textarea
@@ -881,11 +881,11 @@ export default function MyTasksPage() {
               </div>
 
               {/* Modal Footer Actions */}
-              <div className="pt-4 border-t border-gray-100 flex items-center justify-end gap-3 bg-white sticky bottom-0">
+              <div className="pt-4 border-t border-gray-100 flex items-center justify-end gap-3 bg-white dark:bg-[#131c2b] sticky bottom-0">
                 <button
                   type="button"
                   onClick={() => setEditingTask(null)}
-                  className="px-5 py-2.5 rounded-xl border border-gray-200 text-sm font-semibold text-[#5a7a72] hover:bg-gray-50 hover:text-[#1a3c34] transition-colors cursor-pointer"
+                  className="px-5 py-2.5 rounded-xl border border-gray-200 text-sm font-semibold text-[#5a7a72] dark:text-[#9fb3c8] hover:bg-gray-50 hover:text-[#1a3c34] dark:text-[#e8f4f0] transition-colors cursor-pointer"
                 >
                   Cancel
                 </button>
@@ -906,18 +906,18 @@ export default function MyTasksPage() {
       {/* Delete Confirmation Modal (Glassmorphic) */}
       {deletingTaskId && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/45 backdrop-blur-sm animate-in fade-in duration-150">
-          <div className="bg-white w-full max-w-md rounded-3xl shadow-2xl border border-red-100 p-6 space-y-6 animate-in zoom-in-95 duration-150">
+          <div className="bg-white dark:bg-[#131c2b] w-full max-w-md rounded-3xl shadow-2xl border border-red-100 p-6 space-y-6 animate-in zoom-in-95 duration-150">
             <div className="flex items-center gap-4">
               <div className="w-12 h-12 rounded-2xl bg-red-50 text-red-600 flex items-center justify-center shrink-0">
                 <AlertTriangle className="w-6 h-6" />
               </div>
               <div>
                 <h3 className="font-bold text-lg text-red-950">Delete Task</h3>
-                <p className="text-xs text-[#8aa89e] mt-0.5">This action is permanent and cannot be undone.</p>
+                <p className="text-xs text-[#8aa89e] dark:text-[#6b7e94] mt-0.5">This action is permanent and cannot be undone.</p>
               </div>
             </div>
 
-            <p className="text-sm text-[#5a7a72] leading-relaxed">
+            <p className="text-sm text-[#5a7a72] dark:text-[#9fb3c8] leading-relaxed">
               Are you absolutely sure you want to delete this micro-task? It will be removed from all browse listings and active dashboards.
             </p>
 
@@ -925,7 +925,7 @@ export default function MyTasksPage() {
               <button
                 type="button"
                 onClick={() => setDeletingTaskId(null)}
-                className="px-5 py-2.5 rounded-xl border border-gray-200 text-sm font-semibold text-[#5a7a72] hover:bg-gray-50 hover:text-[#1a3c34] transition-colors cursor-pointer"
+                className="px-5 py-2.5 rounded-xl border border-gray-200 text-sm font-semibold text-[#5a7a72] dark:text-[#9fb3c8] hover:bg-gray-50 hover:text-[#1a3c34] dark:text-[#e8f4f0] transition-colors cursor-pointer"
               >
                 Cancel
               </button>
@@ -946,15 +946,15 @@ export default function MyTasksPage() {
       {/* Rating Modal */}
       {ratingModal.isOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/45 backdrop-blur-sm animate-in fade-in duration-200">
-          <div className="bg-white w-full max-w-md rounded-3xl shadow-2xl border border-[#d4ebe6]/50 overflow-hidden flex flex-col animate-in zoom-in-95 duration-200">
-            <div className="px-6 py-5 border-b border-[#d4ebe6]/30 flex items-center justify-between bg-[#f4f8f6]">
+          <div className="bg-white dark:bg-[#131c2b] w-full max-w-md rounded-3xl shadow-2xl border border-[#d4ebe6] dark:border-[#1e293b]/50 overflow-hidden flex flex-col animate-in zoom-in-95 duration-200">
+            <div className="px-6 py-5 border-b border-[#d4ebe6] dark:border-[#1e293b]/30 flex items-center justify-between bg-[#f4f8f6] dark:bg-[#1a2435]">
               <div className="flex items-center gap-2.5">
                 <div className="w-9 h-9 rounded-xl bg-amber-100 flex items-center justify-center text-amber-600">
                   <Star className="w-4 h-4 fill-current" />
                 </div>
                 <div>
-                  <h3 className="font-bold text-[#1a3c34]">Rate Freelancer</h3>
-                  <p className="text-[10px] text-[#8aa89e] mt-0.5">Share your experience working with {ratingModal.freelancer?.freelancerName || 'this freelancer'}</p>
+                  <h3 className="font-bold text-[#1a3c34] dark:text-[#e8f4f0]">Rate Freelancer</h3>
+                  <p className="text-[10px] text-[#8aa89e] dark:text-[#6b7e94] mt-0.5">Share your experience working with {ratingModal.freelancer?.freelancerName || 'this freelancer'}</p>
                 </div>
               </div>
               <button onClick={() => setRatingModal({ isOpen: false, task: null, freelancer: null })} className="p-1.5 hover:bg-gray-200 rounded-full transition-colors text-gray-500">
@@ -964,7 +964,7 @@ export default function MyTasksPage() {
             
             <form onSubmit={handleRatingSubmit} className="p-6 space-y-5">
               <div className="flex flex-col items-center justify-center py-2">
-                <p className="text-sm font-bold text-[#5a7a72] mb-3">How would you rate the quality of work?</p>
+                <p className="text-sm font-bold text-[#5a7a72] dark:text-[#9fb3c8] mb-3">How would you rate the quality of work?</p>
                 <div className="flex items-center gap-2" onMouseLeave={() => setHoverScore(0)}>
                   {[1, 2, 3, 4, 5].map((star) => (
                     <button
@@ -992,20 +992,20 @@ export default function MyTasksPage() {
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-[#8aa89e] uppercase tracking-wider mb-2">
+                <label className="block text-xs font-semibold text-[#8aa89e] dark:text-[#6b7e94] uppercase tracking-wider mb-2">
                   Written Review (Optional)
                 </label>
                 <textarea
                   rows={4}
                   value={reviewText}
                   onChange={e => setReviewText(e.target.value)}
-                  className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-amber-400 focus:ring-2 focus:ring-amber-400/10 text-sm outline-none resize-none leading-relaxed text-[#5a7a72] transition-all"
+                  className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-amber-400 focus:ring-2 focus:ring-amber-400/10 text-sm outline-none resize-none leading-relaxed text-[#5a7a72] dark:text-[#9fb3c8] transition-all"
                   placeholder="Leave a comment about the freelancer's communication, quality of work, speed..."
                 />
               </div>
 
               <div className="pt-2 flex items-center justify-end gap-3">
-                <button type="button" onClick={() => setRatingModal({ isOpen: false, task: null, freelancer: null })} className="px-5 py-2.5 rounded-xl border border-gray-200 text-sm font-semibold text-[#5a7a72] hover:bg-gray-50 transition-colors cursor-pointer">
+                <button type="button" onClick={() => setRatingModal({ isOpen: false, task: null, freelancer: null })} className="px-5 py-2.5 rounded-xl border border-gray-200 text-sm font-semibold text-[#5a7a72] dark:text-[#9fb3c8] hover:bg-gray-50 transition-colors cursor-pointer">
                   Cancel
                 </button>
                 <button type="submit" disabled={isSubmittingRating || ratingScore === 0} className="px-6 py-2.5 rounded-xl bg-[#1a3c34] hover:bg-[#255248] text-white text-sm font-semibold transition-all shadow-sm flex items-center gap-2 disabled:opacity-60 cursor-pointer">

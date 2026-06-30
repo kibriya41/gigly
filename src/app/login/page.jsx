@@ -202,25 +202,25 @@ const LoginPage = () => {
               <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
             </svg>
           </div>
-          <h1 className="text-2xl font-bold text-[#1a3c34]">
+          <h1 className="text-2xl font-bold text-[#1a3c34] dark:text-[#e8f4f0]">
             SkillSwap
           </h1>
-          <p className="text-[#5a7a72] mt-1 text-sm">
+          <p className="text-[#5a7a72] dark:text-[#9fb3c8] mt-1 text-sm">
             Freelance Micro-Task Marketplace
           </p>
         </div>
 
         {/* Login Card */}
-        <Card className="border border-[#d4ebe6] shadow-xl shadow-[#2a9d8f]/5 bg-white dark:bg-[#131c2b]/80 backdrop-blur-sm">
+        <Card className="border border-[#d4ebe6] dark:border-[#1e293b] shadow-xl shadow-[#2a9d8f]/5 bg-white dark:bg-[#131c2b]/80 backdrop-blur-sm">
           <div className="p-6 md:p-8 space-y-5">
             
             {/* Header */}
             <div className="text-center">
-              <h2 className="text-xl font-bold text-[#1a3c34] flex items-center justify-center gap-2">
+              <h2 className="text-xl font-bold text-[#1a3c34] dark:text-[#e8f4f0] flex items-center justify-center gap-2">
                 <LogIn className="w-5 h-5 text-[#2a9d8f]" />
                 Welcome Back
               </h2>
-              <p className="text-[#6b8a82] text-sm mt-1">
+              <p className="text-[#6b8a82] dark:text-[#9fb3c8] text-sm mt-1">
                 Sign in to your account to continue
               </p>
             </div>
@@ -239,7 +239,7 @@ const LoginPage = () => {
               variant="bordered"
               onPress={handleGoogleLogin}
               isLoading={loading}
-              className="w-full rounded-xl py-3 border-2 border-[#d4ebe6] text-[#1a3c34] font-medium hover:bg-[#f0f9f6] transition-all"
+              className="w-full rounded-xl py-3 border-2 border-[#d4ebe6] dark:border-[#1e293b] text-[#1a3c34] dark:text-[#e8f4f0] font-medium hover:bg-[#f0f9f6] dark:bg-[#1a2435] transition-all"
             >
               <svg className="w-5 h-5 mr-2" viewBox="0 0 24 24">
                 <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
@@ -253,10 +253,10 @@ const LoginPage = () => {
             {/* Divider */}
             <div className="relative">
               <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-[#d4ebe6]" />
+                <div className="w-full border-t border-[#d4ebe6] dark:border-[#1e293b]" />
               </div>
               <div className="relative flex justify-center text-sm">
-                <span className="px-3 bg-white dark:bg-[#131c2b] text-[#8aa89e] text-xs font-medium">
+                <span className="px-3 bg-white dark:bg-[#131c2b] text-[#8aa89e] dark:text-[#6b7e94] text-xs font-medium">
                   or sign in with email
                 </span>
               </div>
@@ -272,14 +272,14 @@ const LoginPage = () => {
                 isInvalid={!!errors.email}
                 errorMessage={errors.email}
               >
-                <Label className="text-[#1a3c34] font-medium text-sm flex items-center gap-2">
+                <Label className="text-[#1a3c34] dark:text-[#e8f4f0] font-medium text-sm flex items-center gap-2">
                   <Mail className="w-4 h-4 text-[#2a9d8f]" />
                   Email Address
                 </Label>
                 <Input
                   type="email"
                   placeholder="john@example.com"
-                  className="rounded-xl border-[#d4ebe6] bg-[#f8fcfb] focus:border-[#2a9d8f] focus:ring-[#2a9d8f]/20 mt-1.5 transition-colors"
+                  className="rounded-xl border-[#d4ebe6] dark:border-[#1e293b] bg-[#f8fcfb] dark:bg-[#131c2b] focus:border-[#2a9d8f] focus:ring-[#2a9d8f]/20 mt-1.5 transition-colors"
                 />
                 <FieldError />
               </TextField>
@@ -293,7 +293,7 @@ const LoginPage = () => {
                 isInvalid={!!errors.password}
                 errorMessage={errors.password}
               >
-                <Label className="text-[#1a3c34] font-medium text-sm flex items-center gap-2">
+                <Label className="text-[#1a3c34] dark:text-[#e8f4f0] font-medium text-sm flex items-center gap-2">
                   <Lock className="w-4 h-4 text-[#2a9d8f]" />
                   Password
                 </Label>
@@ -301,12 +301,12 @@ const LoginPage = () => {
                   <Input
                     type={showPassword ? "text" : "password"}
                     placeholder="Enter your password"
-                    className="rounded-xl border-[#d4ebe6] bg-[#f8fcfb] focus:border-[#2a9d8f] focus:ring-[#2a9d8f]/20 pr-10 transition-colors"
+                    className="rounded-xl border-[#d4ebe6] dark:border-[#1e293b] bg-[#f8fcfb] dark:bg-[#131c2b] focus:border-[#2a9d8f] focus:ring-[#2a9d8f]/20 pr-10 transition-colors"
                   />
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-[#8aa89e] hover:text-[#2a9d8f] transition-colors"
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-[#8aa89e] dark:text-[#6b7e94] hover:text-[#2a9d8f] transition-colors"
                     aria-label={showPassword ? "Hide password" : "Show password"}
                   >
                     {showPassword ? (
@@ -326,7 +326,7 @@ const LoginPage = () => {
                   onValueChange={setRememberMe}
                   size="sm"
                 >
-                  <span className="text-xs text-[#5a7a72]">
+                  <span className="text-xs text-[#5a7a72] dark:text-[#9fb3c8]">
                     Remember me
                   </span>
                 </Checkbox>
@@ -351,7 +351,7 @@ const LoginPage = () => {
               </Button>
 
               {/* Register Link */}
-              <p className="text-center text-sm text-[#6b8a82]">
+              <p className="text-center text-sm text-[#6b8a82] dark:text-[#9fb3c8]">
                 Don&apos;t have an account?{" "}
                 <Link
                   href="/register"
@@ -363,8 +363,8 @@ const LoginPage = () => {
             </form>
 
             {/* Trust Indicators */}
-            <div className="pt-4 border-t border-[#d4ebe6]">
-              <div className="flex items-center justify-center gap-4 text-xs text-[#8aa89e]">
+            <div className="pt-4 border-t border-[#d4ebe6] dark:border-[#1e293b]">
+              <div className="flex items-center justify-center gap-4 text-xs text-[#8aa89e] dark:text-[#6b7e94]">
                 <div className="flex items-center gap-1">
                   <ShieldCheck className="w-3.5 h-3.5" />
                   <span>Secure SSL</span>
@@ -385,7 +385,7 @@ const LoginPage = () => {
         </Card>
 
         {/* Footer */}
-        <p className="text-center text-xs text-[#8aa89e] mt-4">
+        <p className="text-center text-xs text-[#8aa89e] dark:text-[#6b7e94] mt-4">
           Protected by reCAPTCHA and subject to Google Privacy Policy and Terms of Service.
         </p>
       </div>

@@ -293,7 +293,7 @@ export default function PostTaskForm() {
 
   const getInputClasses = (fieldName, extra = '') => {
     const status = getFieldStatus(fieldName);
-    const base = `w-full px-4 py-3.5 rounded-xl transition-all duration-200 bg-white outline-none text-sm`;
+    const base = `w-full px-4 py-3.5 rounded-xl transition-all duration-200 bg-white dark:bg-[#131c2b] outline-none text-sm`;
     const border = status === 'error'
       ? 'border-2 border-red-300 focus:border-red-500 bg-red-50/50'
       : status === 'success'
@@ -307,7 +307,7 @@ export default function PostTaskForm() {
       <div className="max-w-2xl mx-auto">
 
         {/* Header Card */}
-        <div className="mb-6 rounded-2xl p-6 bg-white" style={{ boxShadow: THEME.shadow }}>
+        <div className="mb-6 rounded-2xl p-6 bg-white dark:bg-[#131c2b]" style={{ boxShadow: THEME.shadow }}>
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ backgroundColor: THEME.primaryLight }}>
@@ -365,7 +365,7 @@ export default function PostTaskForm() {
         <form onSubmit={handleSubmit} className="space-y-5">
 
           {/* Task Title */}
-          <div className="rounded-2xl p-6 bg-white" style={{ boxShadow: THEME.shadow }} data-error={!!errors.title}>
+          <div className="rounded-2xl p-6 bg-white dark:bg-[#131c2b]" style={{ boxShadow: THEME.shadow }} data-error={!!errors.title}>
             <label className="block text-sm font-medium mb-2 flex items-center gap-2" style={{ color: THEME.textPrimary }}>
               <Type className="w-4 h-4" style={{ color: THEME.primary }} />
               Task Title <span style={{ color: THEME.error }}>*</span>
@@ -398,7 +398,7 @@ export default function PostTaskForm() {
 
           {/* Category & Budget */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-            <div className="rounded-2xl p-6 bg-white" style={{ boxShadow: THEME.shadow }} data-error={!!errors.category}>
+            <div className="rounded-2xl p-6 bg-white dark:bg-[#131c2b]" style={{ boxShadow: THEME.shadow }} data-error={!!errors.category}>
               <label className="block text-sm font-medium mb-2 flex items-center gap-2" style={{ color: THEME.textPrimary }}>
                 <Tag className="w-4 h-4" style={{ color: THEME.primary }} />
                 Category <span style={{ color: THEME.error }}>*</span>
@@ -419,7 +419,7 @@ export default function PostTaskForm() {
               {errors.category && <p className="mt-2 text-sm" style={{ color: THEME.error }}>{errors.category}</p>}
             </div>
 
-            <div className="rounded-2xl p-6 bg-white" style={{ boxShadow: THEME.shadow }} data-error={!!errors.budget}>
+            <div className="rounded-2xl p-6 bg-white dark:bg-[#131c2b]" style={{ boxShadow: THEME.shadow }} data-error={!!errors.budget}>
               <label className="block text-sm font-medium mb-2 flex items-center gap-2" style={{ color: THEME.textPrimary }}>
                 <DollarSign className="w-4 h-4" style={{ color: THEME.primary }} />
                 Budget (USD) <span style={{ color: THEME.error }}>*</span>
@@ -444,7 +444,7 @@ export default function PostTaskForm() {
           </div>
 
           {/* Skills Input */}
-          <div className="rounded-2xl p-6 bg-white" style={{ boxShadow: THEME.shadow }} data-error={!!errors.skills}>
+          <div className="rounded-2xl p-6 bg-white dark:bg-[#131c2b]" style={{ boxShadow: THEME.shadow }} data-error={!!errors.skills}>
             <label className="block text-sm font-medium mb-2 flex items-center gap-2" style={{ color: THEME.textPrimary }}>
               <Zap className="w-4 h-4" style={{ color: THEME.primary }} />
               Required Skills
@@ -453,7 +453,7 @@ export default function PostTaskForm() {
                 {formData.skills.length}/10
               </span>
             </label>
-            <div className={`relative border-2 rounded-xl p-2.5 transition-all duration-200 bg-white
+            <div className={`relative border-2 rounded-xl p-2.5 transition-all duration-200 bg-white dark:bg-[#131c2b]
               ${getFieldStatus('skills') === 'error' ? 'border-red-300' :
                 getFieldStatus('skills') === 'success' ? 'border-emerald-300' :
                   'border-gray-200 focus-within:border-[#2c7c74] focus-within:ring-2 focus-within:ring-[#2c7c74]/10'}`}>
@@ -468,7 +468,7 @@ export default function PostTaskForm() {
                     <button
                       type="button"
                       onClick={() => removeSkill(skill)}
-                      className="hover:bg-white/50 rounded-full p-0.5 transition-colors"
+                      className="hover:bg-white dark:bg-[#131c2b]/50 rounded-full p-0.5 transition-colors"
                     >
                       <X className="w-3 h-3" />
                     </button>
@@ -489,7 +489,7 @@ export default function PostTaskForm() {
               </div>
 
               {showSuggestions && skillSuggestions.length > 0 && (
-                <div className="absolute left-0 right-0 top-full mt-2 bg-white border rounded-xl shadow-lg z-10 overflow-hidden" style={{ borderColor: THEME.border }}>
+                <div className="absolute left-0 right-0 top-full mt-2 bg-white dark:bg-[#131c2b] border rounded-xl shadow-lg z-10 overflow-hidden" style={{ borderColor: THEME.border }}>
                   {skillSuggestions.map((skill) => (
                     <button
                       key={skill}
@@ -526,7 +526,7 @@ export default function PostTaskForm() {
           </div>
 
           {/* Deadline */}
-          <div className="rounded-2xl p-6 bg-white" style={{ boxShadow: THEME.shadow }} data-error={!!errors.deadline}>
+          <div className="rounded-2xl p-6 bg-white dark:bg-[#131c2b]" style={{ boxShadow: THEME.shadow }} data-error={!!errors.deadline}>
             <label className="block text-sm font-medium mb-2 flex items-center gap-2" style={{ color: THEME.textPrimary }}>
               <Calendar className="w-4 h-4" style={{ color: THEME.primary }} />
               Deadline <span style={{ color: THEME.error }}>*</span>
@@ -545,7 +545,7 @@ export default function PostTaskForm() {
           </div>
 
           {/* Description */}
-          <div className="rounded-2xl p-6 bg-white" style={{ boxShadow: THEME.shadow }} data-error={!!errors.description}>
+          <div className="rounded-2xl p-6 bg-white dark:bg-[#131c2b]" style={{ boxShadow: THEME.shadow }} data-error={!!errors.description}>
             <div className="flex items-center justify-between mb-2">
               <label className="block text-sm font-medium flex items-center gap-2" style={{ color: THEME.textPrimary }}>
                 <FileText className="w-4 h-4" style={{ color: THEME.primary }} />
@@ -589,7 +589,7 @@ export default function PostTaskForm() {
           </div>
 
           {/* Submit Section */}
-          <div className="rounded-2xl p-6 bg-white" style={{ boxShadow: THEME.shadow }}>
+          <div className="rounded-2xl p-6 bg-white dark:bg-[#131c2b]" style={{ boxShadow: THEME.shadow }}>
             <button
               type="submit"
               disabled={isSubmitting}
@@ -617,7 +617,7 @@ export default function PostTaskForm() {
             {isSubmitting && (
               <div className="mt-3 w-full bg-gray-100 rounded-full h-1">
                 <div
-                  className="bg-white/50 h-1 rounded-full transition-all duration-300"
+                  className="bg-white dark:bg-[#131c2b]/50 h-1 rounded-full transition-all duration-300"
                   style={{ width: `${submitProgress}%` }}
                 />
               </div>

@@ -41,12 +41,12 @@ function RatingBar({ label, count, total }) {
   const pct = total > 0 ? Math.round((count / total) * 100) : 0;
   return (
     <div className="flex items-center gap-3 text-xs">
-      <span className="w-12 text-right text-[#5a7a72] font-medium shrink-0">{label}</span>
+      <span className="w-12 text-right text-[#5a7a72] dark:text-[#9fb3c8] font-medium shrink-0">{label}</span>
       <div className="flex-1 h-2 bg-gray-100 rounded-full overflow-hidden">
         <div className="h-full bg-amber-400 rounded-full transition-all duration-500"
           style={{ width: `${pct}%` }} />
       </div>
-      <span className="w-6 text-[#8aa89e] font-semibold">{count}</span>
+      <span className="w-6 text-[#8aa89e] dark:text-[#6b7e94] font-semibold">{count}</span>
     </div>
   );
 }
@@ -100,10 +100,10 @@ export default function FreelancerProfilePage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#f4f8f6] flex items-center justify-center">
+      <div className="min-h-screen bg-[#f4f8f6] dark:bg-[#1a2435] flex items-center justify-center">
         <div className="flex flex-col items-center gap-3">
           <Loader2 className="w-10 h-10 animate-spin text-[#2a9d8f]" />
-          <p className="text-[#5a7a72] font-semibold text-sm">Loading profile...</p>
+          <p className="text-[#5a7a72] dark:text-[#9fb3c8] font-semibold text-sm">Loading profile...</p>
         </div>
       </div>
     );
@@ -111,8 +111,8 @@ export default function FreelancerProfilePage() {
 
   if (error || !freelancer) {
     return (
-      <div className="min-h-screen bg-[#f4f8f6] flex items-center justify-center p-4">
-        <div className="bg-white rounded-3xl border border-red-100 p-8 max-w-sm text-center space-y-4">
+      <div className="min-h-screen bg-[#f4f8f6] dark:bg-[#1a2435] flex items-center justify-center p-4">
+        <div className="bg-white dark:bg-[#131c2b] rounded-3xl border border-red-100 p-8 max-w-sm text-center space-y-4">
           <AlertTriangle className="w-10 h-10 text-red-500 mx-auto" />
           <h2 className="text-xl font-bold text-red-800">Profile Not Found</h2>
           <p className="text-red-500 text-sm">{error || "This freelancer does not exist."}</p>
@@ -137,12 +137,12 @@ export default function FreelancerProfilePage() {
   }));
 
   return (
-    <div className="min-h-screen bg-[#f4f8f6] py-8 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-[#f4f8f6] dark:bg-[#1a2435] py-8 px-4 sm:px-6 lg:px-8">
       <div className="max-w-5xl mx-auto space-y-6">
 
         {/* Back Link */}
         <Link href="/freelancers"
-          className="inline-flex items-center gap-2 text-sm font-semibold text-[#5a7a72] hover:text-[#1a3c34] transition-colors">
+          className="inline-flex items-center gap-2 text-sm font-semibold text-[#5a7a72] dark:text-[#9fb3c8] hover:text-[#1a3c34] dark:text-[#e8f4f0] transition-colors">
           <ArrowLeft className="w-4 h-4" /> Back to Browse Freelancers
         </Link>
 
@@ -157,7 +157,7 @@ export default function FreelancerProfilePage() {
               <img src={freelancer.image} alt={freelancer.name}
                 className="w-24 h-24 rounded-2xl object-cover border-4 border-white/20 shadow-xl shrink-0" />
             ) : (
-              <div className="w-24 h-24 rounded-2xl bg-white/10 border-4 border-white/20 flex items-center justify-center text-3xl font-bold shrink-0">
+              <div className="w-24 h-24 rounded-2xl bg-white dark:bg-[#131c2b]/10 border-4 border-white/20 flex items-center justify-center text-3xl font-bold shrink-0">
                 {(freelancer.name || "?")[0].toUpperCase()}
               </div>
             )}
@@ -187,7 +187,7 @@ export default function FreelancerProfilePage() {
 
               {/* Journey started badge */}
               {freelancer.createdAt && (
-                <div className="inline-flex items-center gap-2 bg-white/10 border border-white/20 backdrop-blur-sm px-4 py-2 rounded-full w-fit">
+                <div className="inline-flex items-center gap-2 bg-white dark:bg-[#131c2b]/10 border border-white/20 backdrop-blur-sm px-4 py-2 rounded-full w-fit">
                   <Rocket className="w-3.5 h-3.5 text-[#2a9d8f]" />
                   <span className="text-xs font-semibold text-emerald-100">
                     Journey started{" "}
@@ -228,7 +228,7 @@ export default function FreelancerProfilePage() {
               label: "Total Reviews",
               value: ratingCount,
               color: "text-[#2a9d8f]",
-              bg: "bg-[#eaf5f2]",
+              bg: "bg-[#eaf5f2] dark:bg-[#1a2435]",
             },
             {
               icon: CheckCircle2,
@@ -241,32 +241,32 @@ export default function FreelancerProfilePage() {
               icon: DollarSign,
               label: "Hourly Rate",
               value: rate > 0 ? `$${rate}` : "—",
-              color: "text-[#1a3c34]",
-              bg: "bg-[#f0f7f4]",
+              color: "text-[#1a3c34] dark:text-[#e8f4f0]",
+              bg: "bg-[#f0f7f4] dark:bg-[#1a2435]",
             },
           ].map(({ icon: Icon, label, value, color, bg }) => (
             <div key={label}
-              className="bg-white rounded-2xl border border-[#d4ebe6]/40 p-5 flex flex-col gap-3 shadow-sm hover:shadow-md transition-all">
+              className="bg-white dark:bg-[#131c2b] rounded-2xl border border-[#d4ebe6] dark:border-[#1e293b]/40 p-5 flex flex-col gap-3 shadow-sm hover:shadow-md transition-all">
               <div className={`w-9 h-9 rounded-xl ${bg} flex items-center justify-center`}>
                 <Icon className={`w-5 h-5 ${color}`} />
               </div>
               <div>
-                <p className="text-xs font-bold text-[#8aa89e] uppercase tracking-wider">{label}</p>
-                <p className="text-2xl font-extrabold text-[#1a3c34] mt-0.5">{value}</p>
+                <p className="text-xs font-bold text-[#8aa89e] dark:text-[#6b7e94] uppercase tracking-wider">{label}</p>
+                <p className="text-2xl font-extrabold text-[#1a3c34] dark:text-[#e8f4f0] mt-0.5">{value}</p>
               </div>
             </div>
           ))}
         </div>
 
         {/* Tabs */}
-        <div className="bg-white rounded-3xl border border-[#d4ebe6]/40 shadow-sm overflow-hidden">
+        <div className="bg-white dark:bg-[#131c2b] rounded-3xl border border-[#d4ebe6] dark:border-[#1e293b]/40 shadow-sm overflow-hidden">
           <div className="flex border-b border-gray-100">
             {["about", "reviews"].map((tab) => (
               <button key={tab} onClick={() => setActiveTab(tab)}
                 className={`flex-1 py-4 text-sm font-bold capitalize transition-all ${
                   activeTab === tab
-                    ? "text-[#1a3c34] border-b-2 border-[#2a9d8f]"
-                    : "text-[#8aa89e] hover:text-[#5a7a72]"
+                    ? "text-[#1a3c34] dark:text-[#e8f4f0] border-b-2 border-[#2a9d8f]"
+                    : "text-[#8aa89e] dark:text-[#6b7e94] hover:text-[#5a7a72] dark:text-[#9fb3c8]"
                 }`}>
                 {tab === "about" ? "About & Skills" : `Reviews (${ratingCount})`}
               </button>
@@ -278,8 +278,8 @@ export default function FreelancerProfilePage() {
               <div className="space-y-8">
                 {/* Bio */}
                 <div>
-                  <h2 className="text-xs font-bold uppercase tracking-wider text-[#8aa89e] mb-3">About</h2>
-                  <p className="text-[#5a7a72] leading-relaxed text-sm">
+                  <h2 className="text-xs font-bold uppercase tracking-wider text-[#8aa89e] dark:text-[#6b7e94] mb-3">About</h2>
+                  <p className="text-[#5a7a72] dark:text-[#9fb3c8] leading-relaxed text-sm">
                     {freelancer.bio || "This freelancer hasn't added a bio yet."}
                   </p>
                 </div>
@@ -287,11 +287,11 @@ export default function FreelancerProfilePage() {
                 {/* Skills */}
                 {skills.length > 0 && (
                   <div>
-                    <h2 className="text-xs font-bold uppercase tracking-wider text-[#8aa89e] mb-3">Skills</h2>
+                    <h2 className="text-xs font-bold uppercase tracking-wider text-[#8aa89e] dark:text-[#6b7e94] mb-3">Skills</h2>
                     <div className="flex flex-wrap gap-2">
                       {skills.map((skill) => (
                         <span key={skill}
-                          className="text-sm bg-[#eaf5f2] text-[#2a9d8f] px-4 py-2 rounded-xl font-semibold border border-[#d4ebe6]">
+                          className="text-sm bg-[#eaf5f2] dark:bg-[#1a2435] text-[#2a9d8f] px-4 py-2 rounded-xl font-semibold border border-[#d4ebe6] dark:border-[#1e293b]">
                           {skill}
                         </span>
                       ))}
@@ -300,11 +300,11 @@ export default function FreelancerProfilePage() {
                 )}
 
                 {/* Journey Timeline */}
-                <div className="bg-gradient-to-r from-[#eaf5f2] to-white rounded-2xl border border-[#d4ebe6]/60 p-5 relative overflow-hidden">
+                <div className="bg-gradient-to-r from-[#eaf5f2] to-white rounded-2xl border border-[#d4ebe6] dark:border-[#1e293b]/60 p-5 relative overflow-hidden">
                   <div className="absolute right-4 top-1/2 -translate-y-1/2 opacity-10">
                     <Sparkles className="w-16 h-16 text-[#2a9d8f]" />
                   </div>
-                  <p className="text-[10px] font-bold text-[#8aa89e] uppercase tracking-wider mb-3">Freelancer Journey</p>
+                  <p className="text-[10px] font-bold text-[#8aa89e] dark:text-[#6b7e94] uppercase tracking-wider mb-3">Freelancer Journey</p>
                   <div className="flex items-start gap-4 relative">
                     {/* timeline line */}
                     <div className="flex flex-col items-center">
@@ -313,12 +313,12 @@ export default function FreelancerProfilePage() {
                     </div>
                     <div className="space-y-3 flex-1">
                       <div>
-                        <p className="text-xs font-bold text-[#1a3c34]">
+                        <p className="text-xs font-bold text-[#1a3c34] dark:text-[#e8f4f0]">
                           {freelancer.createdAt
                             ? `Joined ${new Date(freelancer.createdAt).toLocaleDateString(undefined, { month: "long", year: "numeric" })}`
                             : "Member since joining"}
                         </p>
-                        <p className="text-[11px] text-[#8aa89e] mt-0.5">
+                        <p className="text-[11px] text-[#8aa89e] dark:text-[#6b7e94] mt-0.5">
                           {freelancer.createdAt
                             ? (() => {
                                 const joined = new Date(freelancer.createdAt);
@@ -337,7 +337,7 @@ export default function FreelancerProfilePage() {
                       {completedJobs > 0 && (
                         <div className="flex items-center gap-2">
                           <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500 shrink-0" />
-                          <p className="text-xs text-[#5a7a72] font-semibold">
+                          <p className="text-xs text-[#5a7a72] dark:text-[#9fb3c8] font-semibold">
                             {completedJobs} job{completedJobs !== 1 ? "s" : ""} successfully completed
                           </p>
                         </div>
@@ -345,7 +345,7 @@ export default function FreelancerProfilePage() {
                       {ratingCount > 0 && (
                         <div className="flex items-center gap-2">
                           <Star className="w-3.5 h-3.5 text-amber-400 fill-amber-400 shrink-0" />
-                          <p className="text-xs text-[#5a7a72] font-semibold">
+                          <p className="text-xs text-[#5a7a72] dark:text-[#9fb3c8] font-semibold">
                             {avgRating.toFixed(1)} avg rating across {ratingCount} review{ratingCount !== 1 ? "s" : ""}
                           </p>
                         </div>
@@ -362,22 +362,22 @@ export default function FreelancerProfilePage() {
                     <div className="w-16 h-16 bg-amber-50 rounded-2xl flex items-center justify-center mx-auto">
                       <Star className="w-8 h-8 text-amber-300" />
                     </div>
-                    <h3 className="text-lg font-bold text-[#1a3c34]">No Reviews Yet</h3>
-                    <p className="text-[#8aa89e] text-sm max-w-xs mx-auto">
+                    <h3 className="text-lg font-bold text-[#1a3c34] dark:text-[#e8f4f0]">No Reviews Yet</h3>
+                    <p className="text-[#8aa89e] dark:text-[#6b7e94] text-sm max-w-xs mx-auto">
                       This freelancer hasn&apos;t received any reviews yet. Be the first to hire and rate them!
                     </p>
                   </div>
                 ) : (
                   <>
                     {/* Rating Summary */}
-                    <div className="flex flex-col sm:flex-row gap-8 p-6 bg-[#f4f8f6] rounded-2xl border border-[#d4ebe6]/50">
+                    <div className="flex flex-col sm:flex-row gap-8 p-6 bg-[#f4f8f6] dark:bg-[#1a2435] rounded-2xl border border-[#d4ebe6] dark:border-[#1e293b]/50">
                       {/* Big Score */}
                       <div className="flex flex-col items-center justify-center shrink-0 gap-2">
-                        <span className="text-6xl font-extrabold text-[#1a3c34]">
+                        <span className="text-6xl font-extrabold text-[#1a3c34] dark:text-[#e8f4f0]">
                           {avgRating.toFixed(1)}
                         </span>
                         <StarRow rating={avgRating} size="lg" />
-                        <span className="text-xs text-[#8aa89e] font-semibold">
+                        <span className="text-xs text-[#8aa89e] dark:text-[#6b7e94] font-semibold">
                           {ratingCount} review{ratingCount !== 1 ? "s" : ""}
                         </span>
                       </div>
@@ -394,14 +394,14 @@ export default function FreelancerProfilePage() {
                     <div className="space-y-5">
                       {ratings.map((r) => (
                         <div key={r._id}
-                          className="border border-[#d4ebe6]/40 rounded-2xl p-5 bg-white hover:shadow-sm transition-all">
+                          className="border border-[#d4ebe6] dark:border-[#1e293b]/40 rounded-2xl p-5 bg-white dark:bg-[#131c2b] hover:shadow-sm transition-all">
                           <div className="flex items-start justify-between gap-3 flex-wrap">
                             <div className="flex items-center gap-3">
-                              <div className="w-10 h-10 rounded-xl bg-[#eaf5f2] flex items-center justify-center text-[#2a9d8f] font-bold text-sm shrink-0">
+                              <div className="w-10 h-10 rounded-xl bg-[#eaf5f2] dark:bg-[#1a2435] flex items-center justify-center text-[#2a9d8f] font-bold text-sm shrink-0">
                                 {(r.clientEmail || "C")[0].toUpperCase()}
                               </div>
                               <div>
-                                <p className="text-sm font-bold text-[#1a3c34]">
+                                <p className="text-sm font-bold text-[#1a3c34] dark:text-[#e8f4f0]">
                                   {r.clientEmail?.split("@")[0] || "Client"}
                                 </p>
                                 <div className="flex items-center gap-1.5 mt-0.5">
@@ -410,7 +410,7 @@ export default function FreelancerProfilePage() {
                                 </div>
                               </div>
                             </div>
-                            <div className="flex items-center gap-1.5 text-xs text-[#8aa89e]">
+                            <div className="flex items-center gap-1.5 text-xs text-[#8aa89e] dark:text-[#6b7e94]">
                               <Calendar className="w-3.5 h-3.5" />
                               {r.createdAt
                                 ? new Date(r.createdAt).toLocaleDateString(undefined, {
@@ -423,7 +423,7 @@ export default function FreelancerProfilePage() {
                           </div>
 
                           {r.review && (
-                            <p className="mt-4 text-sm text-[#5a7a72] leading-relaxed border-l-2 border-[#d4ebe6] pl-4 italic">
+                            <p className="mt-4 text-sm text-[#5a7a72] dark:text-[#9fb3c8] leading-relaxed border-l-2 border-[#d4ebe6] dark:border-[#1e293b] pl-4 italic">
                               &ldquo;{r.review}&rdquo;
                             </p>
                           )}

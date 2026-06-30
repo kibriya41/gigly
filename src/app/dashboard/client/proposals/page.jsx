@@ -187,10 +187,10 @@ export default function ClientProposalsPage() {
     : 0;
 
   const stats = [
-    { title: "Total Proposals", value: totalCount, icon: Briefcase, iconBg: "bg-[#eaf5f2]", iconColor: "text-[#2a9d8f]", cardBg: "bg-white" },
-    { title: "Pending Review", value: pendingCount, icon: Clock, iconBg: "bg-[#fffbeb]", iconColor: "text-[#d97706]", cardBg: "bg-white" },
-    { title: "Accepted", value: acceptedCount, icon: CheckCircle2, iconBg: "bg-emerald-50", iconColor: "text-emerald-600", cardBg: "bg-white" },
-    { title: "Avg. Bid Value", value: totalCount > 0 ? `$${Math.round(avgBid).toLocaleString()}` : "$0", icon: DollarSign, iconBg: "bg-[#e2f1ed]", iconColor: "text-[#1a3c34]", cardBg: "bg-[#f0f7f4]" },
+    { title: "Total Proposals", value: totalCount, icon: Briefcase, iconBg: "bg-[#eaf5f2] dark:bg-[#1a2435]", iconColor: "text-[#2a9d8f]", cardBg: "bg-white dark:bg-[#131c2b]" },
+    { title: "Pending Review", value: pendingCount, icon: Clock, iconBg: "bg-[#fffbeb]", iconColor: "text-[#d97706]", cardBg: "bg-white dark:bg-[#131c2b]" },
+    { title: "Accepted", value: acceptedCount, icon: CheckCircle2, iconBg: "bg-emerald-50", iconColor: "text-emerald-600", cardBg: "bg-white dark:bg-[#131c2b]" },
+    { title: "Avg. Bid Value", value: totalCount > 0 ? `$${Math.round(avgBid).toLocaleString()}` : "$0", icon: DollarSign, iconBg: "bg-[#e2f1ed] dark:bg-[#1a2435]", iconColor: "text-[#1a3c34] dark:text-[#e8f4f0]", cardBg: "bg-[#f0f7f4] dark:bg-[#1a2435]" },
   ];
 
   // ─── Filter & Sort ─────────────────────────────────────────────────────────
@@ -218,7 +218,7 @@ export default function ClientProposalsPage() {
       <div className="flex items-center justify-center min-h-[60vh]">
         <div className="flex flex-col items-center gap-4">
           <Loader2 className="w-10 h-10 animate-spin text-[#2a9d8f]" />
-          <p className="text-[#5a7a72] font-medium">Loading session...</p>
+          <p className="text-[#5a7a72] dark:text-[#9fb3c8] font-medium">Loading session...</p>
         </div>
       </div>
     );
@@ -227,12 +227,12 @@ export default function ClientProposalsPage() {
   if (!session) {
     return (
       <div className="flex items-center justify-center min-h-[60vh] max-w-md mx-auto text-center px-4">
-        <div className="bg-white p-8 rounded-3xl border border-[#d4ebe6]/50 shadow-md space-y-6">
+        <div className="bg-white dark:bg-[#131c2b] p-8 rounded-3xl border border-[#d4ebe6] dark:border-[#1e293b]/50 shadow-md space-y-6">
           <div className="w-16 h-16 bg-red-50 text-red-500 rounded-2xl flex items-center justify-center mx-auto">
             <AlertTriangle className="w-8 h-8" />
           </div>
-          <h2 className="text-2xl font-serif font-bold text-[#1a3c34]">Access Denied</h2>
-          <p className="text-[#5a7a72] text-[15px]">Please sign in to manage proposals.</p>
+          <h2 className="text-2xl font-serif font-bold text-[#1a3c34] dark:text-[#e8f4f0]">Access Denied</h2>
+          <p className="text-[#5a7a72] dark:text-[#9fb3c8] text-[15px]">Please sign in to manage proposals.</p>
           <Link href="/login" className="block w-full bg-[#1a3c34] hover:bg-[#255248] text-white py-3 rounded-xl font-medium transition-all">
             Sign In
           </Link>
@@ -244,7 +244,7 @@ export default function ClientProposalsPage() {
   const taskStatusStyle = status =>
     status?.toLowerCase() === "open"
       ? "text-[#d97706] bg-[#fffbeb] border-[#fef3c7]"
-      : "text-[#2a9d8f] bg-[#eaf5f2] border-[#d4ebe6]";
+      : "text-[#2a9d8f] bg-[#eaf5f2] dark:bg-[#1a2435] border-[#d4ebe6] dark:border-[#1e293b]";
 
   return (
     <div className="space-y-10 max-w-7xl mx-auto pb-16 relative">
@@ -252,7 +252,7 @@ export default function ClientProposalsPage() {
       {/* Toast */}
       {toast && (
         <div className={`fixed bottom-5 right-5 z-50 flex items-center gap-2 px-5 py-3.5 rounded-2xl shadow-xl border animate-in fade-in slide-in-from-bottom-5 duration-300
-          ${toast.type === "error" ? "bg-red-50 text-red-800 border-red-200" : "bg-[#eaf5f2] text-[#1a3c34] border-[#d4ebe6]"}`}>
+          ${toast.type === "error" ? "bg-red-50 text-red-800 border-red-200" : "bg-[#eaf5f2] dark:bg-[#1a2435] text-[#1a3c34] dark:text-[#e8f4f0] border-[#d4ebe6] dark:border-[#1e293b]"}`}>
           {toast.type === "error"
             ? <XCircle className="w-5 h-5 text-red-500 shrink-0" />
             : <CheckCircle2 className="w-5 h-5 text-[#2a9d8f] shrink-0" />}
@@ -263,8 +263,8 @@ export default function ClientProposalsPage() {
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div>
-          <h1 className="text-4xl font-serif font-semibold text-[#1a3c34] tracking-tight">Manage Proposals</h1>
-          <p className="text-[#5a7a72] mt-1.5 text-[15px]">
+          <h1 className="text-4xl font-serif font-semibold text-[#1a3c34] dark:text-[#e8f4f0] tracking-tight">Manage Proposals</h1>
+          <p className="text-[#5a7a72] dark:text-[#9fb3c8] mt-1.5 text-[15px]">
             Review, evaluate, accept or decline proposals submitted by freelancers for your tasks.
           </p>
         </div>
@@ -272,7 +272,7 @@ export default function ClientProposalsPage() {
           <button
             onClick={fetchClientData}
             disabled={loading}
-            className="flex items-center gap-2 bg-[#f4f8f6] hover:bg-[#eaf5f2] border border-[#d4ebe6] text-[#1a3c34] px-4 py-2.5 rounded-full text-xs font-semibold transition-all cursor-pointer disabled:opacity-50"
+            className="flex items-center gap-2 bg-[#f4f8f6] dark:bg-[#1a2435] hover:bg-[#eaf5f2] dark:bg-[#1a2435] border border-[#d4ebe6] dark:border-[#1e293b] text-[#1a3c34] dark:text-[#e8f4f0] px-4 py-2.5 rounded-full text-xs font-semibold transition-all cursor-pointer disabled:opacity-50"
           >
             <RefreshCw className={`w-3.5 h-3.5 ${loading ? "animate-spin" : ""}`} />
             Refresh
@@ -292,13 +292,13 @@ export default function ClientProposalsPage() {
         {stats.map((stat, i) => {
           const Icon = stat.icon;
           return (
-            <div key={i} className={`p-6 rounded-2xl border border-[#d4ebe6]/50 shadow-sm flex flex-col justify-between h-[150px] transition-all hover:shadow-md ${stat.cardBg}`}>
+            <div key={i} className={`p-6 rounded-2xl border border-[#d4ebe6] dark:border-[#1e293b]/50 shadow-sm flex flex-col justify-between h-[150px] transition-all hover:shadow-md ${stat.cardBg}`}>
               <div className={`p-2.5 rounded-xl w-fit ${stat.iconBg} ${stat.iconColor}`}>
                 <Icon size={20} />
               </div>
               <div className="space-y-1 mt-4">
-                <span className="text-xs font-semibold text-[#8aa89e] uppercase tracking-wider">{stat.title}</span>
-                <p className="text-3xl font-semibold text-[#1a3c34]">
+                <span className="text-xs font-semibold text-[#8aa89e] dark:text-[#6b7e94] uppercase tracking-wider">{stat.title}</span>
+                <p className="text-3xl font-semibold text-[#1a3c34] dark:text-[#e8f4f0]">
                   {loading ? <span className="inline-block w-12 h-6 bg-gray-100 animate-pulse rounded" /> : stat.value}
                 </p>
               </div>
@@ -308,9 +308,9 @@ export default function ClientProposalsPage() {
       </div>
 
       {/* Filters */}
-      <div className="bg-white p-6 rounded-3xl border border-[#d4ebe6]/40 shadow-sm flex flex-col gap-4 md:flex-row md:items-center md:justify-between md:gap-6">
+      <div className="bg-white dark:bg-[#131c2b] p-6 rounded-3xl border border-[#d4ebe6] dark:border-[#1e293b]/40 shadow-sm flex flex-col gap-4 md:flex-row md:items-center md:justify-between md:gap-6">
         <div className="relative flex-1 max-w-md">
-          <Search className="absolute left-4 top-3.5 w-4 h-4 text-[#8aa89e]" />
+          <Search className="absolute left-4 top-3.5 w-4 h-4 text-[#8aa89e] dark:text-[#6b7e94]" />
           <input
             type="text"
             placeholder="Search by freelancer, pitch or task..."
@@ -326,12 +326,12 @@ export default function ClientProposalsPage() {
         </div>
 
         <div className="flex flex-wrap items-center gap-3">
-          <div className="flex items-center gap-1.5 bg-[#f4f8f6] px-3.5 py-2.5 rounded-2xl border border-[#d4ebe6]/60 text-xs text-[#5a7a72] font-semibold">
+          <div className="flex items-center gap-1.5 bg-[#f4f8f6] dark:bg-[#1a2435] px-3.5 py-2.5 rounded-2xl border border-[#d4ebe6] dark:border-[#1e293b]/60 text-xs text-[#5a7a72] dark:text-[#9fb3c8] font-semibold">
             <Filter className="w-3.5 h-3.5 text-[#2a9d8f] shrink-0" />
             <select
               value={taskFilter}
               onChange={e => setTaskFilter(e.target.value)}
-              className="bg-transparent outline-none cursor-pointer text-[#1a3c34] font-bold max-w-[140px]"
+              className="bg-transparent outline-none cursor-pointer text-[#1a3c34] dark:text-[#e8f4f0] font-bold max-w-[140px]"
             >
               <option value="All">All Tasks</option>
               {tasks.map(task => (
@@ -340,12 +340,12 @@ export default function ClientProposalsPage() {
             </select>
           </div>
 
-          <div className="flex items-center gap-1.5 bg-[#f4f8f6] px-3.5 py-2.5 rounded-2xl border border-[#d4ebe6]/60 text-xs text-[#5a7a72] font-semibold">
+          <div className="flex items-center gap-1.5 bg-[#f4f8f6] dark:bg-[#1a2435] px-3.5 py-2.5 rounded-2xl border border-[#d4ebe6] dark:border-[#1e293b]/60 text-xs text-[#5a7a72] dark:text-[#9fb3c8] font-semibold">
             <Award className="w-3.5 h-3.5 text-[#2a9d8f]" />
             <select
               value={statusFilter}
               onChange={e => setStatusFilter(e.target.value)}
-              className="bg-transparent outline-none cursor-pointer text-[#1a3c34] font-bold"
+              className="bg-transparent outline-none cursor-pointer text-[#1a3c34] dark:text-[#e8f4f0] font-bold"
             >
               <option value="All">All Statuses</option>
               <option value="Pending">Pending</option>
@@ -353,12 +353,12 @@ export default function ClientProposalsPage() {
             </select>
           </div>
 
-          <div className="flex items-center gap-1.5 bg-[#f4f8f6] px-3.5 py-2.5 rounded-2xl border border-[#d4ebe6]/60 text-xs text-[#5a7a72] font-semibold">
+          <div className="flex items-center gap-1.5 bg-[#f4f8f6] dark:bg-[#1a2435] px-3.5 py-2.5 rounded-2xl border border-[#d4ebe6] dark:border-[#1e293b]/60 text-xs text-[#5a7a72] dark:text-[#9fb3c8] font-semibold">
             <ArrowUpDown className="w-3.5 h-3.5 text-[#2a9d8f]" />
             <select
               value={sortBy}
               onChange={e => setSortBy(e.target.value)}
-              className="bg-transparent outline-none cursor-pointer text-[#1a3c34] font-bold"
+              className="bg-transparent outline-none cursor-pointer text-[#1a3c34] dark:text-[#e8f4f0] font-bold"
             >
               <option value="newest">Newest First</option>
               <option value="price-desc">Price: High to Low</option>
@@ -374,7 +374,7 @@ export default function ClientProposalsPage() {
         <div className="flex items-center justify-center min-h-[30vh]">
           <div className="flex flex-col items-center gap-3">
             <Loader2 className="w-8 h-8 animate-spin text-[#2a9d8f]" />
-            <p className="text-[#8aa89e] text-sm font-medium">Fetching proposals...</p>
+            <p className="text-[#8aa89e] dark:text-[#6b7e94] text-sm font-medium">Fetching proposals...</p>
           </div>
         </div>
       ) : error ? (
@@ -387,13 +387,13 @@ export default function ClientProposalsPage() {
           </button>
         </div>
       ) : filteredProposals.length === 0 ? (
-        <div className="bg-white rounded-3xl border border-[#d4ebe6]/40 p-12 text-center max-w-xl mx-auto shadow-sm space-y-6">
-          <div className="w-16 h-16 bg-[#eaf5f2] text-[#2a9d8f] rounded-2xl flex items-center justify-center mx-auto">
+        <div className="bg-white dark:bg-[#131c2b] rounded-3xl border border-[#d4ebe6] dark:border-[#1e293b]/40 p-12 text-center max-w-xl mx-auto shadow-sm space-y-6">
+          <div className="w-16 h-16 bg-[#eaf5f2] dark:bg-[#1a2435] text-[#2a9d8f] rounded-2xl flex items-center justify-center mx-auto">
             <Briefcase className="w-8 h-8" />
           </div>
           <div>
-            <h3 className="text-xl font-bold text-[#1a3c34]">No Proposals Found</h3>
-            <p className="text-[#8aa89e] text-sm mt-1.5 px-4">
+            <h3 className="text-xl font-bold text-[#1a3c34] dark:text-[#e8f4f0]">No Proposals Found</h3>
+            <p className="text-[#8aa89e] dark:text-[#6b7e94] text-sm mt-1.5 px-4">
               {searchTerm || taskFilter !== "All" || statusFilter !== "All"
                 ? "No proposals match your current filters."
                 : proposals.length === 0
@@ -404,7 +404,7 @@ export default function ClientProposalsPage() {
           {(searchTerm || taskFilter !== "All" || statusFilter !== "All") && (
             <button
               onClick={() => { setSearchTerm(""); setTaskFilter("All"); setStatusFilter("All"); }}
-              className="px-5 py-2.5 bg-[#f4f8f6] hover:bg-[#eaf5f2] border border-[#d4ebe6] text-[#1a3c34] font-semibold text-xs rounded-xl transition-all"
+              className="px-5 py-2.5 bg-[#f4f8f6] dark:bg-[#1a2435] hover:bg-[#eaf5f2] dark:bg-[#1a2435] border border-[#d4ebe6] dark:border-[#1e293b] text-[#1a3c34] dark:text-[#e8f4f0] font-semibold text-xs rounded-xl transition-all"
             >
               Reset Filters
             </button>
@@ -423,8 +423,8 @@ export default function ClientProposalsPage() {
             return (
               <div
                 key={proposal._id || i}
-                className={`bg-white rounded-3xl border p-6 md:p-8 hover:shadow-md transition-all relative overflow-hidden
-                  ${isAccepted ? "border-emerald-200 bg-emerald-50/30" : isRejected ? "border-red-200 bg-red-50/30" : "border-[#d4ebe6]/40 hover:border-[#2a9d8f]/30"}`}
+                className={`bg-white dark:bg-[#131c2b] rounded-3xl border p-6 md:p-8 hover:shadow-md transition-all relative overflow-hidden
+                  ${isAccepted ? "border-emerald-200 bg-emerald-50/30" : isRejected ? "border-red-200 bg-red-50/30" : "border-[#d4ebe6] dark:border-[#1e293b]/40 hover:border-[#2a9d8f]/30"}`}
               >
                 {/* Accepted badge */}
                 {isAccepted && (
@@ -454,7 +454,7 @@ export default function ClientProposalsPage() {
                       {proposal.initials}
                     </div>
                     <div className="space-y-1">
-                      <h4 className="font-bold text-[#1a3c34] text-lg">{proposal.name}</h4>
+                      <h4 className="font-bold text-[#1a3c34] dark:text-[#e8f4f0] text-lg">{proposal.name}</h4>
                       <div className="flex flex-wrap items-center gap-2 text-xs">
                         <Link href={`/tasks/${proposal.taskId}`} className="text-[#2a9d8f] font-semibold hover:underline flex items-center gap-1">
                           <Briefcase className="w-3.5 h-3.5" />
@@ -467,7 +467,7 @@ export default function ClientProposalsPage() {
                         {proposal.taskCategory && (
                           <>
                             <span className="text-gray-300">•</span>
-                            <span className="inline-flex items-center gap-1 text-[10px] font-semibold bg-[#eaf5f2] text-[#2a9d8f] px-2 py-0.5 rounded-lg">
+                            <span className="inline-flex items-center gap-1 text-[10px] font-semibold bg-[#eaf5f2] dark:bg-[#1a2435] text-[#2a9d8f] px-2 py-0.5 rounded-lg">
                               <Tag className="w-3 h-3" />
                               {proposal.taskCategory}
                             </span>
@@ -481,7 +481,7 @@ export default function ClientProposalsPage() {
                     <span className="text-2xl font-extrabold text-[#2a9d8f]">
                       ${Number(proposal.amount || 0).toLocaleString()} USD
                     </span>
-                    <span className="text-xs text-[#8aa89e] font-semibold flex items-center gap-1">
+                    <span className="text-xs text-[#8aa89e] dark:text-[#6b7e94] font-semibold flex items-center gap-1">
                       <Clock className="w-3.5 h-3.5 text-[#2a9d8f]" />
                       {proposal.days} Day{proposal.days !== 1 ? "s" : ""} Delivery
                     </span>
@@ -490,8 +490,8 @@ export default function ClientProposalsPage() {
 
                 {/* Pitch */}
                 <div className="mt-5 bg-gray-50 border border-gray-100 p-4 rounded-2xl">
-                  <span className="text-[10px] uppercase font-bold text-[#8aa89e] tracking-wider block mb-1">Freelancer Pitch</span>
-                  <p className="text-sm text-[#5a7a72] leading-relaxed italic">
+                  <span className="text-[10px] uppercase font-bold text-[#8aa89e] dark:text-[#6b7e94] tracking-wider block mb-1">Freelancer Pitch</span>
+                  <p className="text-sm text-[#5a7a72] dark:text-[#9fb3c8] leading-relaxed italic">
                     &ldquo;{proposal.pitch}&rdquo;
                   </p>
                 </div>
@@ -509,10 +509,10 @@ export default function ClientProposalsPage() {
 
                 {/* Footer / Actions */}
                 <div className="mt-6 pt-5 border-t border-gray-100 flex items-center justify-between gap-4 flex-wrap">
-                  <div className="flex items-center gap-2 text-xs text-[#8aa89e] font-medium">
+                  <div className="flex items-center gap-2 text-xs text-[#8aa89e] dark:text-[#6b7e94] font-medium">
                     <Calendar className="w-4 h-4 text-[#2a9d8f]" />
                     <span>Submitted:</span>
-                    <span className="text-[#1a3c34] font-bold">
+                    <span className="text-[#1a3c34] dark:text-[#e8f4f0] font-bold">
                       {proposal.createdAt
                         ? new Date(proposal.createdAt).toLocaleDateString(undefined, { month: "short", day: "numeric", year: "numeric" })
                         : "Recently"}
@@ -522,7 +522,7 @@ export default function ClientProposalsPage() {
                   <div className="flex items-center gap-3">
                     <button
                       onClick={() => handleContactClick(proposal)}
-                      className="flex items-center gap-2 bg-[#f4f8f6] hover:bg-[#eaf5f2] border border-[#d4ebe6] text-[#1a3c34] px-4 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer"
+                      className="flex items-center gap-2 bg-[#f4f8f6] dark:bg-[#1a2435] hover:bg-[#eaf5f2] dark:bg-[#1a2435] border border-[#d4ebe6] dark:border-[#1e293b] text-[#1a3c34] dark:text-[#e8f4f0] px-4 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer"
                     >
                       <MessageSquare className="w-3.5 h-3.5 text-[#2a9d8f]" />
                       <span>Contact</span>
@@ -531,7 +531,7 @@ export default function ClientProposalsPage() {
                     {canDecline && (
                       <button
                         onClick={() => handleDeclineProposal(proposal)}
-                        className="flex items-center gap-1.5 px-4 py-2 text-xs font-semibold rounded-xl text-[#5a7a72] hover:text-red-600 hover:bg-red-50 border border-transparent hover:border-red-200 transition-all cursor-pointer"
+                        className="flex items-center gap-1.5 px-4 py-2 text-xs font-semibold rounded-xl text-[#5a7a72] dark:text-[#9fb3c8] hover:text-red-600 hover:bg-red-50 border border-transparent hover:border-red-200 transition-all cursor-pointer"
                       >
                         <ThumbsDown className="w-3.5 h-3.5" />
                         Decline
@@ -559,12 +559,12 @@ export default function ClientProposalsPage() {
           })}
 
           {/* Summary footer */}
-          <div className="bg-[#f4f8f6] rounded-2xl border border-[#d4ebe6]/60 px-6 py-4 flex items-center justify-between flex-wrap gap-2">
-            <span className="text-sm font-bold text-[#5a7a72]">
+          <div className="bg-[#f4f8f6] dark:bg-[#1a2435] rounded-2xl border border-[#d4ebe6] dark:border-[#1e293b]/60 px-6 py-4 flex items-center justify-between flex-wrap gap-2">
+            <span className="text-sm font-bold text-[#5a7a72] dark:text-[#9fb3c8]">
               Showing {filteredProposals.length} of {proposals.length} proposal{proposals.length !== 1 ? "s" : ""}
             </span>
-            <span className="text-sm font-extrabold text-[#1a3c34]">
-              <span className="text-[#8aa89e] font-semibold text-xs mr-1">Total Bid Value:</span>
+            <span className="text-sm font-extrabold text-[#1a3c34] dark:text-[#e8f4f0]">
+              <span className="text-[#8aa89e] dark:text-[#6b7e94] font-semibold text-xs mr-1">Total Bid Value:</span>
               ${filteredProposals.reduce((s, p) => s + Number(p.amount || 0), 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })} USD
             </span>
           </div>
@@ -574,15 +574,15 @@ export default function ClientProposalsPage() {
       {/* Contact Modal */}
       {contactFreelancer && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/45 backdrop-blur-sm animate-in fade-in duration-200">
-          <div className="bg-white w-full max-w-md rounded-3xl shadow-2xl border border-[#d4ebe6]/50 overflow-hidden flex flex-col animate-in zoom-in-95 duration-200">
-            <div className="px-6 py-5 border-b border-[#d4ebe6]/30 flex items-center justify-between bg-[#f4f8f6]">
+          <div className="bg-white dark:bg-[#131c2b] w-full max-w-md rounded-3xl shadow-2xl border border-[#d4ebe6] dark:border-[#1e293b]/50 overflow-hidden flex flex-col animate-in zoom-in-95 duration-200">
+            <div className="px-6 py-5 border-b border-[#d4ebe6] dark:border-[#1e293b]/30 flex items-center justify-between bg-[#f4f8f6] dark:bg-[#1a2435]">
               <div className="flex items-center gap-2.5">
-                <div className="w-9 h-9 rounded-xl bg-[#eaf5f2] flex items-center justify-center text-[#2a9d8f]">
+                <div className="w-9 h-9 rounded-xl bg-[#eaf5f2] dark:bg-[#1a2435] flex items-center justify-center text-[#2a9d8f]">
                   <MessageSquare className="w-4 h-4" />
                 </div>
                 <div>
-                  <h3 className="font-bold text-[#1a3c34]">Contact Freelancer</h3>
-                  <p className="text-[10px] text-[#8aa89e] mt-0.5">Send a message to {contactFreelancer.name}</p>
+                  <h3 className="font-bold text-[#1a3c34] dark:text-[#e8f4f0]">Contact Freelancer</h3>
+                  <p className="text-[10px] text-[#8aa89e] dark:text-[#6b7e94] mt-0.5">Send a message to {contactFreelancer.name}</p>
                 </div>
               </div>
               <button onClick={() => setContactFreelancer(null)} className="p-1.5 hover:bg-gray-200 rounded-full transition-colors text-gray-500">
@@ -591,18 +591,18 @@ export default function ClientProposalsPage() {
             </div>
             <form onSubmit={handleSendMessage} className="p-6 space-y-4">
               <div>
-                <label className="block text-xs font-semibold text-[#8aa89e] uppercase tracking-wider mb-2">Message</label>
+                <label className="block text-xs font-semibold text-[#8aa89e] dark:text-[#6b7e94] uppercase tracking-wider mb-2">Message</label>
                 <textarea
                   required
                   rows={6}
                   value={contactMessage}
                   onChange={e => setContactMessage(e.target.value)}
-                  className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-[#2c7c74] text-sm outline-none resize-none leading-relaxed text-[#5a7a72]"
+                  className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-[#2c7c74] text-sm outline-none resize-none leading-relaxed text-[#5a7a72] dark:text-[#9fb3c8]"
                   placeholder="Type your message here..."
                 />
               </div>
               <div className="pt-2 flex items-center justify-end gap-3">
-                <button type="button" onClick={() => setContactFreelancer(null)} className="px-5 py-2.5 rounded-xl border border-gray-200 text-sm font-semibold text-[#5a7a72] hover:bg-gray-50 transition-colors cursor-pointer">
+                <button type="button" onClick={() => setContactFreelancer(null)} className="px-5 py-2.5 rounded-xl border border-gray-200 text-sm font-semibold text-[#5a7a72] dark:text-[#9fb3c8] hover:bg-gray-50 transition-colors cursor-pointer">
                   Cancel
                 </button>
                 <button type="submit" disabled={isSendingMessage} className="px-6 py-2.5 rounded-xl bg-[#1a3c34] hover:bg-[#255248] text-white text-sm font-semibold transition-all shadow-sm flex items-center gap-2 disabled:opacity-60 cursor-pointer">
@@ -621,15 +621,15 @@ export default function ClientProposalsPage() {
       {/* Decline Confirmation Modal */}
       {declineTarget && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/45 backdrop-blur-sm animate-in fade-in duration-200">
-          <div className="bg-white w-full max-w-md rounded-3xl shadow-2xl border border-red-100 overflow-hidden flex flex-col animate-in zoom-in-95 duration-200">
+          <div className="bg-white dark:bg-[#131c2b] w-full max-w-md rounded-3xl shadow-2xl border border-red-100 overflow-hidden flex flex-col animate-in zoom-in-95 duration-200">
             <div className="px-6 py-5 border-b border-red-50 flex items-center justify-between bg-red-50/60">
               <div className="flex items-center gap-2.5">
                 <div className="w-9 h-9 rounded-xl bg-red-100 flex items-center justify-center text-red-500">
                   <ThumbsDown className="w-4 h-4" />
                 </div>
                 <div>
-                  <h3 className="font-bold text-[#1a3c34]">Decline Proposal</h3>
-                  <p className="text-[10px] text-[#8aa89e] mt-0.5">From {declineTarget.name} · {declineTarget.taskTitle}</p>
+                  <h3 className="font-bold text-[#1a3c34] dark:text-[#e8f4f0]">Decline Proposal</h3>
+                  <p className="text-[10px] text-[#8aa89e] dark:text-[#6b7e94] mt-0.5">From {declineTarget.name} · {declineTarget.taskTitle}</p>
                 </div>
               </div>
               <button
@@ -640,18 +640,18 @@ export default function ClientProposalsPage() {
               </button>
             </div>
             <div className="p-6 space-y-4">
-              <p className="text-sm text-[#5a7a72]">
+              <p className="text-sm text-[#5a7a72] dark:text-[#9fb3c8]">
                 Are you sure you want to decline this proposal? You can optionally leave a comment for the freelancer explaining your decision.
               </p>
               <div>
-                <label className="block text-xs font-semibold text-[#8aa89e] uppercase tracking-wider mb-2">
+                <label className="block text-xs font-semibold text-[#8aa89e] dark:text-[#6b7e94] uppercase tracking-wider mb-2">
                   Decline Reason <span className="normal-case font-normal">(optional)</span>
                 </label>
                 <textarea
                   rows={4}
                   value={declineComment}
                   onChange={e => setDeclineComment(e.target.value)}
-                  className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-red-300 focus:ring-2 focus:ring-red-100 text-sm outline-none resize-none leading-relaxed text-[#5a7a72] transition-all"
+                  className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-red-300 focus:ring-2 focus:ring-red-100 text-sm outline-none resize-none leading-relaxed text-[#5a7a72] dark:text-[#9fb3c8] transition-all"
                   placeholder="e.g. Budget doesn't match our current needs, looking for a different skill set..."
                 />
               </div>
@@ -659,7 +659,7 @@ export default function ClientProposalsPage() {
                 <button
                   type="button"
                   onClick={() => setDeclineTarget(null)}
-                  className="px-5 py-2.5 rounded-xl border border-gray-200 text-sm font-semibold text-[#5a7a72] hover:bg-gray-50 transition-colors cursor-pointer"
+                  className="px-5 py-2.5 rounded-xl border border-gray-200 text-sm font-semibold text-[#5a7a72] dark:text-[#9fb3c8] hover:bg-gray-50 transition-colors cursor-pointer"
                 >
                   Cancel
                 </button>

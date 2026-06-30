@@ -29,13 +29,13 @@ export default function Footer() {
                         </p>
 
                         <div className="flex items-center gap-3 mt-6">
-                            <Link href="https://x.com" target="_blank" rel="noopener noreferrer" aria-label="X (formerly Twitter)" className="w-10 h-10 rounded-full bg-white dark:bg-slate-800/80 flex items-center justify-center text-[#1a3c34] dark:text-slate-200 hover:text-white hover:bg-[#1a3c34] dark:hover:bg-[#2a9d8f] hover:shadow-md hover:shadow-[#2a9d8f]/15 transition-all border border-[#d4ebe6] dark:border-slate-700">
+                            <Link href="https://x.com" target="_blank" rel="noopener noreferrer" aria-label="X (formerly Twitter)" className="w-10 h-10 rounded-full bg-white dark:bg-[#131c2b] dark:bg-slate-800/80 flex items-center justify-center text-[#1a3c34] dark:text-slate-200 hover:text-white hover:bg-[#1a3c34] dark:hover:bg-[#2a9d8f] hover:shadow-md hover:shadow-[#2a9d8f]/15 transition-all border border-[#d4ebe6] dark:border-slate-700">
                                 <FaXTwitter size={18} />
                             </Link>
-                            <Link href="https://github.com" target="_blank" rel="noopener noreferrer" aria-label="GitHub" className="w-10 h-10 rounded-full bg-white dark:bg-slate-800/80 flex items-center justify-center text-[#5a7a72] dark:text-slate-300 hover:text-[#2a9d8f] dark:hover:text-teal-400 hover:shadow-md hover:shadow-[#2a9d8f]/15 transition-all border border-[#d4ebe6] dark:border-slate-700">
+                            <Link href="https://github.com" target="_blank" rel="noopener noreferrer" aria-label="GitHub" className="w-10 h-10 rounded-full bg-white dark:bg-[#131c2b] dark:bg-slate-800/80 flex items-center justify-center text-[#5a7a72] dark:text-slate-300 hover:text-[#2a9d8f] dark:hover:text-teal-400 hover:shadow-md hover:shadow-[#2a9d8f]/15 transition-all border border-[#d4ebe6] dark:border-slate-700">
                                 <BsGithub size={18} />
                             </Link>
-                            <Link href="https://linkedin.com" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="w-10 h-10 rounded-full bg-white dark:bg-slate-800/80 flex items-center justify-center text-[#5a7a72] dark:text-slate-300 hover:text-[#2a9d8f] dark:hover:text-teal-400 hover:shadow-md hover:shadow-[#2a9d8f]/15 transition-all border border-[#d4ebe6] dark:border-slate-700">
+                            <Link href="https://linkedin.com" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="w-10 h-10 rounded-full bg-white dark:bg-[#131c2b] dark:bg-slate-800/80 flex items-center justify-center text-[#5a7a72] dark:text-slate-300 hover:text-[#2a9d8f] dark:hover:text-teal-400 hover:shadow-md hover:shadow-[#2a9d8f]/15 transition-all border border-[#d4ebe6] dark:border-slate-700">
                                 <BsLinkedin size={18} />
                             </Link>
                         </div>
@@ -69,7 +69,7 @@ export default function Footer() {
                             <input
                                 type="email"
                                 placeholder="Your email address"
-                                className="flex-1 px-4 py-3 bg-white dark:bg-slate-800/80 border border-[#d4ebe6] dark:border-slate-700 rounded-xl focus:outline-none focus:border-[#2a9d8f] focus:ring-2 focus:ring-[#2a9d8f]/20 text-[#1a3c34] dark:text-slate-100 placeholder:text-[#8aa89e] dark:placeholder:text-slate-500 transition-all shadow-sm"
+                                className="flex-1 px-4 py-3 bg-white dark:bg-[#131c2b] dark:bg-slate-800/80 border border-[#d4ebe6] dark:border-slate-700 rounded-xl focus:outline-none focus:border-[#2a9d8f] focus:ring-2 focus:ring-[#2a9d8f]/20 text-[#1a3c34] dark:text-slate-100 placeholder:text-[#8aa89e] dark:placeholder:text-slate-500 transition-all shadow-sm"
                             />
                             <button className="px-6 bg-[#2a9d8f] text-white font-semibold rounded-xl hover:bg-[#238b7e] shadow-lg shadow-[#2a9d8f]/25 transition-all">
                                 Join

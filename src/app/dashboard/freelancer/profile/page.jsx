@@ -150,9 +150,9 @@ export default function FreelancerProfilePage() {
   if (!session) {
     return (
       <div className="flex items-center justify-center min-h-[60vh] text-center px-4">
-        <div className="bg-white p-8 rounded-3xl border border-[#d4ebe6]/50 shadow-md space-y-6 max-w-sm w-full">
+        <div className="bg-white dark:bg-[#131c2b] p-8 rounded-3xl border border-[#d4ebe6] dark:border-[#1e293b]/50 shadow-md space-y-6 max-w-sm w-full">
           <AlertTriangle className="w-10 h-10 text-red-500 mx-auto" />
-          <h2 className="text-2xl font-serif font-bold text-[#1a3c34]">Access Denied</h2>
+          <h2 className="text-2xl font-serif font-bold text-[#1a3c34] dark:text-[#e8f4f0]">Access Denied</h2>
         </div>
       </div>
     );
@@ -162,12 +162,12 @@ export default function FreelancerProfilePage() {
     <div className="max-w-3xl mx-auto space-y-8 pb-16">
       {/* Header */}
       <div>
-        <h1 className="text-4xl font-serif font-semibold text-[#1a3c34] tracking-tight">Edit Profile</h1>
-        <p className="text-[#5a7a72] mt-1.5 text-[15px]">Customize your freelancer profile details and hourly pricing.</p>
+        <h1 className="text-4xl font-serif font-semibold text-[#1a3c34] dark:text-[#e8f4f0] tracking-tight">Edit Profile</h1>
+        <p className="text-[#5a7a72] dark:text-[#9fb3c8] mt-1.5 text-[15px]">Customize your freelancer profile details and hourly pricing.</p>
       </div>
 
       {/* Profile Form */}
-      <div className="bg-white border border-[#d4ebe6]/40 rounded-3xl p-6 md:p-8 shadow-sm space-y-6">
+      <div className="bg-white dark:bg-[#131c2b] border border-[#d4ebe6] dark:border-[#1e293b]/40 rounded-3xl p-6 md:p-8 shadow-sm space-y-6">
         <form onSubmit={handleSave} className="space-y-6">
           {/* Status Alerts */}
           {success && (
@@ -186,7 +186,7 @@ export default function FreelancerProfilePage() {
 
           {/* Full Name */}
           <div className="space-y-1.5">
-            <label className="block text-xs font-bold text-[#5a7a72] uppercase tracking-wider flex items-center gap-1.5">
+            <label className="block text-xs font-bold text-[#5a7a72] dark:text-[#9fb3c8] uppercase tracking-wider flex items-center gap-1.5">
               <User className="w-3.5 h-3.5 text-[#2a9d8f]" />
               Full Name <span className="text-red-500">*</span>
             </label>
@@ -204,7 +204,7 @@ export default function FreelancerProfilePage() {
 
           {/* Profile Photo Link */}
           <div className="space-y-1.5">
-            <label className="block text-xs font-bold text-[#5a7a72] uppercase tracking-wider flex items-center gap-1.5">
+            <label className="block text-xs font-bold text-[#5a7a72] dark:text-[#9fb3c8] uppercase tracking-wider flex items-center gap-1.5">
               <ImageIcon className="w-3.5 h-3.5 text-[#2a9d8f]" />
               Profile Photo URL <span className="text-red-500">*</span>
             </label>
@@ -222,12 +222,12 @@ export default function FreelancerProfilePage() {
 
           {/* Hourly Rate */}
           <div className="space-y-1.5">
-            <label className="block text-xs font-bold text-[#5a7a72] uppercase tracking-wider flex items-center gap-1.5">
+            <label className="block text-xs font-bold text-[#5a7a72] dark:text-[#9fb3c8] uppercase tracking-wider flex items-center gap-1.5">
               <DollarSign className="w-3.5 h-3.5 text-[#2a9d8f]" />
               Hourly Rate (USD / hr) <span className="text-red-500">*</span>
             </label>
             <div className="relative">
-              <span className="absolute left-4 top-3 text-sm font-semibold text-[#8aa89e]">$</span>
+              <span className="absolute left-4 top-3 text-sm font-semibold text-[#8aa89e] dark:text-[#6b7e94]">$</span>
               <input
                 type="number"
                 required
@@ -245,25 +245,25 @@ export default function FreelancerProfilePage() {
 
           {/* Skills Editor */}
           <div className="space-y-1.5">
-            <label className="block text-xs font-bold text-[#5a7a72] uppercase tracking-wider flex items-center gap-1.5 justify-between">
+            <label className="block text-xs font-bold text-[#5a7a72] dark:text-[#9fb3c8] uppercase tracking-wider flex items-center gap-1.5 justify-between">
               <span className="flex items-center gap-1.5">
                 <Tag className="w-3.5 h-3.5 text-[#2a9d8f]" />
                 Skills Tags <span className="text-red-500">*</span>
               </span>
-              <span className="text-[10px] text-[#8aa89e] normal-case">{skills.length}/15 skills</span>
+              <span className="text-[10px] text-[#8aa89e] dark:text-[#6b7e94] normal-case">{skills.length}/15 skills</span>
             </label>
-            <div className="border border-gray-200 focus-within:border-[#2a9d8f] focus-within:ring-2 focus-within:ring-[#2a9d8f]/10 rounded-xl p-2.5 bg-white transition-all">
+            <div className="border border-gray-200 focus-within:border-[#2a9d8f] focus-within:ring-2 focus-within:ring-[#2a9d8f]/10 rounded-xl p-2.5 bg-white dark:bg-[#131c2b] transition-all">
               <div className="flex flex-wrap gap-1.5 items-center">
                 {skills.map((skill) => (
                   <span
                     key={skill}
-                    className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-semibold bg-[#eaf5f2] text-[#2a9d8f] border border-[#d4ebe6]/50"
+                    className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-semibold bg-[#eaf5f2] dark:bg-[#1a2435] text-[#2a9d8f] border border-[#d4ebe6] dark:border-[#1e293b]/50"
                   >
                     {skill}
                     <button
                       type="button"
                       onClick={() => handleRemoveSkill(skill)}
-                      className="hover:bg-white/50 rounded-full p-0.5"
+                      className="hover:bg-white dark:bg-[#131c2b]/50 rounded-full p-0.5"
                     >
                       <X className="w-3 h-3" />
                     </button>
@@ -295,7 +295,7 @@ export default function FreelancerProfilePage() {
                   key={skill}
                   type="button"
                   onClick={() => handleAddSkill(skill)}
-                  className="text-[10px] bg-gray-50 hover:bg-[#eaf5f2] text-[#5a7a72] px-2 py-1 rounded-lg border border-gray-100 transition-colors"
+                  className="text-[10px] bg-gray-50 hover:bg-[#eaf5f2] dark:bg-[#1a2435] text-[#5a7a72] dark:text-[#9fb3c8] px-2 py-1 rounded-lg border border-gray-100 transition-colors"
                 >
                   + {skill}
                 </button>
@@ -305,7 +305,7 @@ export default function FreelancerProfilePage() {
 
           {/* Biography */}
           <div className="space-y-1.5">
-            <label className="block text-xs font-bold text-[#5a7a72] uppercase tracking-wider flex items-center gap-1.5">
+            <label className="block text-xs font-bold text-[#5a7a72] dark:text-[#9fb3c8] uppercase tracking-wider flex items-center gap-1.5">
               <FileText className="w-3.5 h-3.5 text-[#2a9d8f]" />
               Bio Text <span className="text-red-500">*</span>
             </label>
@@ -314,11 +314,11 @@ export default function FreelancerProfilePage() {
               rows={5}
               value={bio}
               onChange={(e) => setBio(e.target.value)}
-              className={`w-full px-4 py-3 border rounded-xl text-sm outline-none transition-all resize-y leading-relaxed text-[#5a7a72]
+              className={`w-full px-4 py-3 border rounded-xl text-sm outline-none transition-all resize-y leading-relaxed text-[#5a7a72] dark:text-[#9fb3c8]
                 ${formErrors.bio ? "border-red-400 focus:border-red-500" : "border-gray-200 focus:border-[#2a9d8f]"}`}
               placeholder="Describe your freelance qualifications, background, past experience, and expertise..."
             />
-            <div className="flex justify-between text-[10px] text-[#8aa89e] px-1 mt-0.5">
+            <div className="flex justify-between text-[10px] text-[#8aa89e] dark:text-[#6b7e94] px-1 mt-0.5">
               <span>Must be at least 30 characters.</span>
               <span className="font-semibold">{bio.length} chars</span>
             </div>

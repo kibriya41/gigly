@@ -61,7 +61,7 @@ export default function NotFound() {
                 className="hover:underline flex items-center gap-1 font-normal text-slate-500 hover:text-slate-800"
                 title="Click to cancel auto-redirect"
               >
-                Redirecting in <span className="font-bold text-[#2c7c74]">{countdown}s</span> (Cancel)
+                Redirecting in <span className="font-bold text-[#2c7c74] dark:text-[#2a9d8f]">{countdown}s</span> (Cancel)
               </button>
             </>
           )}
@@ -92,10 +92,10 @@ export default function NotFound() {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search tasks, skills, or services..."
-              className="w-full pl-11 pr-24 py-3.5 rounded-2xl text-sm transition-all outline-none border bg-white/90 focus:bg-white focus:ring-2 focus:ring-[#2c7c74]/20 shadow-xs"
+              className="w-full pl-11 pr-24 py-3.5 rounded-2xl text-sm transition-all outline-none border bg-white dark:bg-[#131c2b]/90 focus:bg-white dark:bg-[#131c2b] focus:ring-2 focus:ring-[#2c7c74]/20 shadow-xs"
               style={{ borderColor: "#e2e8e0", color: "#1a1f2e" }}
             />
-            <Search size={18} className="absolute left-4 text-slate-400 group-focus-within:text-[#2c7c74] transition-colors" />
+            <Search size={18} className="absolute left-4 text-slate-400 group-focus-within:text-[#2c7c74] dark:text-[#2a9d8f] transition-colors" />
             <button
               type="submit"
               className="absolute right-2.5 px-3.5 py-1.5 rounded-xl text-xs font-semibold text-white transition-all hover:opacity-90 active:scale-95 flex items-center gap-1"

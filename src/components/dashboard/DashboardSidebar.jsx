@@ -66,7 +66,7 @@ export default function Sidebar() {
       ? "text-purple-700 bg-purple-50 border border-purple-100"
       : role === "freelancer"
         ? "text-[#d97706] bg-amber-50 border border-amber-100"
-        : "text-[#2a9d8f] bg-[#eaf5f2] border border-[#d4ebe6]";
+        : "text-[#2a9d8f] bg-[#eaf5f2] dark:bg-[#1a2435] border border-[#d4ebe6] dark:border-[#1e293b]";
 
   const handleSignOut = async () => {
     await signOut();
@@ -119,13 +119,13 @@ export default function Sidebar() {
           <button
             onClick={() => setMobileOpen(false)}
             aria-label="Close menu"
-            className="lg:hidden absolute top-4 right-4 p-1.5 rounded-lg text-[#8aa89e] hover:bg-[#f4f8f6] dark:hover:bg-slate-800/60 transition-colors cursor-pointer"
+            className="lg:hidden absolute top-4 right-4 p-1.5 rounded-lg text-[#8aa89e] dark:text-[#6b7e94] hover:bg-[#f4f8f6] dark:hover:bg-slate-800/60 transition-colors cursor-pointer"
           >
             <X className="w-5 h-5" />
           </button>
 
           {/* User Profile Card */}
-          <div className="bg-[#f0f9f6] dark:bg-[#1a2435] p-4 rounded-2xl flex items-center gap-4 mb-8 border border-[#d4ebe6]/60 dark:border-slate-800/80">
+          <div className="bg-[#f0f9f6] dark:bg-[#1a2435] p-4 rounded-2xl flex items-center gap-4 mb-8 border border-[#d4ebe6] dark:border-[#1e293b]/60 dark:border-slate-800/80">
             {user.image ? (
               <img
                 src={user.image}
@@ -174,7 +174,7 @@ export default function Sidebar() {
                   )}
                   <Icon
                     size={18}
-                    className={`shrink-0 transition-colors ${isActive ? "text-[#2a9d8f]" : "text-[#8aa89e] group-hover:text-[#2a9d8f]"}`}
+                    className={`shrink-0 transition-colors ${isActive ? "text-[#2a9d8f]" : "text-[#8aa89e] dark:text-[#6b7e94] group-hover:text-[#2a9d8f]"}`}
                   />
                   <span>{item.name}</span>
                 </Link>
@@ -183,7 +183,7 @@ export default function Sidebar() {
           </nav>
 
           {/* Divider */}
-          <div className="my-4 border-t border-[#d4ebe6]/60 dark:border-slate-800" />
+          <div className="my-4 border-t border-[#d4ebe6] dark:border-[#1e293b]/60 dark:border-slate-800" />
 
           {/* Sign Out */}
           <button
@@ -192,7 +192,7 @@ export default function Sidebar() {
           >
             <LogOut
               size={18}
-              className="shrink-0 text-[#8aa89e] group-hover:text-red-500 transition-colors"
+              className="shrink-0 text-[#8aa89e] dark:text-[#6b7e94] group-hover:text-red-500 transition-colors"
             />
             <span>Sign Out</span>
           </button>

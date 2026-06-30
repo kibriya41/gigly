@@ -138,7 +138,7 @@ export default function BrowseTasksPage() {
   for (let i = start; i <= end; i++) pageNumbers.push(i);
 
   return (
-    <div className="min-h-screen py-10 px-4 sm:px-6 lg:px-8" style={{ backgroundColor: THEME.bg }}>
+    <div className="min-h-screen py-10 px-4 sm:px-6 lg:px-8 bg-[#f4f8f6] dark:bg-[#0b1220]">
       <div className="max-w-7xl mx-auto space-y-8">
 
         {/* Banner Section */}
@@ -342,7 +342,7 @@ export default function BrowseTasksPage() {
                         </div>
 
                         {/* Budget */}
-                        <div className="bg-[#f0f7f4] border border-[#d4ebe6] dark:border-slate-800/50 px-3 py-1.5 rounded-xl flex items-center gap-1.5 shrink-0">
+                        <div className="bg-[#f0f7f4] dark:bg-[#1a2435] border border-[#d4ebe6] dark:border-slate-800/50 px-3 py-1.5 rounded-xl flex items-center gap-1.5 shrink-0">
                           <DollarSign className="w-4 h-4 text-[#2a9d8f]" />
                           <span className="font-extrabold text-[#1a3c34] dark:text-slate-100 text-base">
                             {Number(task.budget || 0).toLocaleString(undefined, {
@@ -419,7 +419,7 @@ export default function BrowseTasksPage() {
                   <button
                     onClick={() => goToPage(page - 1)}
                     disabled={!hasPrevPage || loading}
-                    className="inline-flex items-center gap-1 px-3.5 py-2 rounded-xl text-xs font-bold border border-[#d4ebe6] dark:border-slate-800 bg-white dark:bg-[#131c2b] text-[#1a3c34] dark:text-slate-100 hover:bg-[#f0f9f6] transition-all disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer"
+                    className="inline-flex items-center gap-1 px-3.5 py-2 rounded-xl text-xs font-bold border border-[#d4ebe6] dark:border-slate-800 bg-white dark:bg-[#131c2b] text-[#1a3c34] dark:text-slate-100 hover:bg-[#f0f9f6] dark:bg-[#1a2435] transition-all disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer"
                   >
                     <ChevronLeft className="w-3.5 h-3.5" />
                     Prev
@@ -433,7 +433,7 @@ export default function BrowseTasksPage() {
                         className={`w-9 h-9 rounded-xl text-xs font-bold transition-all cursor-pointer ${
                           page === 1
                             ? "bg-[#1a3c34] text-white shadow-sm"
-                            : "border border-[#d4ebe6] dark:border-slate-800 bg-white dark:bg-[#131c2b] text-[#1a3c34] dark:text-slate-100 hover:bg-[#f0f9f6]"
+                            : "border border-[#d4ebe6] dark:border-slate-800 bg-white dark:bg-[#131c2b] text-[#1a3c34] dark:text-slate-100 hover:bg-[#f0f9f6] dark:bg-[#1a2435]"
                         }`}
                       >
                         1
@@ -449,7 +449,7 @@ export default function BrowseTasksPage() {
                       className={`w-9 h-9 rounded-xl text-xs font-bold transition-all cursor-pointer ${
                         p === page
                           ? "bg-[#1a3c34] text-white shadow-sm"
-                          : "border border-[#d4ebe6] dark:border-slate-800 bg-white dark:bg-[#131c2b] text-[#1a3c34] dark:text-slate-100 hover:bg-[#f0f9f6]"
+                          : "border border-[#d4ebe6] dark:border-slate-800 bg-white dark:bg-[#131c2b] text-[#1a3c34] dark:text-slate-100 hover:bg-[#f0f9f6] dark:bg-[#1a2435]"
                       }`}
                     >
                       {p}
@@ -464,7 +464,7 @@ export default function BrowseTasksPage() {
                         className={`w-9 h-9 rounded-xl text-xs font-bold transition-all cursor-pointer ${
                           page === totalPages
                             ? "bg-[#1a3c34] text-white shadow-sm"
-                            : "border border-[#d4ebe6] dark:border-slate-800 bg-white dark:bg-[#131c2b] text-[#1a3c34] dark:text-slate-100 hover:bg-[#f0f9f6]"
+                            : "border border-[#d4ebe6] dark:border-slate-800 bg-white dark:bg-[#131c2b] text-[#1a3c34] dark:text-slate-100 hover:bg-[#f0f9f6] dark:bg-[#1a2435]"
                         }`}
                       >
                         {totalPages}
@@ -476,7 +476,7 @@ export default function BrowseTasksPage() {
                   <button
                     onClick={() => goToPage(page + 1)}
                     disabled={!hasNextPage || loading}
-                    className="inline-flex items-center gap-1 px-3.5 py-2 rounded-xl text-xs font-bold border border-[#d4ebe6] dark:border-slate-800 bg-white dark:bg-[#131c2b] text-[#1a3c34] dark:text-slate-100 hover:bg-[#f0f9f6] transition-all disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer"
+                    className="inline-flex items-center gap-1 px-3.5 py-2 rounded-xl text-xs font-bold border border-[#d4ebe6] dark:border-slate-800 bg-white dark:bg-[#131c2b] text-[#1a3c34] dark:text-slate-100 hover:bg-[#f0f9f6] dark:bg-[#1a2435] transition-all disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer"
                   >
                     Next
                     <ChevronRight className="w-3.5 h-3.5" />

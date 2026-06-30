@@ -111,9 +111,9 @@ export default function ClientDashboardHomePage() {
       title: "Total Tasks",
       value: totalTasksCount.toString(),
       icon: ClipboardCheck,
-      iconBg: "bg-[#eaf5f2]",
+      iconBg: "bg-[#eaf5f2] dark:bg-[#1a2435]",
       iconColor: "text-[#2a9d8f]",
-      cardBg: "bg-white",
+      cardBg: "bg-white dark:bg-[#131c2b]",
     },
     {
       title: "Open Tasks",
@@ -121,23 +121,23 @@ export default function ClientDashboardHomePage() {
       icon: CircleDot,
       iconBg: "bg-[#fffbeb]",
       iconColor: "text-[#d97706]",
-      cardBg: "bg-white",
+      cardBg: "bg-white dark:bg-[#131c2b]",
     },
     {
       title: "In Progress",
       value: inProgressTasksCount.toString(),
       icon: Clock,
-      iconBg: "bg-[#eaf5f2]",
+      iconBg: "bg-[#eaf5f2] dark:bg-[#1a2435]",
       iconColor: "text-[#2a9d8f]",
-      cardBg: "bg-white",
+      cardBg: "bg-white dark:bg-[#131c2b]",
     },
     {
       title: "Total Spent (USD)",
       value: totalSpentVal > 0 ? `$${totalSpentVal.toLocaleString(undefined, { maximumFractionDigits: 0 })}` : "$0",
       icon: Wallet,
-      iconBg: "bg-[#e2f1ed]",
-      iconColor: "text-[#1a3c34]",
-      cardBg: "bg-[#f0f7f4]",
+      iconBg: "bg-[#e2f1ed] dark:bg-[#1a2435]",
+      iconColor: "text-[#1a3c34] dark:text-[#e8f4f0]",
+      cardBg: "bg-[#f0f7f4] dark:bg-[#1a2435]",
     },
   ];
 
@@ -146,7 +146,7 @@ export default function ClientDashboardHomePage() {
 
   const getStatusColor = (status) => {
     if (status === "In Progress") {
-      return "text-[#2a9d8f] bg-[#eaf5f2] border-[#d4ebe6]";
+      return "text-[#2a9d8f] bg-[#eaf5f2] dark:bg-[#1a2435] border-[#d4ebe6] dark:border-[#1e293b]";
     }
     return "text-[#d97706] bg-[#fffbeb] border-[#fef3c7]";
   };
@@ -156,7 +156,7 @@ export default function ClientDashboardHomePage() {
       <div className="flex items-center justify-center min-h-[50vh]">
         <div className="flex flex-col items-center gap-4">
           <Loader2 className="w-12 h-12 animate-spin text-[#2a9d8f]" />
-          <p className="text-[#5a7a72] font-semibold text-sm">Loading dashboard data...</p>
+          <p className="text-[#5a7a72] dark:text-[#9fb3c8] font-semibold text-sm">Loading dashboard data...</p>
         </div>
       </div>
     );
@@ -165,8 +165,8 @@ export default function ClientDashboardHomePage() {
   if (!session) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[50vh] text-center px-4 space-y-4">
-        <h2 className="text-2xl font-serif font-bold text-[#1a3c34]">Access Denied</h2>
-        <p className="text-[#5a7a72]">Please log in to view your client dashboard.</p>
+        <h2 className="text-2xl font-serif font-bold text-[#1a3c34] dark:text-[#e8f4f0]">Access Denied</h2>
+        <p className="text-[#5a7a72] dark:text-[#9fb3c8]">Please log in to view your client dashboard.</p>
         <Link href="/login" className="bg-[#1a3c34] text-white px-6 py-2.5 rounded-full font-medium">
           Login
         </Link>
@@ -179,10 +179,10 @@ export default function ClientDashboardHomePage() {
       {/* Header Row */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div>
-          <h1 className="text-4xl font-serif font-semibold text-[#1a3c34] tracking-tight">
+          <h1 className="text-4xl font-serif font-semibold text-[#1a3c34] dark:text-[#e8f4f0] tracking-tight">
             Dashboard
           </h1>
-          <p className="text-[#5a7a72] mt-1.5 text-[15px]">
+          <p className="text-[#5a7a72] dark:text-[#9fb3c8] mt-1.5 text-[15px]">
             Manage tasks, proposals, and spending from one premium workspace.
           </p>
         </div>
@@ -202,16 +202,16 @@ export default function ClientDashboardHomePage() {
           return (
             <div
               key={i}
-              className={`p-6 rounded-2xl border border-[#d4ebe6]/50 shadow-sm flex flex-col justify-between h-[150px] transition-all hover:shadow-md ${stat.cardBg}`}
+              className={`p-6 rounded-2xl border border-[#d4ebe6] dark:border-[#1e293b]/50 shadow-sm flex flex-col justify-between h-[150px] transition-all hover:shadow-md ${stat.cardBg}`}
             >
               <div className={`p-2.5 rounded-xl w-fit ${stat.iconBg} ${stat.iconColor}`}>
                 <Icon size={20} />
               </div>
               <div className="space-y-1 mt-4">
-                <span className="text-xs font-semibold text-[#8aa89e] uppercase tracking-wider">
+                <span className="text-xs font-semibold text-[#8aa89e] dark:text-[#6b7e94] uppercase tracking-wider">
                   {stat.title}
                 </span>
-                <p className="text-3xl font-semibold text-[#1a3c34]">
+                <p className="text-3xl font-semibold text-[#1a3c34] dark:text-[#e8f4f0]">
                   {stat.value}
                 </p>
               </div>
@@ -223,20 +223,20 @@ export default function ClientDashboardHomePage() {
       {/* Bottom Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
         {/* Left Column: My Active Tasks */}
-        <div className="lg:col-span-7 bg-white p-8 rounded-3xl border border-[#d4ebe6]/40 shadow-sm space-y-6">
+        <div className="lg:col-span-7 bg-white dark:bg-[#131c2b] p-8 rounded-3xl border border-[#d4ebe6] dark:border-[#1e293b]/40 shadow-sm space-y-6">
           <div>
-            <h2 className="text-2xl font-serif font-semibold text-[#1a3c34]">
+            <h2 className="text-2xl font-serif font-semibold text-[#1a3c34] dark:text-[#e8f4f0]">
               My Active Tasks
             </h2>
-            <p className="text-[#8aa89e] text-sm mt-1">
+            <p className="text-[#8aa89e] dark:text-[#6b7e94] text-sm mt-1">
               Track active work without table clutter.
             </p>
           </div>
 
           <div className="space-y-4">
             {activeTasks.length === 0 ? (
-              <div className="p-8 text-center border border-dashed border-[#d4ebe6] rounded-2xl">
-                <p className="text-sm text-[#8aa89e]">No active tasks. Post a task to get started!</p>
+              <div className="p-8 text-center border border-dashed border-[#d4ebe6] dark:border-[#1e293b] rounded-2xl">
+                <p className="text-sm text-[#8aa89e] dark:text-[#6b7e94]">No active tasks. Post a task to get started!</p>
               </div>
             ) : (
               activeTasks.map((task) => {
@@ -245,15 +245,15 @@ export default function ClientDashboardHomePage() {
                 return (
                   <div
                     key={task._id}
-                    className="flex items-center justify-between p-5 rounded-2xl border border-[#d4ebe6]/60 hover:border-[#2a9d8f]/40 hover:bg-[#f0f9f6]/30 transition-all gap-4"
+                    className="flex items-center justify-between p-5 rounded-2xl border border-[#d4ebe6] dark:border-[#1e293b]/60 hover:border-[#2a9d8f]/40 hover:bg-[#f0f9f6] dark:bg-[#1a2435]/30 transition-all gap-4"
                   >
                     <div className="space-y-1.5">
                       <Link href={`/tasks/${task._id}`} className="hover:underline">
-                        <h3 className="font-semibold text-[16px] text-[#1a3c34]">
+                        <h3 className="font-semibold text-[16px] text-[#1a3c34] dark:text-[#e8f4f0]">
                           {task.title}
                         </h3>
                       </Link>
-                      <div className="flex items-center gap-2 text-xs text-[#8aa89e]">
+                      <div className="flex items-center gap-2 text-xs text-[#8aa89e] dark:text-[#6b7e94]">
                         <span>Deadline: {task.deadline ? new Date(task.deadline).toLocaleDateString() : "Flexible"}</span>
                         <span>•</span>
                         <span>{proposalCount} proposal{proposalCount !== 1 ? "s" : ""}</span>
@@ -272,26 +272,26 @@ export default function ClientDashboardHomePage() {
         </div>
 
         {/* Right Column: Recent Proposals */}
-        <div className="lg:col-span-5 bg-white p-8 rounded-3xl border border-[#d4ebe6]/40 shadow-sm space-y-6">
+        <div className="lg:col-span-5 bg-white dark:bg-[#131c2b] p-8 rounded-3xl border border-[#d4ebe6] dark:border-[#1e293b]/40 shadow-sm space-y-6">
           <div>
-            <h2 className="text-2xl font-serif font-semibold text-[#1a3c34]">
+            <h2 className="text-2xl font-serif font-semibold text-[#1a3c34] dark:text-[#e8f4f0]">
               Recent Proposals
             </h2>
-            <p className="text-[#8aa89e] text-sm mt-1">
+            <p className="text-[#8aa89e] dark:text-[#6b7e94] text-sm mt-1">
               Review freelancer bids and respond quickly.
             </p>
           </div>
 
           <div className="space-y-4">
             {proposals.length === 0 ? (
-              <div className="p-8 text-center border border-dashed border-[#d4ebe6] rounded-2xl">
-                <p className="text-sm text-[#8aa89e]">No proposals received yet.</p>
+              <div className="p-8 text-center border border-dashed border-[#d4ebe6] dark:border-[#1e293b] rounded-2xl">
+                <p className="text-sm text-[#8aa89e] dark:text-[#6b7e94]">No proposals received yet.</p>
               </div>
             ) : (
               proposals.map((proposal, i) => (
                 <div
                   key={i}
-                  className="p-5 rounded-2xl border border-[#d4ebe6]/60 hover:border-[#2a9d8f]/30 hover:bg-[#f0f9f6]/20 transition-all space-y-4"
+                  className="p-5 rounded-2xl border border-[#d4ebe6] dark:border-[#1e293b]/60 hover:border-[#2a9d8f]/30 hover:bg-[#f0f9f6] dark:bg-[#1a2435]/20 transition-all space-y-4"
                 >
                   <div className="flex items-start justify-between gap-4">
                     <div className="flex items-center gap-3">
@@ -301,10 +301,10 @@ export default function ClientDashboardHomePage() {
                         {proposal.initials}
                       </div>
                       <div>
-                        <h4 className="font-semibold text-[15px] text-[#1a3c34]">
+                        <h4 className="font-semibold text-[15px] text-[#1a3c34] dark:text-[#e8f4f0]">
                           {proposal.name}
                         </h4>
-                        <Link href={`/tasks/${proposal.taskId}`} className="text-xs text-[#8aa89e] mt-0.5 hover:underline block">
+                        <Link href={`/tasks/${proposal.taskId}`} className="text-xs text-[#8aa89e] dark:text-[#6b7e94] mt-0.5 hover:underline block">
                           {proposal.description}
                         </Link>
                       </div>
@@ -314,14 +314,14 @@ export default function ClientDashboardHomePage() {
                     </span>
                   </div>
 
-                  <div className="text-xs text-[#5a7a72] leading-relaxed italic bg-gray-50 p-2.5 rounded-lg border border-gray-100">
+                  <div className="text-xs text-[#5a7a72] dark:text-[#9fb3c8] leading-relaxed italic bg-gray-50 p-2.5 rounded-lg border border-gray-100">
                     "{proposal.pitch}"
                   </div>
 
                   <div className="flex items-center justify-end gap-3 pt-2">
                     <button
                       onClick={() => handleDeclineProposal(proposal)}
-                      className="px-4 py-2 text-sm font-semibold rounded-xl text-[#5a7a72] hover:text-[#1a3c34] hover:bg-[#f0f9f6] transition-all cursor-pointer"
+                      className="px-4 py-2 text-sm font-semibold rounded-xl text-[#5a7a72] dark:text-[#9fb3c8] hover:text-[#1a3c34] dark:text-[#e8f4f0] hover:bg-[#f0f9f6] dark:bg-[#1a2435] transition-all cursor-pointer"
                     >
                       Decline
                     </button>

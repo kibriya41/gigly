@@ -123,9 +123,9 @@ export default function FreelancerEarningsPage() {
   if (!session) {
     return (
       <div className="flex items-center justify-center min-h-[60vh] text-center px-4">
-        <div className="bg-white p-8 rounded-3xl border border-[#d4ebe6]/50 shadow-md space-y-6 max-w-sm w-full">
+        <div className="bg-white dark:bg-[#131c2b] p-8 rounded-3xl border border-[#d4ebe6] dark:border-[#1e293b]/50 shadow-md space-y-6 max-w-sm w-full">
           <AlertTriangle className="w-10 h-10 text-red-500 mx-auto" />
-          <h2 className="text-2xl font-serif font-bold text-[#1a3c34]">Access Denied</h2>
+          <h2 className="text-2xl font-serif font-bold text-[#1a3c34] dark:text-[#e8f4f0]">Access Denied</h2>
           <Link href="/login" className="block w-full bg-[#1a3c34] text-white py-3 rounded-xl font-medium text-center">Sign In</Link>
         </div>
       </div>
@@ -153,7 +153,7 @@ export default function FreelancerEarningsPage() {
       title: "Projects Paid",
       value: earningData.records.filter((r) => r.isPaid).length,
       icon: CheckCircle2,
-      iconBg: "bg-[#eaf5f2]",
+      iconBg: "bg-[#eaf5f2] dark:bg-[#1a2435]",
       iconColor: "text-[#2a9d8f]",
       sub: "Completed gigs",
     },
@@ -161,8 +161,8 @@ export default function FreelancerEarningsPage() {
       title: "Active Contracts",
       value: earningData.records.filter((r) => !r.isPaid).length,
       icon: TrendingUp,
-      iconBg: "bg-[#e2f1ed]",
-      iconColor: "text-[#1a3c34]",
+      iconBg: "bg-[#e2f1ed] dark:bg-[#1a2435]",
+      iconColor: "text-[#1a3c34] dark:text-[#e8f4f0]",
       sub: "In progress",
     },
   ];
@@ -172,8 +172,8 @@ export default function FreelancerEarningsPage() {
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div>
-          <h1 className="text-4xl font-serif font-semibold text-[#1a3c34] tracking-tight">Earnings</h1>
-          <p className="text-[#5a7a72] mt-1.5 text-[15px]">Track your income from completed and active projects.</p>
+          <h1 className="text-4xl font-serif font-semibold text-[#1a3c34] dark:text-[#e8f4f0] tracking-tight">Earnings</h1>
+          <p className="text-[#5a7a72] dark:text-[#9fb3c8] mt-1.5 text-[15px]">Track your income from completed and active projects.</p>
         </div>
         <button
           onClick={() => {
@@ -191,7 +191,7 @@ export default function FreelancerEarningsPage() {
               });
             });
           }}
-          className="flex items-center justify-center gap-2 bg-[#f4f8f6] hover:bg-[#eaf5f2] border border-[#d4ebe6] text-[#1a3c34] px-5 py-2.5 rounded-full font-semibold text-xs transition-all shadow-sm w-fit"
+          className="flex items-center justify-center gap-2 bg-[#f4f8f6] dark:bg-[#1a2435] hover:bg-[#eaf5f2] dark:bg-[#1a2435] border border-[#d4ebe6] dark:border-[#1e293b] text-[#1a3c34] dark:text-[#e8f4f0] px-5 py-2.5 rounded-full font-semibold text-xs transition-all shadow-sm w-fit"
         >
           Refresh Data
         </button>
@@ -202,16 +202,16 @@ export default function FreelancerEarningsPage() {
         {stats.map((stat, i) => {
           const Icon = stat.icon;
           return (
-            <div key={i} className="p-6 rounded-2xl border border-[#d4ebe6]/50 shadow-sm bg-white flex flex-col justify-between h-[150px] hover:shadow-md transition-all">
+            <div key={i} className="p-6 rounded-2xl border border-[#d4ebe6] dark:border-[#1e293b]/50 shadow-sm bg-white dark:bg-[#131c2b] flex flex-col justify-between h-[150px] hover:shadow-md transition-all">
               <div className="flex items-center justify-between">
                 <div className={`p-2.5 rounded-xl ${stat.iconBg} ${stat.iconColor}`}><Icon size={20} /></div>
               </div>
               <div className="space-y-0.5">
-                <span className="text-xs font-semibold text-[#8aa89e] uppercase tracking-wider">{stat.title}</span>
-                <p className="text-2xl font-semibold text-[#1a3c34]">
+                <span className="text-xs font-semibold text-[#8aa89e] dark:text-[#6b7e94] uppercase tracking-wider">{stat.title}</span>
+                <p className="text-2xl font-semibold text-[#1a3c34] dark:text-[#e8f4f0]">
                   {loading ? <span className="inline-block w-16 h-6 bg-gray-100 animate-pulse rounded" /> : stat.value}
                 </p>
-                <p className="text-xs text-[#8aa89e]">{stat.sub}</p>
+                <p className="text-xs text-[#8aa89e] dark:text-[#6b7e94]">{stat.sub}</p>
               </div>
             </div>
           );
@@ -219,21 +219,21 @@ export default function FreelancerEarningsPage() {
       </div>
 
       {/* Monthly Earnings Chart */}
-      <div className="bg-white rounded-3xl border border-[#d4ebe6]/40 shadow-sm p-8 space-y-6">
+      <div className="bg-white dark:bg-[#131c2b] rounded-3xl border border-[#d4ebe6] dark:border-[#1e293b]/40 shadow-sm p-8 space-y-6">
         <div className="flex items-center gap-2">
-          <div className="p-2 rounded-xl bg-[#eaf5f2] text-[#2a9d8f]"><BarChart2 size={20} /></div>
+          <div className="p-2 rounded-xl bg-[#eaf5f2] dark:bg-[#1a2435] text-[#2a9d8f]"><BarChart2 size={20} /></div>
           <div>
-            <h2 className="text-xl font-serif font-bold text-[#1a3c34]">Monthly Earnings</h2>
-            <p className="text-xs text-[#8aa89e]">Paid project history</p>
+            <h2 className="text-xl font-serif font-bold text-[#1a3c34] dark:text-[#e8f4f0]">Monthly Earnings</h2>
+            <p className="text-xs text-[#8aa89e] dark:text-[#6b7e94]">Paid project history</p>
           </div>
         </div>
         {loading ? (
           <div className="h-48 bg-gray-50 animate-pulse rounded-2xl" />
         ) : monthlyData.length === 0 ? (
-          <div className="h-48 flex items-center justify-center text-center border border-dashed border-[#d4ebe6] rounded-2xl">
+          <div className="h-48 flex items-center justify-center text-center border border-dashed border-[#d4ebe6] dark:border-[#1e293b] rounded-2xl">
             <div className="space-y-2">
               <BarChart2 className="w-8 h-8 text-[#d4ebe6] mx-auto" />
-              <p className="text-sm text-[#8aa89e]">No payment history yet.</p>
+              <p className="text-sm text-[#8aa89e] dark:text-[#6b7e94]">No payment history yet.</p>
             </div>
           </div>
         ) : (
@@ -242,7 +242,7 @@ export default function FreelancerEarningsPage() {
               const heightPct = (m.amount / maxBarAmount) * 100;
               return (
                 <div key={i} className="flex flex-col items-center gap-2 flex-1 min-w-[60px]">
-                  <span className="text-xs font-bold text-[#5a7a72]">
+                  <span className="text-xs font-bold text-[#5a7a72] dark:text-[#9fb3c8]">
                     ${m.amount >= 1000
                       ? `${(m.amount / 1000).toFixed(1)}k`
                       : m.amount.toFixed(0)}
@@ -254,7 +254,7 @@ export default function FreelancerEarningsPage() {
                       title={`$${m.amount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`}
                     />
                   </div>
-                  <span className="text-[11px] text-[#8aa89e] font-medium whitespace-nowrap">
+                  <span className="text-[11px] text-[#8aa89e] dark:text-[#6b7e94] font-medium whitespace-nowrap">
                     {MONTH_LABELS[m.month]} {m.year !== new Date().getFullYear() ? m.year : ""}
                   </span>
                 </div>
@@ -265,11 +265,11 @@ export default function FreelancerEarningsPage() {
       </div>
 
       {/* Earnings History Table */}
-      <div className="bg-white rounded-3xl border border-[#d4ebe6]/40 shadow-sm overflow-hidden">
-        <div className="flex items-center justify-between p-6 md:p-8 border-b border-[#d4ebe6]/40">
+      <div className="bg-white dark:bg-[#131c2b] rounded-3xl border border-[#d4ebe6] dark:border-[#1e293b]/40 shadow-sm overflow-hidden">
+        <div className="flex items-center justify-between p-6 md:p-8 border-b border-[#d4ebe6] dark:border-[#1e293b]/40">
           <div>
-            <h2 className="text-xl font-serif font-bold text-[#1a3c34]">Earnings History</h2>
-            <p className="text-xs text-[#8aa89e] mt-0.5">All accepted project payments</p>
+            <h2 className="text-xl font-serif font-bold text-[#1a3c34] dark:text-[#e8f4f0]">Earnings History</h2>
+            <p className="text-xs text-[#8aa89e] dark:text-[#6b7e94] mt-0.5">All accepted project payments</p>
           </div>
         </div>
         {loading ? (
@@ -285,12 +285,12 @@ export default function FreelancerEarningsPage() {
           </div>
         ) : earningData.records.length === 0 ? (
           <div className="p-12 text-center space-y-4">
-            <div className="w-14 h-14 bg-[#eaf5f2] text-[#2a9d8f] rounded-2xl flex items-center justify-center mx-auto">
+            <div className="w-14 h-14 bg-[#eaf5f2] dark:bg-[#1a2435] text-[#2a9d8f] rounded-2xl flex items-center justify-center mx-auto">
               <DollarSign className="w-7 h-7" />
             </div>
             <div>
-              <p className="font-bold text-[#1a3c34]">No earnings yet</p>
-              <p className="text-[#8aa89e] text-sm mt-1">Submit proposals and get hired to start earning.</p>
+              <p className="font-bold text-[#1a3c34] dark:text-[#e8f4f0]">No earnings yet</p>
+              <p className="text-[#8aa89e] dark:text-[#6b7e94] text-sm mt-1">Submit proposals and get hired to start earning.</p>
             </div>
             <Link href="/tasks" className="inline-flex items-center gap-2 bg-[#2a9d8f] hover:bg-[#238478] text-white px-6 py-2.5 rounded-full font-medium transition-all text-sm">
               <Search size={14} /> Browse Gigs
@@ -300,12 +300,12 @@ export default function FreelancerEarningsPage() {
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
-                <tr className="border-b border-[#d4ebe6]/60 bg-[#f4f8f6]">
-                  <th className="text-left py-4 px-6 font-bold text-[#5a7a72] text-xs uppercase tracking-wider">Task</th>
-                  <th className="text-left py-4 px-4 font-bold text-[#5a7a72] text-xs uppercase tracking-wider">Category</th>
-                  <th className="text-left py-4 px-4 font-bold text-[#5a7a72] text-xs uppercase tracking-wider">Amount</th>
-                  <th className="text-left py-4 px-4 font-bold text-[#5a7a72] text-xs uppercase tracking-wider">Status</th>
-                  <th className="text-left py-4 px-4 font-bold text-[#5a7a72] text-xs uppercase tracking-wider">Date</th>
+                <tr className="border-b border-[#d4ebe6] dark:border-[#1e293b]/60 bg-[#f4f8f6] dark:bg-[#1a2435]">
+                  <th className="text-left py-4 px-6 font-bold text-[#5a7a72] dark:text-[#9fb3c8] text-xs uppercase tracking-wider">Task</th>
+                  <th className="text-left py-4 px-4 font-bold text-[#5a7a72] dark:text-[#9fb3c8] text-xs uppercase tracking-wider">Category</th>
+                  <th className="text-left py-4 px-4 font-bold text-[#5a7a72] dark:text-[#9fb3c8] text-xs uppercase tracking-wider">Amount</th>
+                  <th className="text-left py-4 px-4 font-bold text-[#5a7a72] dark:text-[#9fb3c8] text-xs uppercase tracking-wider">Status</th>
+                  <th className="text-left py-4 px-4 font-bold text-[#5a7a72] dark:text-[#9fb3c8] text-xs uppercase tracking-wider">Date</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-[#d4ebe6]/40">
@@ -321,13 +321,13 @@ export default function FreelancerEarningsPage() {
                   return (
                     <tr key={i} className="hover:bg-[#f9fcfb] transition-colors">
                       <td className="py-4 px-6">
-                        <Link href={`/tasks/${record.task._id}`} className="font-semibold text-[#1a3c34] hover:text-[#2a9d8f] hover:underline">
+                        <Link href={`/tasks/${record.task._id}`} className="font-semibold text-[#1a3c34] dark:text-[#e8f4f0] hover:text-[#2a9d8f] hover:underline">
                           {record.task.title}
                         </Link>
-                        <div className="text-xs text-[#8aa89e] mt-0.5">Client: {record.task.buyerEmail || "—"}</div>
+                        <div className="text-xs text-[#8aa89e] dark:text-[#6b7e94] mt-0.5">Client: {record.task.buyerEmail || "—"}</div>
                       </td>
                       <td className="py-4 px-4">
-                        <span className="inline-flex items-center gap-1 text-xs font-semibold bg-[#eaf5f2] text-[#2a9d8f] px-2 py-1 rounded-lg">
+                        <span className="inline-flex items-center gap-1 text-xs font-semibold bg-[#eaf5f2] dark:bg-[#1a2435] text-[#2a9d8f] px-2 py-1 rounded-lg">
                           <Tag className="w-2.5 h-2.5" />{record.task.category || "General"}
                         </span>
                       </td>
@@ -343,7 +343,7 @@ export default function FreelancerEarningsPage() {
                           {record.isPaid ? <><CheckCircle2 className="w-3 h-3" /> Paid</> : <><Clock className="w-3 h-3" /> Pending</>}
                         </span>
                       </td>
-                      <td className="py-4 px-4 text-xs text-[#8aa89e] font-medium whitespace-nowrap">
+                      <td className="py-4 px-4 text-xs text-[#8aa89e] dark:text-[#6b7e94] font-medium whitespace-nowrap">
                         <div className="flex items-center gap-1.5">
                           <Calendar className="w-3.5 h-3.5 text-[#2a9d8f]" />{dateFormatted}
                         </div>

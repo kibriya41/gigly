@@ -113,7 +113,7 @@ export default function AdminUsersPage() {
   }
 
   const stats = [
-    { title: "Total Users", value: totalUsers, icon: UsersIcon, iconBg: "bg-[#eaf5f2]", iconColor: "text-[#2a9d8f]" },
+    { title: "Total Users", value: totalUsers, icon: UsersIcon, iconBg: "bg-[#eaf5f2] dark:bg-[#1a2435]", iconColor: "text-[#2a9d8f]" },
     { title: "Freelancers", value: freelancerCount, icon: UserCircle, iconBg: "bg-blue-50", iconColor: "text-blue-600" },
     { title: "Clients", value: clientCount, icon: UserCircle, iconBg: "bg-purple-50", iconColor: "text-purple-600" },
     { title: "Blocked", value: blockedCount, icon: Ban, iconBg: "bg-red-50", iconColor: "text-red-500" },
@@ -124,7 +124,7 @@ export default function AdminUsersPage() {
       {/* Toast */}
       {toast && (
         <div className={`fixed bottom-5 right-5 z-50 flex items-center gap-2 px-5 py-3.5 rounded-2xl shadow-xl border animate-in fade-in slide-in-from-bottom-5 duration-300
-          ${toast.type === "error" ? "bg-red-50 text-red-800 border-red-200" : "bg-[#eaf5f2] text-[#1a3c34] border-[#d4ebe6]"}`}>
+          ${toast.type === "error" ? "bg-red-50 text-red-800 border-red-200" : "bg-[#eaf5f2] dark:bg-[#1a2435] text-[#1a3c34] dark:text-[#e8f4f0] border-[#d4ebe6] dark:border-[#1e293b]"}`}>
           {toast.type === "error" ? <AlertTriangle className="w-5 h-5 text-red-500" /> : <ShieldCheck className="w-5 h-5 text-[#2a9d8f]" />}
           <span className="font-semibold text-sm">{toast.message}</span>
         </div>
@@ -132,8 +132,8 @@ export default function AdminUsersPage() {
 
       {/* Header */}
       <div>
-        <h1 className="text-4xl font-serif font-semibold text-[#1a3c34] tracking-tight">Manage Users</h1>
-        <p className="text-[#5a7a72] mt-1.5 text-[15px]">
+        <h1 className="text-4xl font-serif font-semibold text-[#1a3c34] dark:text-[#e8f4f0] tracking-tight">Manage Users</h1>
+        <p className="text-[#5a7a72] dark:text-[#9fb3c8] mt-1.5 text-[15px]">
           View all platform accounts and control block status. Blocked accounts lose login access.
         </p>
       </div>
@@ -143,13 +143,13 @@ export default function AdminUsersPage() {
         {stats.map((stat, i) => {
           const Icon = stat.icon;
           return (
-            <div key={i} className="p-6 rounded-2xl border border-[#d4ebe6]/50 shadow-sm flex flex-col justify-between h-[140px] bg-white">
+            <div key={i} className="p-6 rounded-2xl border border-[#d4ebe6] dark:border-[#1e293b]/50 shadow-sm flex flex-col justify-between h-[140px] bg-white dark:bg-[#131c2b]">
               <div className={`p-2.5 rounded-xl w-fit ${stat.iconBg} ${stat.iconColor}`}>
                 <Icon size={20} />
               </div>
               <div className="space-y-1 mt-4">
-                <span className="text-xs font-semibold text-[#8aa89e] uppercase tracking-wider">{stat.title}</span>
-                <p className="text-2xl font-semibold text-[#1a3c34]">
+                <span className="text-xs font-semibold text-[#8aa89e] dark:text-[#6b7e94] uppercase tracking-wider">{stat.title}</span>
+                <p className="text-2xl font-semibold text-[#1a3c34] dark:text-[#e8f4f0]">
                   {loading ? <span className="inline-block w-12 h-6 bg-gray-100 animate-pulse rounded" /> : stat.value}
                 </p>
               </div>
@@ -159,10 +159,10 @@ export default function AdminUsersPage() {
       </div>
 
       {/* Filters */}
-      <div className="bg-white p-5 rounded-3xl border border-[#d4ebe6]/40 shadow-sm">
+      <div className="bg-white dark:bg-[#131c2b] p-5 rounded-3xl border border-[#d4ebe6] dark:border-[#1e293b]/40 shadow-sm">
         <div className="flex flex-col lg:flex-row gap-4 items-center justify-between">
           <div className="relative w-full lg:max-w-md">
-            <Search className="absolute left-4 top-3.5 w-4 h-4 text-[#8aa89e]" />
+            <Search className="absolute left-4 top-3.5 w-4 h-4 text-[#8aa89e] dark:text-[#6b7e94]" />
             <input
               type="text"
               placeholder="Search by name or email..."
@@ -176,11 +176,11 @@ export default function AdminUsersPage() {
               </button>
             )}
           </div>
-          <div className="flex items-center gap-1.5 bg-[#f4f8f6] px-3.5 py-2.5 rounded-2xl border border-[#d4ebe6]/60 text-xs text-[#5a7a72] font-semibold w-full sm:w-auto">
+          <div className="flex items-center gap-1.5 bg-[#f4f8f6] dark:bg-[#1a2435] px-3.5 py-2.5 rounded-2xl border border-[#d4ebe6] dark:border-[#1e293b]/60 text-xs text-[#5a7a72] dark:text-[#9fb3c8] font-semibold w-full sm:w-auto">
             <select
               value={roleFilter}
               onChange={(e) => setRoleFilter(e.target.value)}
-              className="bg-transparent outline-none cursor-pointer text-[#1a3c34] font-bold w-full sm:w-auto"
+              className="bg-transparent outline-none cursor-pointer text-[#1a3c34] dark:text-[#e8f4f0] font-bold w-full sm:w-auto"
             >
               <option value="All">All Roles</option>
               <option value="client">Clients</option>
@@ -203,26 +203,26 @@ export default function AdminUsersPage() {
           <button onClick={fetchUsers} className="px-5 py-2 bg-red-600 text-white text-xs font-medium rounded-xl">Try Again</button>
         </div>
       ) : filteredUsers.length === 0 ? (
-        <div className="bg-white rounded-3xl border border-[#d4ebe6]/40 p-12 text-center max-w-xl mx-auto shadow-sm space-y-6">
-          <div className="w-16 h-16 bg-[#eaf5f2] text-[#2a9d8f] rounded-2xl flex items-center justify-center mx-auto">
+        <div className="bg-white dark:bg-[#131c2b] rounded-3xl border border-[#d4ebe6] dark:border-[#1e293b]/40 p-12 text-center max-w-xl mx-auto shadow-sm space-y-6">
+          <div className="w-16 h-16 bg-[#eaf5f2] dark:bg-[#1a2435] text-[#2a9d8f] rounded-2xl flex items-center justify-center mx-auto">
             <UsersIcon className="w-8 h-8" />
           </div>
           <div>
-            <h3 className="text-xl font-bold text-[#1a3c34]">No Users Found</h3>
-            <p className="text-[#8aa89e] text-sm mt-1.5">No users match your current filters.</p>
+            <h3 className="text-xl font-bold text-[#1a3c34] dark:text-[#e8f4f0]">No Users Found</h3>
+            <p className="text-[#8aa89e] dark:text-[#6b7e94] text-sm mt-1.5">No users match your current filters.</p>
           </div>
         </div>
       ) : (
-        <div className="bg-white rounded-3xl border border-[#d4ebe6]/40 shadow-sm overflow-hidden">
+        <div className="bg-white dark:bg-[#131c2b] rounded-3xl border border-[#d4ebe6] dark:border-[#1e293b]/40 shadow-sm overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead>
-                <tr className="bg-[#f4f8f6] border-b border-[#d4ebe6]/60">
-                  <th className="text-left text-[10px] font-bold uppercase tracking-wider text-[#8aa89e] px-6 py-4">User</th>
-                  <th className="text-left text-[10px] font-bold uppercase tracking-wider text-[#8aa89e] px-6 py-4">Email</th>
-                  <th className="text-left text-[10px] font-bold uppercase tracking-wider text-[#8aa89e] px-6 py-4">Role</th>
-                  <th className="text-left text-[10px] font-bold uppercase tracking-wier tracking-wider text-[#8aa89e] px-6 py-4">Status</th>
-                  <th className="text-right text-[10px] font-bold uppercase tracking-wider text-[#8aa89e] px-6 py-4">Action</th>
+                <tr className="bg-[#f4f8f6] dark:bg-[#1a2435] border-b border-[#d4ebe6] dark:border-[#1e293b]/60">
+                  <th className="text-left text-[10px] font-bold uppercase tracking-wider text-[#8aa89e] dark:text-[#6b7e94] px-6 py-4">User</th>
+                  <th className="text-left text-[10px] font-bold uppercase tracking-wider text-[#8aa89e] dark:text-[#6b7e94] px-6 py-4">Email</th>
+                  <th className="text-left text-[10px] font-bold uppercase tracking-wider text-[#8aa89e] dark:text-[#6b7e94] px-6 py-4">Role</th>
+                  <th className="text-left text-[10px] font-bold uppercase tracking-wier tracking-wider text-[#8aa89e] dark:text-[#6b7e94] px-6 py-4">Status</th>
+                  <th className="text-right text-[10px] font-bold uppercase tracking-wider text-[#8aa89e] dark:text-[#6b7e94] px-6 py-4">Action</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-100">
@@ -235,26 +235,26 @@ export default function AdminUsersPage() {
                       ? "text-purple-700 bg-purple-50 border-purple-200"
                       : roleLower === "freelancer"
                       ? "text-blue-700 bg-blue-50 border-blue-200"
-                      : "text-[#2a9d8f] bg-[#eaf5f2] border-[#d4ebe6]";
+                      : "text-[#2a9d8f] bg-[#eaf5f2] dark:bg-[#1a2435] border-[#d4ebe6] dark:border-[#1e293b]";
 
                   return (
-                    <tr key={user._id || user.email} className="hover:bg-[#f4f8f6]/40 transition-colors">
+                    <tr key={user._id || user.email} className="hover:bg-[#f4f8f6] dark:bg-[#1a2435]/40 transition-colors">
                       <td className="px-6 py-4">
                         <div className="flex items-center gap-3">
                           {user.image ? (
-                            <img src={user.image} alt={user.name} className="w-9 h-9 rounded-full object-cover border border-[#d4ebe6]" />
+                            <img src={user.image} alt={user.name} className="w-9 h-9 rounded-full object-cover border border-[#d4ebe6] dark:border-[#1e293b]" />
                           ) : (
-                            <div className="w-9 h-9 rounded-full bg-[#eaf5f2] text-[#2a9d8f] flex items-center justify-center font-bold text-sm border border-[#d4ebe6]">
+                            <div className="w-9 h-9 rounded-full bg-[#eaf5f2] dark:bg-[#1a2435] text-[#2a9d8f] flex items-center justify-center font-bold text-sm border border-[#d4ebe6] dark:border-[#1e293b]">
                               {(user.name || "?")[0].toUpperCase()}
                             </div>
                           )}
                           <div>
-                            <p className="font-semibold text-sm text-[#1a3c34]">{user.name || "Unknown"}</p>
-                            {isSelf && <span className="text-[10px] text-[#8aa89e]">(You)</span>}
+                            <p className="font-semibold text-sm text-[#1a3c34] dark:text-[#e8f4f0]">{user.name || "Unknown"}</p>
+                            {isSelf && <span className="text-[10px] text-[#8aa89e] dark:text-[#6b7e94]">(You)</span>}
                           </div>
                         </div>
                       </td>
-                      <td className="px-6 py-4 text-sm text-[#5a7a72]">{user.email}</td>
+                      <td className="px-6 py-4 text-sm text-[#5a7a72] dark:text-[#9fb3c8]">{user.email}</td>
                       <td className="px-6 py-4">
                         <span className={`text-[10px] font-bold px-2.5 py-1 rounded-full border uppercase ${roleStyle}`}>
                           {user.role || "client"}
@@ -296,8 +296,8 @@ export default function AdminUsersPage() {
               </tbody>
             </table>
           </div>
-          <div className="bg-[#f4f8f6] border-t border-[#d4ebe6]/60 px-6 py-3">
-            <span className="text-sm font-bold text-[#5a7a72]">
+          <div className="bg-[#f4f8f6] dark:bg-[#1a2435] border-t border-[#d4ebe6] dark:border-[#1e293b]/60 px-6 py-3">
+            <span className="text-sm font-bold text-[#5a7a72] dark:text-[#9fb3c8]">
               Showing {filteredUsers.length} of {users.length} users
             </span>
           </div>

@@ -58,7 +58,7 @@ function getTaskDate(task) {
 const STATUS_STYLE = {
   Paid: "text-emerald-700 bg-emerald-50 border-emerald-100",
   Pending: "text-[#d97706] bg-[#fffbeb] border-[#fef3c7]",
-  Reserved: "text-[#2a9d8f] bg-[#eaf5f2] border-[#d4ebe6]",
+  Reserved: "text-[#2a9d8f] bg-[#eaf5f2] dark:bg-[#1a2435] border-[#d4ebe6] dark:border-[#1e293b]",
 };
 
 const STATUS_ICON = {
@@ -151,9 +151,9 @@ export default function ClientEarningsPage() {
       title: "Total Budget Committed",
       value: `$${totalAll.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`,
       icon: Wallet,
-      iconBg: "bg-[#eaf5f2]",
+      iconBg: "bg-[#eaf5f2] dark:bg-[#1a2435]",
       iconColor: "text-[#2a9d8f]",
-      cardBg: "bg-white",
+      cardBg: "bg-white dark:bg-[#131c2b]",
     },
     {
       title: "Paid Out",
@@ -161,7 +161,7 @@ export default function ClientEarningsPage() {
       icon: CheckCircle2,
       iconBg: "bg-emerald-50",
       iconColor: "text-emerald-600",
-      cardBg: "bg-white",
+      cardBg: "bg-white dark:bg-[#131c2b]",
     },
     {
       title: "Pending Release",
@@ -169,15 +169,15 @@ export default function ClientEarningsPage() {
       icon: Clock,
       iconBg: "bg-[#fffbeb]",
       iconColor: "text-[#d97706]",
-      cardBg: "bg-white",
+      cardBg: "bg-white dark:bg-[#131c2b]",
     },
     {
       title: "Open Reservations",
       value: `$${totalReserved.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`,
       icon: CreditCard,
-      iconBg: "bg-[#e2f1ed]",
-      iconColor: "text-[#1a3c34]",
-      cardBg: "bg-[#f0f7f4]",
+      iconBg: "bg-[#e2f1ed] dark:bg-[#1a2435]",
+      iconColor: "text-[#1a3c34] dark:text-[#e8f4f0]",
+      cardBg: "bg-[#f0f7f4] dark:bg-[#1a2435]",
     },
   ];
 
@@ -244,7 +244,7 @@ export default function ClientEarningsPage() {
       <div className="flex items-center justify-center min-h-[60vh]">
         <div className="flex flex-col items-center gap-4">
           <Loader2 className="w-10 h-10 animate-spin text-[#2a9d8f]" />
-          <p className="text-[#5a7a72] font-medium">Loading session...</p>
+          <p className="text-[#5a7a72] dark:text-[#9fb3c8] font-medium">Loading session...</p>
         </div>
       </div>
     );
@@ -253,12 +253,12 @@ export default function ClientEarningsPage() {
   if (!session) {
     return (
       <div className="flex items-center justify-center min-h-[60vh] max-w-md mx-auto text-center px-4">
-        <div className="bg-white p-8 rounded-3xl border border-[#d4ebe6]/50 shadow-md space-y-6">
+        <div className="bg-white dark:bg-[#131c2b] p-8 rounded-3xl border border-[#d4ebe6] dark:border-[#1e293b]/50 shadow-md space-y-6">
           <div className="w-16 h-16 bg-red-50 text-red-500 rounded-2xl flex items-center justify-center mx-auto">
             <AlertTriangle className="w-8 h-8" />
           </div>
-          <h2 className="text-2xl font-serif font-bold text-[#1a3c34]">Access Denied</h2>
-          <p className="text-[#5a7a72] text-[15px]">
+          <h2 className="text-2xl font-serif font-bold text-[#1a3c34] dark:text-[#e8f4f0]">Access Denied</h2>
+          <p className="text-[#5a7a72] dark:text-[#9fb3c8] text-[15px]">
             Please sign in to view your payment history.
           </p>
           <Link
@@ -277,10 +277,10 @@ export default function ClientEarningsPage() {
       {/* Header Row */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div>
-          <h1 className="text-4xl font-serif font-semibold text-[#1a3c34] tracking-tight">
+          <h1 className="text-4xl font-serif font-semibold text-[#1a3c34] dark:text-[#e8f4f0] tracking-tight">
             Payment History
           </h1>
-          <p className="text-[#5a7a72] mt-1.5 text-[15px]">
+          <p className="text-[#5a7a72] dark:text-[#9fb3c8] mt-1.5 text-[15px]">
             Track all your spending, reservations, and payment statuses across tasks.
           </p>
         </div>
@@ -300,16 +300,16 @@ export default function ClientEarningsPage() {
           return (
             <div
               key={i}
-              className={`p-6 rounded-2xl border border-[#d4ebe6]/50 shadow-sm flex flex-col justify-between h-[150px] transition-all hover:shadow-md ${stat.cardBg}`}
+              className={`p-6 rounded-2xl border border-[#d4ebe6] dark:border-[#1e293b]/50 shadow-sm flex flex-col justify-between h-[150px] transition-all hover:shadow-md ${stat.cardBg}`}
             >
               <div className={`p-2.5 rounded-xl w-fit ${stat.iconBg} ${stat.iconColor}`}>
                 <Icon size={20} />
               </div>
               <div className="space-y-1 mt-4">
-                <span className="text-xs font-semibold text-[#8aa89e] uppercase tracking-wider">
+                <span className="text-xs font-semibold text-[#8aa89e] dark:text-[#6b7e94] uppercase tracking-wider">
                   {stat.title}
                 </span>
-                <p className="text-2xl font-semibold text-[#1a3c34]">
+                <p className="text-2xl font-semibold text-[#1a3c34] dark:text-[#e8f4f0]">
                   {loading ? (
                     <span className="inline-block w-20 h-6 bg-gray-100 animate-pulse rounded" />
                   ) : (
@@ -323,20 +323,20 @@ export default function ClientEarningsPage() {
       </div>
 
       {/* Monthly Spend Chart */}
-      <div className="bg-white p-8 rounded-3xl border border-[#d4ebe6]/40 shadow-sm">
+      <div className="bg-white dark:bg-[#131c2b] p-8 rounded-3xl border border-[#d4ebe6] dark:border-[#1e293b]/40 shadow-sm">
         <div className="flex items-center justify-between mb-6">
           <div>
-            <h2 className="text-xl font-serif font-semibold text-[#1a3c34]">Monthly Spend Overview</h2>
-            <p className="text-[#8aa89e] text-sm mt-0.5">Budget distribution across recent months</p>
+            <h2 className="text-xl font-serif font-semibold text-[#1a3c34] dark:text-[#e8f4f0]">Monthly Spend Overview</h2>
+            <p className="text-[#8aa89e] dark:text-[#6b7e94] text-sm mt-0.5">Budget distribution across recent months</p>
           </div>
-          <div className="p-2.5 rounded-xl bg-[#eaf5f2] text-[#2a9d8f]">
+          <div className="p-2.5 rounded-xl bg-[#eaf5f2] dark:bg-[#1a2435] text-[#2a9d8f]">
             <BarChart3 size={20} />
           </div>
         </div>
         <div className="flex items-end gap-3 h-40">
           {monthlyData.map((d) => (
             <div key={d.month} className="flex-1 flex flex-col items-center gap-2">
-              <span className="text-[10px] font-bold text-[#8aa89e]">
+              <span className="text-[10px] font-bold text-[#8aa89e] dark:text-[#6b7e94]">
                 ${Math.round(d.amount / 100) * 100}
               </span>
               <div
@@ -347,17 +347,17 @@ export default function ClientEarningsPage() {
                   ${d.amount.toLocaleString()}
                 </div>
               </div>
-              <span className="text-[11px] font-semibold text-[#5a7a72]">{d.month}</span>
+              <span className="text-[11px] font-semibold text-[#5a7a72] dark:text-[#9fb3c8]">{d.month}</span>
             </div>
           ))}
         </div>
       </div>
 
       {/* Search & Filters */}
-      <div className="bg-white p-6 rounded-3xl border border-[#d4ebe6]/40 shadow-sm space-y-4 md:space-y-0 md:flex md:items-center md:justify-between md:gap-6">
+      <div className="bg-white dark:bg-[#131c2b] p-6 rounded-3xl border border-[#d4ebe6] dark:border-[#1e293b]/40 shadow-sm space-y-4 md:space-y-0 md:flex md:items-center md:justify-between md:gap-6">
         {/* Search */}
         <div className="relative flex-1 max-w-md">
-          <Search className="absolute left-4 top-3.5 w-4 h-4 text-[#8aa89e]" />
+          <Search className="absolute left-4 top-3.5 w-4 h-4 text-[#8aa89e] dark:text-[#6b7e94]" />
           <input
             type="text"
             placeholder="Search by task, category, or payment method..."
@@ -377,7 +377,7 @@ export default function ClientEarningsPage() {
 
         {/* Status Pills & Sort */}
         <div className="flex flex-wrap items-center gap-4">
-          <div className="flex bg-[#f4f8f6] p-1.5 rounded-2xl border border-[#d4ebe6]/60 overflow-x-auto min-w-0 max-w-full">
+          <div className="flex bg-[#f4f8f6] dark:bg-[#1a2435] p-1.5 rounded-2xl border border-[#d4ebe6] dark:border-[#1e293b]/60 overflow-x-auto min-w-0 max-w-full">
             {["All", "Paid", "Pending", "Reserved"].map((tab) => {
               const isActive = statusFilter === tab;
               return (
@@ -386,8 +386,8 @@ export default function ClientEarningsPage() {
                   onClick={() => setStatusFilter(tab)}
                   className={`px-4 py-2 rounded-xl text-xs font-semibold transition-all cursor-pointer whitespace-nowrap shrink-0 ${
                     isActive
-                      ? "bg-white text-[#1a3c34] shadow-sm font-bold"
-                      : "text-[#5a7a72] hover:text-[#1a3c34]"
+                      ? "bg-white dark:bg-[#131c2b] text-[#1a3c34] dark:text-[#e8f4f0] shadow-sm font-bold"
+                      : "text-[#5a7a72] dark:text-[#9fb3c8] hover:text-[#1a3c34] dark:text-[#e8f4f0]"
                   }`}
                 >
                   {tab}
@@ -396,12 +396,12 @@ export default function ClientEarningsPage() {
             })}
           </div>
 
-          <div className="relative flex items-center gap-1.5 bg-[#f4f8f6] px-3.5 py-2.5 rounded-2xl border border-[#d4ebe6]/60 text-xs text-[#5a7a72] font-semibold">
+          <div className="relative flex items-center gap-1.5 bg-[#f4f8f6] dark:bg-[#1a2435] px-3.5 py-2.5 rounded-2xl border border-[#d4ebe6] dark:border-[#1e293b]/60 text-xs text-[#5a7a72] dark:text-[#9fb3c8] font-semibold">
             <ArrowUpDown className="w-3.5 h-3.5 text-[#2a9d8f]" />
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
-              className="bg-transparent outline-none cursor-pointer text-[#1a3c34] font-bold"
+              className="bg-transparent outline-none cursor-pointer text-[#1a3c34] dark:text-[#e8f4f0] font-bold"
             >
               <option value="newest">Newest First</option>
               <option value="oldest">Oldest First</option>
@@ -417,7 +417,7 @@ export default function ClientEarningsPage() {
         <div className="flex items-center justify-center min-h-[30vh]">
           <div className="flex flex-col items-center gap-3">
             <Loader2 className="w-8 h-8 animate-spin text-[#2a9d8f]" />
-            <p className="text-[#8aa89e] text-sm font-medium">Fetching payment history...</p>
+            <p className="text-[#8aa89e] dark:text-[#6b7e94] text-sm font-medium">Fetching payment history...</p>
           </div>
         </div>
       ) : error ? (
@@ -433,13 +433,13 @@ export default function ClientEarningsPage() {
           </button>
         </div>
       ) : filteredPayments.length === 0 ? (
-        <div className="bg-white rounded-3xl border border-[#d4ebe6]/40 p-12 text-center max-w-xl mx-auto shadow-sm space-y-6">
-          <div className="w-16 h-16 bg-[#eaf5f2] text-[#2a9d8f] rounded-2xl flex items-center justify-center mx-auto">
+        <div className="bg-white dark:bg-[#131c2b] rounded-3xl border border-[#d4ebe6] dark:border-[#1e293b]/40 p-12 text-center max-w-xl mx-auto shadow-sm space-y-6">
+          <div className="w-16 h-16 bg-[#eaf5f2] dark:bg-[#1a2435] text-[#2a9d8f] rounded-2xl flex items-center justify-center mx-auto">
             <Receipt className="w-8 h-8" />
           </div>
           <div>
-            <h3 className="text-xl font-bold text-[#1a3c34]">No Payments Found</h3>
-            <p className="text-[#8aa89e] text-sm mt-1.5 px-4">
+            <h3 className="text-xl font-bold text-[#1a3c34] dark:text-[#e8f4f0]">No Payments Found</h3>
+            <p className="text-[#8aa89e] dark:text-[#6b7e94] text-sm mt-1.5 px-4">
               {searchTerm || statusFilter !== "All"
                 ? "No payments match your current filters."
                 : "You haven't committed any budget to tasks yet. Post a task to get started."}
@@ -448,7 +448,7 @@ export default function ClientEarningsPage() {
           {(searchTerm || statusFilter !== "All") ? (
             <button
               onClick={() => { setSearchTerm(""); setStatusFilter("All"); }}
-              className="px-5 py-2.5 bg-[#f4f8f6] hover:bg-[#eaf5f2] border border-[#d4ebe6] text-[#1a3c34] font-semibold text-xs rounded-xl transition-all"
+              className="px-5 py-2.5 bg-[#f4f8f6] dark:bg-[#1a2435] hover:bg-[#eaf5f2] dark:bg-[#1a2435] border border-[#d4ebe6] dark:border-[#1e293b] text-[#1a3c34] dark:text-[#e8f4f0] font-semibold text-xs rounded-xl transition-all"
             >
               Reset Filters
             </button>
@@ -465,7 +465,7 @@ export default function ClientEarningsPage() {
       ) : (
         <div className="space-y-4">
           {/* Table Header */}
-          <div className="hidden md:grid grid-cols-12 px-6 py-3 bg-[#f4f8f6] rounded-2xl text-[10px] font-bold uppercase tracking-widest text-[#8aa89e] border border-[#d4ebe6]/60">
+          <div className="hidden md:grid grid-cols-12 px-6 py-3 bg-[#f4f8f6] dark:bg-[#1a2435] rounded-2xl text-[10px] font-bold uppercase tracking-widest text-[#8aa89e] dark:text-[#6b7e94] border border-[#d4ebe6] dark:border-[#1e293b]/60">
             <div className="col-span-4">Task</div>
             <div className="col-span-2">Category</div>
             <div className="col-span-2">Payment Method</div>
@@ -480,21 +480,21 @@ export default function ClientEarningsPage() {
             return (
               <div
                 key={payment._id}
-                className="bg-white rounded-2xl border border-[#d4ebe6]/40 hover:border-[#2a9d8f]/30 hover:shadow-md transition-all group"
+                className="bg-white dark:bg-[#131c2b] rounded-2xl border border-[#d4ebe6] dark:border-[#1e293b]/40 hover:border-[#2a9d8f]/30 hover:shadow-md transition-all group"
               >
                 {/* Mobile View */}
                 <div className="md:hidden p-5 space-y-3">
                   <div className="flex items-start justify-between gap-2">
                     <div className="space-y-1">
-                      <Link href={`/tasks/${payment._id}`} className="font-bold text-[#1a3c34] group-hover:text-[#2a9d8f] transition-colors hover:underline text-sm">
+                      <Link href={`/tasks/${payment._id}`} className="font-bold text-[#1a3c34] dark:text-[#e8f4f0] group-hover:text-[#2a9d8f] transition-colors hover:underline text-sm">
                         {payment.title}
                       </Link>
                       {payment.freelancerName && (
-                        <div className="text-[11px] text-[#5a7a72] font-medium">
-                          Freelancer: <span className="font-semibold text-[#1a3c34]">{payment.freelancerName}</span>
+                        <div className="text-[11px] text-[#5a7a72] dark:text-[#9fb3c8] font-medium">
+                          Freelancer: <span className="font-semibold text-[#1a3c34] dark:text-[#e8f4f0]">{payment.freelancerName}</span>
                         </div>
                       )}
-                      <div className="flex items-center gap-2 text-xs text-[#8aa89e]">
+                      <div className="flex items-center gap-2 text-xs text-[#8aa89e] dark:text-[#6b7e94]">
                         <Tag className="w-3 h-3" />
                         <span>{payment.category || "General"}</span>
                         <span>•</span>
@@ -502,7 +502,7 @@ export default function ClientEarningsPage() {
                         <span>{payment.paymentMethod}</span>
                       </div>
                     </div>
-                    <span className="text-xl font-extrabold text-[#1a3c34]">
+                    <span className="text-xl font-extrabold text-[#1a3c34] dark:text-[#e8f4f0]">
                       ${payment.amount.toLocaleString()}
                     </span>
                   </div>
@@ -511,7 +511,7 @@ export default function ClientEarningsPage() {
                       <StatusIcon className="w-3 h-3" />
                       {payment.paymentStatus}
                     </span>
-                    <span className="text-xs text-[#8aa89e] font-medium">
+                    <span className="text-xs text-[#8aa89e] dark:text-[#6b7e94] font-medium">
                       {payment.createdAt ? new Date(payment.createdAt).toLocaleDateString() : "—"}
                     </span>
                   </div>
@@ -520,23 +520,23 @@ export default function ClientEarningsPage() {
                 {/* Desktop View */}
                 <div className="hidden md:grid grid-cols-12 px-6 py-4 items-center gap-2">
                   <div className="col-span-4">
-                    <Link href={`/tasks/${payment._id}`} className="font-semibold text-[#1a3c34] group-hover:text-[#2a9d8f] transition-colors hover:underline text-sm line-clamp-1">
+                    <Link href={`/tasks/${payment._id}`} className="font-semibold text-[#1a3c34] dark:text-[#e8f4f0] group-hover:text-[#2a9d8f] transition-colors hover:underline text-sm line-clamp-1">
                       {payment.title}
                     </Link>
                     {payment.freelancerName && (
-                      <span className="text-[11px] text-[#5a7a72] block mt-0.5 font-medium">
-                        Freelancer: <span className="font-semibold text-[#1a3c34]">{payment.freelancerName}</span>
+                      <span className="text-[11px] text-[#5a7a72] dark:text-[#9fb3c8] block mt-0.5 font-medium">
+                        Freelancer: <span className="font-semibold text-[#1a3c34] dark:text-[#e8f4f0]">{payment.freelancerName}</span>
                       </span>
                     )}
                   </div>
                   <div className="col-span-2">
-                    <span className="inline-flex items-center gap-1.5 text-xs font-semibold bg-[#eaf5f2] text-[#2a9d8f] px-2.5 py-1 rounded-lg">
+                    <span className="inline-flex items-center gap-1.5 text-xs font-semibold bg-[#eaf5f2] dark:bg-[#1a2435] text-[#2a9d8f] px-2.5 py-1 rounded-lg">
                       <Tag className="w-3 h-3" />
                       {payment.category || "General"}
                     </span>
                   </div>
-                  <div className="col-span-2 flex items-center gap-1.5 text-xs text-[#5a7a72] font-medium">
-                    <CreditCard className="w-3.5 h-3.5 text-[#8aa89e]" />
+                  <div className="col-span-2 flex items-center gap-1.5 text-xs text-[#5a7a72] dark:text-[#9fb3c8] font-medium">
+                    <CreditCard className="w-3.5 h-3.5 text-[#8aa89e] dark:text-[#6b7e94]" />
                     {payment.paymentMethod}
                   </div>
                   <div className="col-span-1 flex justify-center">
@@ -545,14 +545,14 @@ export default function ClientEarningsPage() {
                       {payment.paymentStatus}
                     </span>
                   </div>
-                  <div className="col-span-1 text-center text-xs text-[#8aa89e] font-medium">
+                  <div className="col-span-1 text-center text-xs text-[#8aa89e] dark:text-[#6b7e94] font-medium">
                     {payment.createdAt ? new Date(payment.createdAt).toLocaleDateString() : "—"}
                   </div>
                   <div className="col-span-2 text-right">
-                    <span className="font-extrabold text-[#1a3c34] text-lg">
+                    <span className="font-extrabold text-[#1a3c34] dark:text-[#e8f4f0] text-lg">
                       ${payment.amount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                     </span>
-                    <span className="text-[10px] text-[#8aa89e] font-semibold uppercase tracking-wider ml-1">USD</span>
+                    <span className="text-[10px] text-[#8aa89e] dark:text-[#6b7e94] font-semibold uppercase tracking-wider ml-1">USD</span>
                   </div>
                 </div>
               </div>
@@ -560,12 +560,12 @@ export default function ClientEarningsPage() {
           })}
 
           {/* Summary Row */}
-          <div className="bg-[#f4f8f6] rounded-2xl border border-[#d4ebe6]/60 px-6 py-4 flex items-center justify-between flex-wrap gap-4">
-            <span className="text-sm font-bold text-[#5a7a72]">
+          <div className="bg-[#f4f8f6] dark:bg-[#1a2435] rounded-2xl border border-[#d4ebe6] dark:border-[#1e293b]/60 px-6 py-4 flex items-center justify-between flex-wrap gap-4">
+            <span className="text-sm font-bold text-[#5a7a72] dark:text-[#9fb3c8]">
               Showing {filteredPayments.length} of {allPayments.length} payment record{allPayments.length !== 1 ? "s" : ""}
             </span>
-            <div className="flex items-center gap-2 text-sm font-extrabold text-[#1a3c34]">
-              <span className="text-[#8aa89e] font-semibold text-xs">Filtered Total:</span>
+            <div className="flex items-center gap-2 text-sm font-extrabold text-[#1a3c34] dark:text-[#e8f4f0]">
+              <span className="text-[#8aa89e] dark:text-[#6b7e94] font-semibold text-xs">Filtered Total:</span>
               ${filteredPayments.reduce((s, p) => s + p.amount, 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })} USD
             </div>
           </div>
