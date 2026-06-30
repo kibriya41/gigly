@@ -293,40 +293,40 @@ export default function PostTaskForm() {
 
   const getInputClasses = (fieldName, extra = '') => {
     const status = getFieldStatus(fieldName);
-    const base = `w-full px-4 py-3.5 rounded-xl transition-all duration-200 bg-white dark:bg-[#131c2b] outline-none text-sm`;
+    const base = `w-full px-4 py-3.5 rounded-xl transition-all duration-200 bg-white dark:bg-[#131c2b] outline-none text-sm text-gray-900 dark:text-slate-100`;
     const border = status === 'error'
-      ? 'border-2 border-red-300 focus:border-red-500 bg-red-50/50'
+      ? 'border-2 border-red-300 dark:border-red-700/50 focus:border-red-500 bg-red-50/50 dark:bg-red-900/10'
       : status === 'success'
-        ? 'border-2 border-emerald-300 focus:border-emerald-500'
-        : 'border border-gray-200 focus:border-[#2c7c74] focus:ring-2 focus:ring-[#2c7c74]/10';
+        ? 'border-2 border-emerald-300 dark:border-emerald-700/50 focus:border-emerald-500'
+        : 'border border-gray-200 dark:border-slate-700 focus:border-[#2c7c74] focus:ring-2 focus:ring-[#2c7c74]/10';
     return `${base} ${border} ${extra}`;
   };
 
   return (
-    <div className="min-h-screen py-8 px-4" style={{ backgroundColor: THEME.sageBg }}>
+    <div className="min-h-screen py-8 px-4 bg-[#f4f8f6] dark:bg-[#0b1220]">
       <div className="max-w-2xl mx-auto">
 
         {/* Header Card */}
-        <div className="mb-6 rounded-2xl p-6 bg-white dark:bg-[#131c2b]" style={{ boxShadow: THEME.shadow }}>
+        <div className="mb-6 rounded-2xl p-6 bg-white dark:bg-[#131c2b] shadow-sm border border-[#d4ebe6] dark:border-slate-800/40">
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ backgroundColor: THEME.primaryLight }}>
-                <Briefcase className="w-5 h-5" style={{ color: THEME.primary }} />
+              <div className="w-10 h-10 rounded-xl flex items-center justify-center bg-[#e8f4f2] dark:bg-teal-950/30">
+                <Briefcase className="w-5 h-5 text-[#2c7c74] dark:text-teal-400" />
               </div>
               <div>
-                <h1 className="text-lg font-semibold" style={{ color: THEME.textPrimary }}>Post a New Task</h1>
-                <p className="text-xs" style={{ color: THEME.textMuted }}>Fill in the details below to find skilled freelancers</p>
+                <h1 className="text-lg font-semibold text-[#1a1f2e] dark:text-slate-100">Post a New Task</h1>
+                <p className="text-xs text-[#94a3b8] dark:text-slate-400">Fill in the details below to find skilled freelancers</p>
               </div>
             </div>
             <div className="flex items-center gap-2">
               {lastSaved && (
-                <span className="text-xs flex items-center gap-1" style={{ color: THEME.textMuted }}>
+                <span className="text-xs flex items-center gap-1 text-[#94a3b8] dark:text-slate-400">
                   <Save className="w-3 h-3" />
                   Saved {lastSaved.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                 </span>
               )}
               {isAutoSaving && (
-                <span className="text-xs flex items-center gap-1" style={{ color: THEME.primary }}>
+                <span className="text-xs flex items-center gap-1 text-[#2c7c74] dark:text-teal-400">
                   <Loader2 className="w-3 h-3 animate-spin" />
                   Saving...
                 </span>
@@ -337,26 +337,25 @@ export default function PostTaskForm() {
                 className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
                 title="Clear draft"
               >
-                <Trash2 className="w-4 h-4" style={{ color: THEME.textMuted }} />
+                <Trash2 className="w-4 h-4 text-[#94a3b8] dark:text-slate-400" />
               </button>
             </div>
           </div>
 
           {/* Progress Bar */}
-          <div className="w-full bg-gray-100 rounded-full h-2 overflow-hidden">
+          <div className="w-full bg-gray-100 dark:bg-slate-800/50 rounded-full h-2 overflow-hidden">
             <div
-              className="h-2 rounded-full transition-all duration-700 ease-out"
+              className={`h-2 rounded-full transition-all duration-700 ease-out ${completionPercentage() === 100 ? 'bg-[#2c7c74] dark:bg-teal-500' : 'bg-[#7cb4ac] dark:bg-teal-700'}`}
               style={{
-                width: `${completionPercentage()}%`,
-                backgroundColor: completionPercentage() === 100 ? THEME.primary : THEME.primaryMuted
+                width: `${completionPercentage()}%`
               }}
             />
           </div>
           <div className="flex justify-between mt-2">
-            <span className="text-xs" style={{ color: THEME.textMuted }}>
+            <span className="text-xs text-[#94a3b8] dark:text-slate-400">
               {completionPercentage()}% complete
             </span>
-            <span className="text-xs" style={{ color: completionPercentage() === 100 ? THEME.primary : THEME.textMuted }}>
+            <span className={`text-xs ${completionPercentage() === 100 ? "text-[#2c7c74] dark:text-teal-400" : "text-[#94a3b8] dark:text-slate-400"}`}>
               {completionPercentage() === 100 ? 'Ready to post!' : `${5 - Math.round((completionPercentage() / 100) * 5)} fields remaining`}
             </span>
           </div>
@@ -365,11 +364,11 @@ export default function PostTaskForm() {
         <form onSubmit={handleSubmit} className="space-y-5">
 
           {/* Task Title */}
-          <div className="rounded-2xl p-6 bg-white dark:bg-[#131c2b]" style={{ boxShadow: THEME.shadow }} data-error={!!errors.title}>
-            <label className="block text-sm font-medium mb-2 flex items-center gap-2" style={{ color: THEME.textPrimary }}>
-              <Type className="w-4 h-4" style={{ color: THEME.primary }} />
+          <div className="rounded-2xl p-6 bg-white dark:bg-[#131c2b] shadow-sm border border-[#d4ebe6] dark:border-slate-800/40" data-error={!!errors.title}>
+            <label className="block text-sm font-medium mb-2 flex items-center gap-2 text-[#1a1f2e] dark:text-slate-100">
+              <Type className="w-4 h-4 text-[#2c7c74] dark:text-teal-400" />
               Task Title <span style={{ color: THEME.error }}>*</span>
-              <span className="ml-auto text-xs font-normal" style={{ color: THEME.textMuted }}>
+              <span className="ml-auto text-xs font-normal text-[#94a3b8] dark:text-slate-400">
                 {formData.title.length}/{MAX_TITLE_LENGTH}
               </span>
             </label>
@@ -393,14 +392,14 @@ export default function PostTaskForm() {
                 <AlertCircle className="absolute right-3 top-3.5 w-5 h-5 text-red-500" />
               )}
             </div>
-            {errors.title && <p className="mt-2 text-sm flex items-center gap-1" style={{ color: THEME.error }}>{errors.title}</p>}
+            {errors.title && <p className="mt-2 text-sm flex items-center gap-1 text-red-600 dark:text-red-400">{errors.title}</p>}
           </div>
 
           {/* Category & Budget */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-            <div className="rounded-2xl p-6 bg-white dark:bg-[#131c2b]" style={{ boxShadow: THEME.shadow }} data-error={!!errors.category}>
-              <label className="block text-sm font-medium mb-2 flex items-center gap-2" style={{ color: THEME.textPrimary }}>
-                <Tag className="w-4 h-4" style={{ color: THEME.primary }} />
+            <div className="rounded-2xl p-6 bg-white dark:bg-[#131c2b] shadow-sm border border-[#d4ebe6] dark:border-slate-800/40" data-error={!!errors.category}>
+              <label className="block text-sm font-medium mb-2 flex items-center gap-2 text-[#1a1f2e] dark:text-slate-100">
+                <Tag className="w-4 h-4 text-[#2c7c74] dark:text-teal-400" />
                 Category <span style={{ color: THEME.error }}>*</span>
               </label>
               <select
@@ -416,16 +415,16 @@ export default function PostTaskForm() {
                   <option key={cat} value={cat}>{cat}</option>
                 ))}
               </select>
-              {errors.category && <p className="mt-2 text-sm" style={{ color: THEME.error }}>{errors.category}</p>}
+              {errors.category && <p className="mt-2 text-sm text-red-600 dark:text-red-400">{errors.category}</p>}
             </div>
 
-            <div className="rounded-2xl p-6 bg-white dark:bg-[#131c2b]" style={{ boxShadow: THEME.shadow }} data-error={!!errors.budget}>
-              <label className="block text-sm font-medium mb-2 flex items-center gap-2" style={{ color: THEME.textPrimary }}>
-                <DollarSign className="w-4 h-4" style={{ color: THEME.primary }} />
+            <div className="rounded-2xl p-6 bg-white dark:bg-[#131c2b] shadow-sm border border-[#d4ebe6] dark:border-slate-800/40" data-error={!!errors.budget}>
+              <label className="block text-sm font-medium mb-2 flex items-center gap-2 text-[#1a1f2e] dark:text-slate-100">
+                <DollarSign className="w-4 h-4 text-[#2c7c74] dark:text-teal-400" />
                 Budget (USD) <span style={{ color: THEME.error }}>*</span>
               </label>
               <div className="relative">
-                <span className="absolute left-4 top-3.5 text-sm font-medium" style={{ color: THEME.textMuted }}>$</span>
+                <span className="absolute left-4 top-3.5 text-sm font-medium text-[#94a3b8] dark:text-slate-400">$</span>
                 <input
                   type="number"
                   name="budget"
@@ -439,24 +438,24 @@ export default function PostTaskForm() {
                   disabled={isSubmitting}
                 />
               </div>
-              {errors.budget && <p className="mt-2 text-sm" style={{ color: THEME.error }}>{errors.budget}</p>}
+              {errors.budget && <p className="mt-2 text-sm text-red-600 dark:text-red-400">{errors.budget}</p>}
             </div>
           </div>
 
           {/* Skills Input */}
-          <div className="rounded-2xl p-6 bg-white dark:bg-[#131c2b]" style={{ boxShadow: THEME.shadow }} data-error={!!errors.skills}>
-            <label className="block text-sm font-medium mb-2 flex items-center gap-2" style={{ color: THEME.textPrimary }}>
-              <Zap className="w-4 h-4" style={{ color: THEME.primary }} />
+          <div className="rounded-2xl p-6 bg-white dark:bg-[#131c2b] shadow-sm border border-[#d4ebe6] dark:border-slate-800/40" data-error={!!errors.skills}>
+            <label className="block text-sm font-medium mb-2 flex items-center gap-2 text-[#1a1f2e] dark:text-slate-100">
+              <Zap className="w-4 h-4 text-[#2c7c74] dark:text-teal-400" />
               Required Skills
-              <span className="text-xs font-normal ml-1" style={{ color: THEME.textMuted }}>(press Enter to add)</span>
-              <span className="ml-auto text-xs font-normal" style={{ color: THEME.textMuted }}>
+              <span className="text-xs font-normal ml-1 text-[#94a3b8] dark:text-slate-400">(press Enter to add)</span>
+              <span className="ml-auto text-xs font-normal text-[#94a3b8] dark:text-slate-400">
                 {formData.skills.length}/10
               </span>
             </label>
             <div className={`relative border-2 rounded-xl p-2.5 transition-all duration-200 bg-white dark:bg-[#131c2b]
               ${getFieldStatus('skills') === 'error' ? 'border-red-300' :
                 getFieldStatus('skills') === 'success' ? 'border-emerald-300' :
-                  'border-gray-200 focus-within:border-[#2c7c74] focus-within:ring-2 focus-within:ring-[#2c7c74]/10'}`}>
+                  'border-gray-200 dark:border-slate-700 focus-within:border-[#2c7c74] focus-within:ring-2 focus-within:ring-[#2c7c74]/10'}`}>
               <div className="flex flex-wrap gap-2 items-center">
                 {formData.skills.map((skill) => (
                   <span
@@ -489,7 +488,7 @@ export default function PostTaskForm() {
               </div>
 
               {showSuggestions && skillSuggestions.length > 0 && (
-                <div className="absolute left-0 right-0 top-full mt-2 bg-white dark:bg-[#131c2b] border rounded-xl shadow-lg z-10 overflow-hidden" style={{ borderColor: THEME.border }}>
+                <div className="absolute left-0 right-0 top-full mt-2 bg-white dark:bg-[#131c2b] border rounded-xl shadow-lg z-10 overflow-hidden border-[#e2e8e0] dark:border-slate-800/40">
                   {skillSuggestions.map((skill) => (
                     <button
                       key={skill}
@@ -498,18 +497,18 @@ export default function PostTaskForm() {
                       className="w-full text-left px-4 py-2.5 text-sm hover:bg-gray-50 transition-colors flex items-center gap-2"
                       style={{ color: THEME.textPrimary }}
                     >
-                      <Plus className="w-3 h-3" style={{ color: THEME.primary }} />
+                      <Plus className="w-3 h-3 text-[#2c7c74] dark:text-teal-400" />
                       {skill}
                     </button>
                   ))}
                 </div>
               )}
             </div>
-            {errors.skills && <p className="mt-2 text-sm" style={{ color: THEME.error }}>{errors.skills}</p>}
+            {errors.skills && <p className="mt-2 text-sm text-red-600 dark:text-red-400">{errors.skills}</p>}
 
             {formData.skills.length < 10 && (
               <div className="mt-3 flex flex-wrap gap-1.5">
-                <span className="text-xs mr-1" style={{ color: THEME.textMuted }}>Popular:</span>
+                <span className="text-xs mr-1 text-[#94a3b8] dark:text-slate-400">Popular:</span>
                 {SUGGESTED_SKILLS.filter(s => !formData.skills.includes(s)).slice(0, 6).map(skill => (
                   <button
                     key={skill}
@@ -526,9 +525,9 @@ export default function PostTaskForm() {
           </div>
 
           {/* Deadline */}
-          <div className="rounded-2xl p-6 bg-white dark:bg-[#131c2b]" style={{ boxShadow: THEME.shadow }} data-error={!!errors.deadline}>
-            <label className="block text-sm font-medium mb-2 flex items-center gap-2" style={{ color: THEME.textPrimary }}>
-              <Calendar className="w-4 h-4" style={{ color: THEME.primary }} />
+          <div className="rounded-2xl p-6 bg-white dark:bg-[#131c2b] shadow-sm border border-[#d4ebe6] dark:border-slate-800/40" data-error={!!errors.deadline}>
+            <label className="block text-sm font-medium mb-2 flex items-center gap-2 text-[#1a1f2e] dark:text-slate-100">
+              <Calendar className="w-4 h-4 text-[#2c7c74] dark:text-teal-400" />
               Deadline <span style={{ color: THEME.error }}>*</span>
             </label>
             <input
@@ -541,14 +540,14 @@ export default function PostTaskForm() {
               className={getInputClasses('deadline')}
               disabled={isSubmitting}
             />
-            {errors.deadline && <p className="mt-2 text-sm" style={{ color: THEME.error }}>{errors.deadline}</p>}
+            {errors.deadline && <p className="mt-2 text-sm text-red-600 dark:text-red-400">{errors.deadline}</p>}
           </div>
 
           {/* Description */}
-          <div className="rounded-2xl p-6 bg-white dark:bg-[#131c2b]" style={{ boxShadow: THEME.shadow }} data-error={!!errors.description}>
+          <div className="rounded-2xl p-6 bg-white dark:bg-[#131c2b] shadow-sm border border-[#d4ebe6] dark:border-slate-800/40" data-error={!!errors.description}>
             <div className="flex items-center justify-between mb-2">
-              <label className="block text-sm font-medium flex items-center gap-2" style={{ color: THEME.textPrimary }}>
-                <FileText className="w-4 h-4" style={{ color: THEME.primary }} />
+              <label className="block text-sm font-medium flex items-center gap-2 text-[#1a1f2e] dark:text-slate-100">
+                <FileText className="w-4 h-4 text-[#2c7c74] dark:text-teal-400" />
                 Description <span style={{ color: THEME.error }}>*</span>
               </label>
               <span className={`text-xs font-medium ${formData.description.length >= MIN_DESCRIPTION_LENGTH ? 'text-emerald-600' : ''}`} style={{ color: formData.description.length < MIN_DESCRIPTION_LENGTH ? THEME.textMuted : undefined }}>
@@ -574,7 +573,7 @@ export default function PostTaskForm() {
             </div>
 
             <div className="mt-3">
-              <div className="w-full bg-gray-100 rounded-full h-1.5">
+              <div className="w-full bg-gray-100 dark:bg-slate-800/50 rounded-full h-1.5">
                 <div
                   className="h-1.5 rounded-full transition-all duration-300"
                   style={{
@@ -585,21 +584,15 @@ export default function PostTaskForm() {
                 />
               </div>
             </div>
-            {errors.description && <p className="mt-2 text-sm" style={{ color: THEME.error }}>{errors.description}</p>}
+            {errors.description && <p className="mt-2 text-sm text-red-600 dark:text-red-400">{errors.description}</p>}
           </div>
 
           {/* Submit Section */}
-          <div className="rounded-2xl p-6 bg-white dark:bg-[#131c2b]" style={{ boxShadow: THEME.shadow }}>
+          <div className="rounded-2xl p-6 bg-white dark:bg-[#131c2b] shadow-sm border border-[#d4ebe6] dark:border-slate-800/40">
             <button
               type="submit"
               disabled={isSubmitting}
-              className="w-full text-white font-semibold py-4 rounded-xl transition-all duration-200 flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed hover:shadow-lg active:scale-[0.98]"
-              style={{
-                backgroundColor: isSubmitting ? '#94a3b8' : THEME.primary,
-                boxShadow: isSubmitting ? 'none' : `0 4px 14px ${THEME.primary}40`
-              }}
-              onMouseEnter={(e) => !isSubmitting && (e.target.style.backgroundColor = THEME.primaryHover)}
-              onMouseLeave={(e) => !isSubmitting && (e.target.style.backgroundColor = THEME.primary)}
+              className="w-full text-white font-semibold py-4 rounded-xl transition-all duration-200 flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed hover:shadow-lg active:scale-[0.98] bg-[#2c7c74] hover:bg-[#236b64] disabled:bg-[#94a3b8] dark:bg-teal-600 dark:hover:bg-teal-700 disabled:dark:bg-slate-700 shadow-md shadow-[#2c7c74]/30 disabled:shadow-none"
             >
               {isSubmitting ? (
                 <>
@@ -615,7 +608,7 @@ export default function PostTaskForm() {
             </button>
 
             {isSubmitting && (
-              <div className="mt-3 w-full bg-gray-100 rounded-full h-1">
+              <div className="mt-3 w-full bg-gray-100 dark:bg-slate-800/50 rounded-full h-1">
                 <div
                   className="bg-white dark:bg-[#131c2b]/50 h-1 rounded-full transition-all duration-300"
                   style={{ width: `${submitProgress}%` }}
@@ -623,17 +616,17 @@ export default function PostTaskForm() {
               </div>
             )}
 
-            <div className="mt-4 flex items-center justify-center gap-6 text-xs" style={{ color: THEME.textMuted }}>
+            <div className="mt-4 flex items-center justify-center gap-6 text-xs text-[#94a3b8] dark:text-slate-400">
               <span className="flex items-center gap-1.5">
-                <CheckCircle2 className="w-3 h-3" style={{ color: THEME.primary }} />
+                <CheckCircle2 className="w-3 h-3 text-[#2c7c74] dark:text-teal-400" />
                 Free to post
               </span>
               <span className="flex items-center gap-1.5">
-                <CheckCircle2 className="w-3 h-3" style={{ color: THEME.primary }} />
+                <CheckCircle2 className="w-3 h-3 text-[#2c7c74] dark:text-teal-400" />
                 Edit until proposal accepted
               </span>
               <span className="flex items-center gap-1.5">
-                <CheckCircle2 className="w-3 h-3" style={{ color: THEME.primary }} />
+                <CheckCircle2 className="w-3 h-3 text-[#2c7c74] dark:text-teal-400" />
                 Secure payments
               </span>
             </div>
