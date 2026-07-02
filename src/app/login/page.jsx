@@ -13,6 +13,7 @@ import {
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
+import GiglyLogo from "@/components/ui/GiglyLogo";
 import {
   Mail,
   Lock,
@@ -112,7 +113,7 @@ const LoginPage = () => {
             }
 
             setLoading(false);
-            toast.success("Welcome back to SkillSwap!");
+            toast.success("Welcome back to Gigly!");
 
             // Role-based redirect:
             // Clients → Home, Freelancers/Admins → their own dashboard.
@@ -192,18 +193,16 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#f0f9f6] via-[#f8fcfb] to-[#eaf5f2] flex items-center justify-center py-12 px-4">
+    <div className="min-h-screen bg-gradient-to-br from-[#f0f9f6] via-[#f8fcfb] to-[#eaf5f2] dark:from-[#0b1220] dark:via-[#131c2b] dark:to-[#0b1220] flex items-center justify-center py-12 px-4">
       <div className="w-full max-w-md">
         
         {/* Logo / Brand Header */}
-        <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-[#2a9d8f] shadow-lg shadow-[#2a9d8f]/20 mb-4">
-            <svg className="w-8 h-8 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
-            </svg>
-          </div>
-          <h1 className="text-2xl font-bold text-[#1a3c34] dark:text-[#e8f4f0]">
-            SkillSwap
+        <div className="flex flex-col items-center mb-8 text-center">
+          <Link href="/" className="cursor-pointer">
+            <GiglyLogo size={56} showText={false} />
+          </Link>
+          <h1 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#00E5FF] to-[#0066FF] mt-2">
+            Gigly
           </h1>
           <p className="text-[#5a7a72] dark:text-[#9fb3c8] mt-1 text-sm">
             Freelance Micro-Task Marketplace

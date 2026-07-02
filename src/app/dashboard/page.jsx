@@ -9,7 +9,7 @@ import { Loader2 } from "lucide-react";
  * /dashboard router.
  *
  * Handles the case where the Edge middleware can't yet determine the user's
- * role (e.g. first login before the `ss.role` cookie is set). Reads the live
+ * role (e.g. first login before the `gigly.role` cookie is set). Reads the live
  * BetterAuth session here — where the DB is reachable — and redirects to the
  * correct role dashboard. The Navbar's role-sync effect keeps the cookie warm
  * afterwards so subsequent visits redirect straight from the middleware.
@@ -31,7 +31,7 @@ export default function DashboardRouterPage() {
       return;
     }
     const role = session.user?.role || "client";
-    // Navbar keeps ss.role in sync; this redirect alone is enough.
+    // Navbar keeps gigly.role in sync; this redirect alone is enough.
     router.replace(DEFAULT_DASHBOARD[role] || DEFAULT_DASHBOARD.client);
   }, [session, status, router]);
 

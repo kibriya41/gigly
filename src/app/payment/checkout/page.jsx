@@ -231,7 +231,7 @@ function CheckoutFormContent() {
             <div className="bg-[#f0f9f6] dark:bg-[#1a2435] border border-[#d4ebe6] dark:border-[#1e293b] p-4 rounded-2xl flex gap-3 text-xs text-[#5a7a72] dark:text-[#9fb3c8] leading-relaxed">
               <ShieldCheck className="w-5 h-5 text-[#2a9d8f] shrink-0 mt-0.5" />
               <p>
-                Funds are held securely by SkillSwap and will only be released to the freelancer once you mark the task as completed.
+                Funds are held securely by Gigly and will only be released to the freelancer once you mark the task as completed.
               </p>
             </div>
 

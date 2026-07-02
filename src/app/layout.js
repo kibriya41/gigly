@@ -19,12 +19,12 @@ const playfair = Playfair_Display({
 
 export const metadata = {
   title: {
-    default: "SkillSwap — Freelance Micro-Task Marketplace",
-    template: "%s | SkillSwap",
+    default: "Gigly — Freelance Micro-Task Marketplace",
+    template: "%s | Gigly",
   },
   description:
-    "SkillSwap connects clients with skilled freelancers for quick, one-time micro-tasks. Post tasks, receive proposals, and pay securely with Stripe.",
-  keywords: ["freelance", "marketplace", "micro-tasks", "hire freelancers", "skillswap"],
+    "Gigly connects clients with skilled freelancers for quick, one-time micro-tasks. Post tasks, receive proposals, and pay securely with Stripe.",
+  keywords: ["freelance", "marketplace", "micro-tasks", "hire freelancers", "gigly"],
 };
 
 /**
@@ -52,7 +52,7 @@ export default function RootLayout({ children }) {
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
       </head>
-      <body className="min-h-full flex flex-col font-sans bg-white dark:bg-[#131c2b] dark:bg-[#0b1220] text-slate-900 dark:text-[#9fb3c8] transition-colors duration-300">
+      <body className="min-h-full flex flex-col font-sans">
         <ThemeProvider>
           <Navbar />
           <main className="flex-1 flex flex-col">

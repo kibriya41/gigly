@@ -24,7 +24,7 @@ function PaymentSuccessContent() {
         <div className="space-y-2">
           <h2 className="text-2xl font-serif font-bold text-[#1a3c34] dark:text-[#e8f4f0]">Payment Successful!</h2>
           <p className="text-xs text-[#5a7a72] dark:text-[#9fb3c8] max-w-xs mx-auto leading-relaxed">
-            Your payment has been secure escrowed by SkillSwap. The freelancer has been notified and can begin working on the task.
+            Your payment has been secure escrowed by Gigly. The freelancer has been notified and can begin working on the task.
           </p>
         </div>
 

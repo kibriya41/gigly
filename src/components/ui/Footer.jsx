@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { BsGithub, BsLinkedin } from 'react-icons/bs';
 import { FaXTwitter } from 'react-icons/fa6';
+import GiglyLogo from './GiglyLogo';
 
 export default function Footer() {
     const currentYear = new Date().getFullYear();
@@ -12,16 +13,11 @@ export default function Footer() {
 
                     {/* Brand / Logo Section */}
                     <div className="md:col-span-5">
-                        <div className="flex items-center gap-3 mb-5">
-                            <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-[#2a9d8f] shadow-lg shadow-[#2a9d8f]/20">
-                                <svg className="w-7 h-7 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                  <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
-                                </svg>
-                            </div>
-                            <div>
-                                <h2 className="text-2xl font-bold text-[#1a3c34] dark:text-slate-100 tracking-tight">SkillSwap</h2>
-                                <p className="text-sm text-[#5a7a72] dark:text-slate-400 font-medium">Freelance Micro-Task Marketplace</p>
-                            </div>
+                        <div className="flex flex-col mb-5">
+                            <Link href="/" className="inline-flex cursor-pointer w-fit">
+                                <GiglyLogo size={44} textClassName="text-2xl" />
+                            </Link>
+                            <p className="text-sm text-[#5a7a72] dark:text-slate-400 font-medium mt-2">Freelance Micro-Task Marketplace</p>
                         </div>
 
                         <p className="text-[#6b8a82] dark:text-slate-400 max-w-md leading-relaxed text-sm">
@@ -82,7 +78,7 @@ export default function Footer() {
                 <div className="mt-16 pt-8 border-t border-[#d4ebe6] dark:border-slate-800 flex flex-col md:flex-row items-center justify-between gap-6">
 
                     <div className="text-sm font-medium text-[#8aa89e] dark:text-slate-500">
-                        © {currentYear} SkillSwap. All rights reserved.
+                        © {currentYear} Gigly. All rights reserved.
                     </div>
 
                     {/* Bottom Navigation */}
@@ -99,7 +95,7 @@ export default function Footer() {
                         <Link href="/freelancers" className="text-[#6b8a82] dark:text-slate-400 hover:text-[#2a9d8f] dark:hover:text-teal-400 font-medium transition-colors">
                             Freelancers
                         </Link>
-                        <Link href="mailto:hello@skillswap.com" className="text-[#6b8a82] dark:text-slate-400 hover:text-[#2a9d8f] dark:hover:text-teal-400 font-medium transition-colors">
+                        <Link href="mailto:hello@gigly.com" className="text-[#6b8a82] dark:text-slate-400 hover:text-[#2a9d8f] dark:hover:text-teal-400 font-medium transition-colors">
                             Contact
                         </Link>
                     </div>

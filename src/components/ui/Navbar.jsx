@@ -16,6 +16,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { authClient } from '@/lib/auth-client';
 import ThemeToggle from './ThemeToggle';
+import GiglyLogo from './GiglyLogo';
 
 
 const NAV_ITEMS = [
@@ -38,9 +39,9 @@ const Navbar = () => {
   // decides which dashboard a user lands on.
   useEffect(() => {
     if (isLoggedIn && user.role) {
-      document.cookie = `ss.role=${user.role}; path=/; max-age=${60 * 60 * 24 * 7}; samesite=lax`;
+      document.cookie = `gigly.role=${user.role}; path=/; max-age=${60 * 60 * 24 * 7}; samesite=lax`;
     } else if (!isLoggedIn) {
-      document.cookie = 'ss.role=; path=/; max-age=0';
+      document.cookie = 'gigly.role=; path=/; max-age=0';
     }
   }, [isLoggedIn, user.role]);
 
@@ -72,14 +73,9 @@ const Navbar = () => {
         <div className="flex h-16 items-center justify-between">
 
           {/* Brand */}
-          <div className="flex items-center gap-3">
-            <div className="w-9 h-9 bg-gradient-to-tr from-teal-600 to-teal-400 rounded-xl flex items-center justify-center shadow-sm shadow-teal-100">
-              <span className="text-white text-lg font-bold">✨</span>
-            </div>
-            <p className="font-serif font-black text-slate-800 dark:text-slate-100 text-xl tracking-tight">
-              SkillSwap
-            </p>
-          </div>
+          <Link href="/" className="flex items-center gap-3 cursor-pointer">
+            <GiglyLogo size={32} textClassName="text-xl" />
+          </Link>
 
           {/* Desktop Nav */}
           <div className="hidden md:flex items-center gap-1">

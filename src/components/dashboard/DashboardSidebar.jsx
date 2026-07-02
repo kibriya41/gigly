@@ -83,7 +83,7 @@ export default function Sidebar() {
       {/* Mobile top bar with hamburger toggle */}
       <div className="lg:hidden sticky top-0 z-40 flex items-center justify-between bg-white dark:bg-[#131c2b] border-b border-[#d4ebe6] dark:border-slate-800 px-4 h-14 shrink-0">
         <div className="flex items-center gap-2">
-          <span className="text-base font-serif font-black text-[#1a3c34] dark:text-slate-100">SkillSwap</span>
+          <span className="text-base font-serif font-black text-[#1a3c34] dark:text-slate-100">Gigly</span>
           <span className={`text-[10px] font-semibold capitalize px-2 py-0.5 rounded-full ${roleBadgeStyle}`}>
             {role}
           </span>

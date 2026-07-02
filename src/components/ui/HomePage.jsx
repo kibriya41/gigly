@@ -914,7 +914,7 @@ function TestimonialsSection() {
       name: 'Sarah Mitchell',
       role: 'Startup Founder',
       image: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop&crop=face',
-      text: 'SkillSwap transformed how we hire talent. We found an amazing React developer within 2 hours and the project was delivered flawlessly. The Stripe payment integration gave us complete peace of mind.',
+      text: 'Gigly transformed how we hire talent. We found an amazing React developer within 2 hours and the project was delivered flawlessly. The Stripe payment integration gave us complete peace of mind.',
       rating: 5,
     },
     {
@@ -928,7 +928,7 @@ function TestimonialsSection() {
       name: 'Emily Rodriguez',
       role: 'Product Manager',
       image: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop&crop=face',
-      text: 'As a freelancer, SkillSwap has been a game-changer. The proposal system is intuitive, payments are always on time, and I have built long-term relationships with amazing clients.',
+      text: 'As a freelancer, Gigly has been a game-changer. The proposal system is intuitive, payments are always on time, and I have built long-term relationships with amazing clients.',
       rating: 5,
     },
     {
@@ -957,7 +957,7 @@ function TestimonialsSection() {
         <div className="text-center max-w-2xl mx-auto mb-16">
           <Badge color="rose"><Heart className="w-3 h-3" /> Loved</Badge>
           <h2 className="text-3xl font-bold mt-3" style={{ color: T.dark }}>What Our Users Say</h2>
-          <p className="text-sm mt-2" style={{ color: T.muted }}>Real stories from real clients and freelancers who trust SkillSwap.</p>
+          <p className="text-sm mt-2" style={{ color: T.muted }}>Real stories from real clients and freelancers who trust Gigly.</p>
         </div>
 
         <div
@@ -1118,7 +1118,7 @@ function StatsSection({ stats }) {
 //             </h2>
 
 //             <p className="text-base md:text-lg text-white/60 max-w-xl mx-auto leading-relaxed">
-//               Join thousands of clients and freelancers on SkillSwap. Post your first task for free — no subscription required.
+//               Join thousands of clients and freelancers on Gigly. Post your first task for free — no subscription required.
 //             </p>
 
 //             <div className="flex flex-col sm:flex-row gap-4 justify-center pt-2">

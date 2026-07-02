@@ -18,8 +18,8 @@ import React, { createContext, useContext, useSyncExternalStore } from "react";
  * No manual useCallback/useMemo — the React Compiler memoizes these, and the
  * project's lint rules forbid manual memoization it can't preserve.
  */
-const THEME_STORAGE_KEY = "skillswap-theme";
-const THEME_CHANGE_EVENT = "skillswap-theme-change";
+const THEME_STORAGE_KEY = "gigly-theme";
+const THEME_CHANGE_EVENT = "gigly-theme-change";
 
 const ThemeContext = createContext({
   theme: "light", // resolved theme actually applied ("light" | "dark")

@@ -13,7 +13,7 @@ import { Ban, Mail, ArrowLeft } from "lucide-react";
  */
 export default function BlockedPage() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#f0f9f6] via-[#f8fcfb] to-[#eaf5f2] flex items-center justify-center px-4 py-12">
+    <div className="min-h-screen bg-gradient-to-br from-[#f0f9f6] via-[#f8fcfb] to-[#eaf5f2] dark:from-[#0b1220] dark:via-[#131c2b] dark:to-[#0b1220] flex items-center justify-center px-4 py-12">
       <div className="w-full max-w-md">
         <div className="bg-white dark:bg-[#131c2b]/80 backdrop-blur-sm border border-[#d4ebe6] dark:border-[#1e293b] shadow-xl shadow-red-500/5 rounded-3xl p-8 text-center space-y-6">
           <div className="w-16 h-16 bg-red-50 text-red-500 rounded-2xl flex items-center justify-center mx-auto">
@@ -23,7 +23,7 @@ export default function BlockedPage() {
           <div className="space-y-2">
             <h1 className="text-2xl font-serif font-bold text-[#1a3c34] dark:text-[#e8f4f0]">Account Blocked</h1>
             <p className="text-[#5a7a72] dark:text-[#9fb3c8] text-[15px] leading-relaxed">
-              Your access to SkillSwap has been restricted by an administrator.
+              Your access to Gigly has been restricted by an administrator.
               You can no longer sign in or use the platform with this account.
             </p>
           </div>
@@ -38,7 +38,7 @@ export default function BlockedPage() {
           </div>
 
           <a
-            href="mailto:support@skillswap.example"
+            href="mailto:support@gigly.example"
             className="flex items-center justify-center gap-2 w-full bg-[#1a3c34] hover:bg-[#255248] text-white py-3 rounded-xl font-medium transition-all shadow-sm"
           >
             <Mail className="w-4 h-4" />

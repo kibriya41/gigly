@@ -639,11 +639,11 @@ export default function TaskDetailPage({ params }) {
             <div className="bg-[#f0f9f6] dark:bg-[#1a2435] border border-[#d4ebe6] dark:border-[#1e293b]/50 rounded-3xl p-5 space-y-3.5 text-xs text-[#5a7a72] dark:text-[#9fb3c8]">
               <h4 className="font-bold text-[#1a3c34] dark:text-[#e8f4f0] uppercase tracking-wider flex items-center gap-1.5">
                 <Award className="w-4 h-4 text-[#2a9d8f]" />
-                SkillSwap Guarantees
+                Gigly Guarantees
               </h4>
               <ul className="space-y-2 list-disc list-inside leading-relaxed">
                 <li>Bids can be edited or cancelled before selection.</li>
-                <li>Ensure to keep communication secure within SkillSwap.</li>
+                <li>Ensure to keep communication secure within Gigly.</li>
                 <li>Payments are secured and released upon work validation.</li>
               </ul>
             </div>
